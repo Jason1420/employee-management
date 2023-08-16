@@ -13,7 +13,8 @@ public class UserDTO {
     private Set<RoleDTO> roles;
     private EmployeeDTO employee;
 
-    public UserDTO(String username, String password, String email, EmployeeDTO employee) {
+    public UserDTO(Long id, String username, String password, String email, EmployeeDTO employee) {
+        this.id = id;
         this.username = username;
         this.password = password;
         this.email = email;

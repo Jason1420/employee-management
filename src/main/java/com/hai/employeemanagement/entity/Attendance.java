@@ -25,7 +25,7 @@ public class Attendance {
     private int lateMinutes;
     private int earlyMinutes;
 
-    public Attendance(LocalDate date, LocalTime checkInTime, Status status, String employeeName, Long employeeId,int lateMinutes) {
+    public Attendance(LocalDate date, LocalTime checkInTime, Status status, String employeeName, Long employeeId, int lateMinutes) {
         this.date = date;
         this.checkInTime = checkInTime;
         this.status = status;

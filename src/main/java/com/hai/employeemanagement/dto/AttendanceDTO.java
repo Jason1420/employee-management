@@ -21,7 +21,9 @@ public class AttendanceDTO {
     private int earlyMinutes;
 
 
-    public AttendanceDTO(Long id, LocalDate date, LocalTime checkInTime, LocalTime checkOutTime, Status status, String employeeName, Long employeeId, int lateMinutes) {
+    public AttendanceDTO(Long id, LocalDate date, LocalTime checkInTime,
+                         LocalTime checkOutTime, Status status, String employeeName,
+                         Long employeeId, int lateMinutes, int earlyMinutes) {
         this.id = id;
         this.date = date;
         this.checkInTime = checkInTime;
@@ -30,6 +32,7 @@ public class AttendanceDTO {
         this.employeeName = employeeName;
         this.employeeId = employeeId;
         this.lateMinutes = lateMinutes;
+        this.earlyMinutes = earlyMinutes;
     }
 
 }

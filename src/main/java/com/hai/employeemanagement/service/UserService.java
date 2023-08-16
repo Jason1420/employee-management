@@ -46,8 +46,8 @@ public class UserService {
         User entity = userConverter.toEntity(dto);
         entity.setRoles(roleRepository.findAllByName("EMPLOYEE"));
         employeeRepository.save(entity.getEmployee());
-        userRepository.save(entity);
-        UserDTO returnDTO = userConverter.toDto(entity);
+        User savedEntity = userRepository.save(entity);
+        UserDTO returnDTO = userConverter.toDto(savedEntity);
         return returnDTO;
     }
 
@@ -61,8 +61,8 @@ public class UserService {
             }
         }
         user.setRoles(listRole);
-        userRepository.save(user);
-        return userConverter.toDto(user);
+        User savedEntity = userRepository.save(user);
+        return userConverter.toDto(savedEntity);
     }
 
     public void deleteUser(Long id) {

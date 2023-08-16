@@ -33,6 +33,7 @@ public class AttendanceConverter {
                 entity.getStatus(),
                 entity.getEmployeeName(),
                 entity.getEmployeeId(),
-                entity.getLateMinutes());
+                entity.getLateMinutes(),
+                entity.getEarlyMinutes());
     }
 }

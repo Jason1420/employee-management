@@ -31,8 +31,7 @@ public class EmployeeService {
     public EmployeeDTO updateInformation(Long id, EmployeeDTO employeeDTO) {
         Employee employee = employeeRepository.findOneById(id);
         Employee updatedEmployee = employeeConverter.toEntity(employeeDTO, employee);
+        employeeRepository.save(updatedEmployee);
         return employeeConverter.toDto(updatedEmployee);
     }
-
-
 }

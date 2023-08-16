@@ -40,9 +40,10 @@ public class AdminAPI {
         userService.deleteUser(id);
         return new Result(true, StatusCode.SUCCESS, "Delete user success");
     }
+
     @PostMapping("/attendance")
     public Result configAttendance(@RequestBody AttendanceConfigDTO dto) {
-        AttendanceConfigDTO configed = attendanceConfigService.configAttendance(dto);
-        return new Result(true, StatusCode.SUCCESS, "Config attendance success",configed);
+        AttendanceConfigDTO config = attendanceConfigService.configAttendance(dto);
+        return new Result(true, StatusCode.SUCCESS, "Config attendance success", config);
     }
 }

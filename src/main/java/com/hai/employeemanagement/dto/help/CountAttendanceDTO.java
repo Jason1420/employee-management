@@ -9,5 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CountAttendanceDTO {
     private Long employeeId;
-    private Long total;
+    private String employeeName;
+    private Integer total;
 }
