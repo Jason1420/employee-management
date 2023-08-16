@@ -22,13 +22,16 @@ public class Attendance {
     private Status status;
     private String employeeName;
     private Long employeeId;
+    private int lateMinutes;
+    private int earlyMinutes;
 
-    public Attendance(LocalDate date, LocalTime checkInTime, Status status, String employeeName, Long employeeId) {
+    public Attendance(LocalDate date, LocalTime checkInTime, Status status, String employeeName, Long employeeId,int lateMinutes) {
         this.date = date;
         this.checkInTime = checkInTime;
         this.status = status;
         this.employeeName = employeeName;
         this.employeeId = employeeId;
+        this.lateMinutes = lateMinutes;
     }
 
     public Attendance(Long id, LocalDate date, LocalTime checkInTime, LocalTime checkOutTime, Status status, String employeeName, Long employeeId) {
