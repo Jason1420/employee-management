@@ -5,7 +5,7 @@ import com.hai.employeemanagement.dto.RoleDTO;
 import com.hai.employeemanagement.dto.UserDTO;
 import com.hai.employeemanagement.dto.help.ChangePasswordDTO;
 import com.hai.employeemanagement.entity.Role;
-import com.hai.employeemanagement.entity.User;
+import com.hai.employeemanagement.entity.UserEntity;
 import com.hai.employeemanagement.exception.Exception409;
 import com.hai.employeemanagement.repository.EmployeeRepository;
 import com.hai.employeemanagement.repository.RoleRepository;
@@ -36,23 +36,23 @@ public class UserService {
     }
 
     public UserDTO addUser(UserDTO dto) {
-        User user = userConverter.toEntity(dto);
+        UserEntity userEntity = userConverter.toEntity(dto);
         if (userRepository.findOneByUsername(dto.getUsername()) != null) {
             throw new Exception409("This username already exists!");
         }
         if (employeeRepository.findOneById(dto.getEmployee().getId()) != null) {
             throw new Exception409("This employee already exists!");
         }
-        User entity = userConverter.toEntity(dto);
+        UserEntity entity = userConverter.toEntity(dto);
         entity.setRoles(roleRepository.findAllByName("EMPLOYEE"));
         employeeRepository.save(entity.getEmployee());
-        User savedEntity = userRepository.save(entity);
+        UserEntity savedEntity = userRepository.save(entity);
         UserDTO returnDTO = userConverter.toDto(savedEntity);
         return returnDTO;
     }
 
     public UserDTO updateRoleToUser(Long id, String[] roles) {
-        User user = userRepository.findOneById(id);
+        UserEntity userEntity = userRepository.findOneById(id);
         Set<Role> listRole = new HashSet<>();
         for (String r : roles) {
             Role role = roleRepository.findOneByName(r);
@@ -60,18 +60,18 @@ public class UserService {
                 listRole.add(role);
             }
         }
-        user.setRoles(listRole);
-        User savedEntity = userRepository.save(user);
+        userEntity.setRoles(listRole);
+        UserEntity savedEntity = userRepository.save(userEntity);
         return userConverter.toDto(savedEntity);
     }
 
     public void deleteUser(Long id) {
-        User user = userRepository.findOneById(id);
-        user.setLocked(true);
+        UserEntity userEntity = userRepository.findOneById(id);
+        userEntity.setLocked(true);
     }
 
     public void changePassword(Long id, ChangePasswordDTO dto) {
-        User entity = userRepository.findOneById(id);
+        UserEntity entity = userRepository.findOneById(id);
         if (entity == null) {
             throw new EntityNotFoundException("This user is not found!");
         }

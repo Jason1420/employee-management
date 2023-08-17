@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Employee Directory</title>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+<!--    <link th:href="@{/css/main.css}" rel="stylesheet">-->
+</head>
+<body>
+<div class="container">
+    <h3>Employee Directory</h3>
+    <hr>
+    <table class="table table-bordered table-striped">
+        <thead class="thead-dark color" >
+        <tr>
+            <td>Id</td>
+            <td>First Name</td>
+            <td>Last Name</td>
+            <td>Gender</td>
+            <td>DateOfBirth</td>
+            <td>Email</td>
+            <td>Phone number</td>
+            <td>Position</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="employee: ${listEmployee}">
+            <td th:text="${employee.getId()}"/>
+            <td th:text="${employee.getFirstName()}"/>
+            <td th:text="${employee.getLastName()}"/>
+            <td th:text="${employee.getGender()}"/>
+            <td th:text="${employee.getDateOfBirth()}"/>
+            <td th:text="${employee.getEmail()}"/>
+            <td th:text="${employee.getPhoneNumber()}"></td>
+            <td/>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

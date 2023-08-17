@@ -10,7 +10,7 @@ import java.util.Set;
 @Table(name = "user")
 @Data
 @NoArgsConstructor
-public class User {
+public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -31,7 +31,7 @@ public class User {
     @JoinColumn(name = "employee_id")
     private Employee employee;
 
-    public User(String username, String password, String email, Employee employee) {
+    public UserEntity(String username, String password, String email, Employee employee) {
         this.username = username;
         this.password = password;
         this.email = email;

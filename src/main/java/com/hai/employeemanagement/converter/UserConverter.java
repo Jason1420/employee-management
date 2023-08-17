@@ -1,9 +1,8 @@
 package com.hai.employeemanagement.converter;
 
-import com.hai.employeemanagement.dto.EmployeeDTO;
 import com.hai.employeemanagement.dto.UserDTO;
 import com.hai.employeemanagement.entity.Employee;
-import com.hai.employeemanagement.entity.User;
+import com.hai.employeemanagement.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -11,8 +10,8 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class UserConverter {
     private final EmployeeConverter employeeConverter;
-    public User toEntity(UserDTO dto) {
-        return new User(dto.getUsername(),
+    public UserEntity toEntity(UserDTO dto) {
+        return new UserEntity(dto.getUsername(),
                 dto.getPassword(),
                 dto.getEmail(),
                 (dto.getEmployee() != null) ?
@@ -20,7 +19,7 @@ public class UserConverter {
                                 dto.getEmployee().getLastName()) : null);
     }
 
-    public UserDTO toDto(User entity) {
+    public UserDTO toDto(UserEntity entity) {
         return new UserDTO(entity.getId(),
                 entity.getUsername(),
                 entity.getPassword(),
