@@ -26,4 +26,5 @@ public class UserAPI {
         userService.changePassword(id, dto);
         return new Result(true, StatusCode.SUCCESS, "Change password success!");
     }
+
 }
