@@ -76,4 +76,9 @@ public class ThymeLeaf {
         userService.updateEmployee(employee);
         return "redirect:/employee/list";
     }
+    @GetMapping("/test")
+    public String test() {
+
+        return "header-footer/header";
+    }
 }
