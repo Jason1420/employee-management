@@ -1,6 +1,7 @@
 package com.hai.employeemanagement.controller;
 
 import com.hai.employeemanagement.dto.UserDTO;
+import com.hai.employeemanagement.dto.help.ChangePasswordDTO;
 import com.hai.employeemanagement.entity.Employee;
 import com.hai.employeemanagement.entity.UserEntity;
 import com.hai.employeemanagement.exception.helper.Result;
@@ -83,6 +84,19 @@ public class ThymeLeaf {
         Employee employee = employeeRepository.findOneById(user.getEmployee().getId());
         model.addAttribute("employee",employee);
         return "profile-employee";
+    }
+    @GetMapping("/profile/change-password")
+    public String changePassword(Model model) {
+        ChangePasswordDTO changePasswordDTO = new ChangePasswordDTO();
+        model.addAttribute("changePasswordDTO",changePasswordDTO);
+        return "change-password";
+    }
+    @PostMapping("/change-password")
+    public String changePassword(@ModelAttribute("changePasswordDTO") ChangePasswordDTO changePasswordDTO) {
+        UserEntity user = userRepository.findOneByUsername(
+                SecurityContextHolder.getContext().getAuthentication().getName());
+        userService.changePassword(user,changePasswordDTO);
+        return "change-password";
     }
     @GetMapping("/test")
     public String test() {

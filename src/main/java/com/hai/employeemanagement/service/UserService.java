@@ -7,6 +7,7 @@ import com.hai.employeemanagement.dto.help.ChangePasswordDTO;
 import com.hai.employeemanagement.entity.Employee;
 import com.hai.employeemanagement.entity.Role;
 import com.hai.employeemanagement.entity.UserEntity;
+import com.hai.employeemanagement.exception.Exception400;
 import com.hai.employeemanagement.exception.Exception409;
 import com.hai.employeemanagement.repository.EmployeeRepository;
 import com.hai.employeemanagement.repository.RoleRepository;
@@ -87,20 +88,27 @@ public class UserService {
         userEntity.setLocked(true);
     }
 
-    public void changePassword(Long id, ChangePasswordDTO dto) {
-        UserEntity entity = userRepository.findOneById(id);
-        if (entity == null) {
+    public void changePassword(UserEntity user, ChangePasswordDTO dto) {
+        if (user == null) {
             throw new EntityNotFoundException("This user is not found!");
         }
-//        if (!userConverter.checkPassword(entity, passwordEncoder.encode(dto.getCurrentPassword()))) {
-//            throw new Exception400("Wrong current password!");
-//        }
-        entity.setPassword(dto.getNewPassword());
-        entity.setChangedPassword(true);
+        if (!checkPassword(user, dto.getCurrentPassword())) {
+            throw new Exception400("Wrong current password!");
+        }
+        if(dto.getNewPassword().equals(dto.getConfirmNewPassword())){
+            user.setPassword(passwordEncoder.encode(dto.getNewPassword()));
+            user.setChangedPassword(true);
+        }else{
+            throw new Exception400("Confirm password and new password must be the same!");
+        }
+
     }
 
     public String updateEmployee(Employee employee) {
         employeeRepository.save(employee);
         return "successfully";
+    }
+    public boolean checkPassword(UserEntity entity, String currentPassword) {
+        return passwordEncoder.matches(currentPassword,entity.getPassword());
     }
 }

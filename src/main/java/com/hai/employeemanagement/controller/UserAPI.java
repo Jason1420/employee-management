@@ -21,10 +21,10 @@ public class UserAPI {
 //        return new Result(true, StatusCode.SUCCESS, "Login success", new AuthResponseDTO(token).toString());
 //    }
 
-    @PutMapping("/user/{id}")
-    public Result changPassword(@PathVariable("id") Long id, @RequestBody ChangePasswordDTO dto) {
-        userService.changePassword(id, dto);
-        return new Result(true, StatusCode.SUCCESS, "Change password success!");
-    }
+//    @PutMapping("/user/{id}")
+//    public Result changPassword(@PathVariable("id") Long id, @RequestBody ChangePasswordDTO dto) {
+//        userService.changePassword(id, dto);
+//        return new Result(true, StatusCode.SUCCESS, "Change password success!");
+//    }
 
 }
