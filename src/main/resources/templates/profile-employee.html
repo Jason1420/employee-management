@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Employee Management</title>
+    <link th:href="@{/css/main.css}" rel="stylesheet">
+    <link th:href="@{/css/demo.css}" rel="stylesheet">
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/css/docs.css}" rel="stylesheet">
+
+</head>
+<body>
+<div th:replace="header-footer/header :: header"></div>
+
+<div>
+    <header class="ScriptHeader">
+        <div class="rt-container">
+            <div class="col-rt-12">
+                <div class="rt-heading">
+                    <h1>Employee Profile</h1>
+                    <p>You can change your information</p>
+                </div>
+            </div>
+        </div>
+    </header>
+    <section>
+        <div class="rt-container">
+            <div class="col-rt-12">
+                <div class="Scriptcontent">
+                    <!-- Student Profile -->
+                    <div class="student-profile py-4">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <div class="card shadow-sm">
+                                        <div class="card-header bg-transparent text-center">
+                                            <img class="profile_img" src="https://source.unsplash.com/600x300/?student"
+                                                 alt="student dp">
+<!--                                            employee.getFirstName() + employee.getLastName()-->
+                                            <h3 th:text="${employee.getFirstName()+' '+employee.getLastName()}"></h3>
+                                        </div>
+                                        <div class="card-body">
+                                            <p class="mb-0"><strong class="pr-1">Employee ID: </strong><p th:text="${employee.getId()}"></p>
+                                            <p class="mb-0"><strong class="pr-1">Department:</strong>non-update</p>
+                                            <p class="mb-0"><strong class="pr-1">Position:</strong>non_update</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-8">
+                                    <div class="card shadow-sm">
+                                        <div class="card-header bg-transparent border-0">
+                                            <h3 class="mb-0"><i class="far fa-clone pr-1"></i>General Information</h3>
+                                        </div>
+                                        <div class="card-body pt-0">
+                                            <table class="table table-bordered">
+                                                <tr>
+                                                    <th width="30%">Full name</th>
+                                                    <td width="2%">:</td>
+                                                    <td th:text="${employee.getFirstName()+' '+employee.getLastName()}"></td>
+                                                </tr>
+                                                <tr>
+                                                    <th width="30%">Gender</th>
+                                                    <td width="2%">:</td>
+                                                    <td th:text="${employee.getGender()}"></td>
+                                                </tr>
+                                                <tr>
+                                                    <th width="30%">Birth day</th>
+                                                    <td width="2%">:</td>
+                                                    <td th:text="${employee.getDateOfBirth()}"></td>
+                                                </tr>
+                                                <tr>
+                                                    <th width="30%">Email</th>
+                                                    <td width="2%">:</td>
+                                                    <td th:text="${employee.getEmail()}">Group</td>
+                                                </tr>
+                                                <tr>
+                                                    <th width="30%">Phone number</th>
+                                                    <td width="2%">:</td>
+                                                    <td th:text="${employee.getPhoneNumber()}"></td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div style="height: 26px"></div>
+                                    <div class="card shadow-sm">
+                                        <div class="card-header bg-transparent border-0">
+                                            <h3 class="mb-0"><i class="far fa-clone pr-1"></i>Other Information</h3>
+                                        </div>
+                                        <div class="card-body pt-0">
+                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                                                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+                                                veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+                                                commodo consequat.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- partial -->
+
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<div th:replace="header-footer/footer :: footer"></div>
+</body>
+</html>

@@ -7,6 +7,7 @@ import com.hai.employeemanagement.exception.helper.Result;
 import com.hai.employeemanagement.exception.helper.StatusCode;
 import com.hai.employeemanagement.jwt.JwtGenerator;
 import com.hai.employeemanagement.repository.EmployeeRepository;
+import com.hai.employeemanagement.repository.UserRepository;
 import com.hai.employeemanagement.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -23,17 +24,16 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class ThymeLeaf {
     private final EmployeeRepository employeeRepository;
+    private final UserRepository userRepository;
     private final UserService userService;
-    private final AuthenticationManager authenticationManager;
-    private final PasswordEncoder passwordEncoder;
-    private final JwtGenerator jwtGenerator;
+
     @RequestMapping("/")
     public String cssTest( Model model){
         model.addAttribute("user",SecurityContextHolder.getContext().getAuthentication());
         return "index";
     }
 
-    @RequestMapping("/login")
+    @GetMapping("/login")
     public String showLoginPage(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if(authentication == null || authentication instanceof AnonymousAuthenticationToken){
@@ -76,9 +76,17 @@ public class ThymeLeaf {
         userService.updateEmployee(employee);
         return "redirect:/employee/list";
     }
+    @GetMapping("/profile")
+    public String viewProfile(Model model) {
+        UserEntity user = userRepository.findOneByUsername(
+                SecurityContextHolder.getContext().getAuthentication().getName());
+        Employee employee = employeeRepository.findOneById(user.getEmployee().getId());
+        model.addAttribute("employee",employee);
+        return "profile-employee";
+    }
     @GetMapping("/test")
     public String test() {
 
-        return "header-footer/header";
+        return "profile-employee";
     }
 }
