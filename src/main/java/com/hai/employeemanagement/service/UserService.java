@@ -4,6 +4,7 @@ import com.hai.employeemanagement.converter.UserConverter;
 import com.hai.employeemanagement.dto.RoleDTO;
 import com.hai.employeemanagement.dto.UserDTO;
 import com.hai.employeemanagement.dto.help.ChangePasswordDTO;
+import com.hai.employeemanagement.entity.Employee;
 import com.hai.employeemanagement.entity.Role;
 import com.hai.employeemanagement.entity.UserEntity;
 import com.hai.employeemanagement.exception.Exception409;
@@ -12,6 +13,7 @@ import com.hai.employeemanagement.repository.RoleRepository;
 import com.hai.employeemanagement.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +28,7 @@ public class UserService {
     private final RoleRepository roleRepository;
     private final UserConverter userConverter;
     private final EmployeeRepository employeeRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public RoleDTO addNewRole(String role) {
         if (roleRepository.findByName(role) != null) {
@@ -49,6 +52,20 @@ public class UserService {
         UserEntity savedEntity = userRepository.save(entity);
         UserDTO returnDTO = userConverter.toDto(savedEntity);
         return returnDTO;
+    }
+    public String addUser(UserEntity user, Employee employee) {
+        if (userRepository.findOneByUsername(user.getUsername()) != null) {
+            throw new Exception409("This username already exists!");
+        }
+        if (employeeRepository.findOneByEmail(employee.getEmail()) != null) {
+            throw new Exception409("This email already exists!");
+        }
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRoles(roleRepository.findAllByName("EMPLOYEE"));
+        user.setEmployee(employee);
+        employeeRepository.save(employee);
+        UserEntity savedEntity = userRepository.save(user);
+        return "successfully";
     }
 
     public UserDTO updateRoleToUser(Long id, String[] roles) {
@@ -80,5 +97,10 @@ public class UserService {
 //        }
         entity.setPassword(dto.getNewPassword());
         entity.setChangedPassword(true);
+    }
+
+    public String updateEmployee(Employee employee) {
+        employeeRepository.save(employee);
+        return "successfully";
     }
 }

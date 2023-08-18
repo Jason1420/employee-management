@@ -17,11 +17,11 @@ public class AdminAPI {
     private final UserService userService;
     private final AttendanceConfigService attendanceConfigService;
 
-    @PostMapping("/user")
-    public Result addUser(@RequestBody UserDTO dto) {
-        UserDTO savedDTO = userService.addUser(dto);
-        return new Result(true, StatusCode.SUCCESS, "Add user success", savedDTO);
-    }
+//    @PostMapping("/user")
+//    public Result addUser(@RequestBody UserDTO dto) {
+//        UserDTO savedDTO = userService.addUser(dto);
+//        return new Result(true, StatusCode.SUCCESS, "Add user success", savedDTO);
+//    }
 
     @PostMapping("/role")
     public Result addRole(@RequestBody String name) {

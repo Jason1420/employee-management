@@ -1,13 +1,16 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
     <meta charset="UTF-8">
     <title>Employee Directory</title>
     <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
-<!--    <link th:href="@{/css/main.css}" rel="stylesheet">-->
+    <link th:href="@{/css/main.css}" rel="stylesheet">
+
 </head>
 <body>
-<div class="container">
+<div th:replace="header-footer/header :: header"></div>
+<div class="main">
     <h3>Employee Directory</h3>
     <hr>
     <table class="table table-bordered table-striped">
@@ -21,6 +24,7 @@
             <td>Email</td>
             <td>Phone number</td>
             <td>Position</td>
+            <td sec:authorize="hasAnyAuthority('ADMIN')">Action</td>
         </tr>
         </thead>
         <tbody>
@@ -33,9 +37,13 @@
             <td th:text="${employee.getEmail()}"/>
             <td th:text="${employee.getPhoneNumber()}"></td>
             <td/>
+            <td sec:authorize="hasAnyAuthority('ADMIN')"><a th:href="@{/updateEmployee/{id}(id=${employee.getId()})}" class="btn btn-primary">Update</a></td>
         </tr>
         </tbody>
     </table>
 </div>
+<div th:replace="header-footer/footer :: footer"></div>
+
 </body>
+
 </html>
