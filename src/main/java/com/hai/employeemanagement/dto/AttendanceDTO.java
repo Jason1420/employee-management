@@ -20,7 +20,6 @@ public class AttendanceDTO {
     private int lateMinutes;
     private int earlyMinutes;
 
-
     public AttendanceDTO(Long id, LocalDate date, LocalTime checkInTime,
                          LocalTime checkOutTime, Status status, String employeeName,
                          Long employeeId, int lateMinutes, int earlyMinutes) {

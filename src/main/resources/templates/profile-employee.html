@@ -2,19 +2,16 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Employee Management</title>
-    <link th:href="@{/css/main.css}" rel="stylesheet">
+    <title>Profile</title>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/css/docs.css}" rel="stylesheet">
     <link th:href="@{/css/demo.css}" rel="stylesheet">
     <link th:href="@{/css/style.css}" rel="stylesheet">
     <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
     <script th:src="@{/js/bootstrap.min.js}"></script>
-    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
-    <link th:href="@{/css/docs.css}" rel="stylesheet">
-
 </head>
-<body>
 <div th:replace="header-footer/header :: header"></div>
-
+<body>
 <div>
     <header class="ScriptHeader">
         <div class="rt-container">
@@ -39,11 +36,12 @@
                                         <div class="card-header bg-transparent text-center">
                                             <img class="profile_img" src="https://source.unsplash.com/600x300/?student"
                                                  alt="student dp">
-<!--                                            employee.getFirstName() + employee.getLastName()-->
+                                            <!--                                            employee.getFirstName() + employee.getLastName()-->
                                             <h3 th:text="${employee.getFirstName()+' '+employee.getLastName()}"></h3>
                                         </div>
                                         <div class="card-body">
-                                            <p class="mb-0"><strong class="pr-1">Employee ID: </strong><p th:text="${employee.getId()}"></p>
+                                            <p class="mb-0"><strong class="pr-1">Employee ID: </strong>
+                                            <p th:text="${employee.getId()}"></p>
                                             <p class="mb-0"><strong class="pr-1">Department:</strong>non-update</p>
                                             <p class="mb-0"><strong class="pr-1">Position:</strong>non_update</p>
                                         </div>
@@ -90,11 +88,11 @@
                                             <h3 class="mb-0"><i class="far fa-clone pr-1"></i>Other Information</h3>
                                         </div>
                                         <div class="card-body pt-0">
-                                            <p>Hi, I'm an IT professional specializing in tech solutions.
-                                                I excel in software development, network administration,
-                                                and cybersecurity. With a passion for innovation,
-                                                I ensure efficient and secure solutions to meet evolving digital needs.
-                                                Let's create tech success together!</p>
+                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium
+                                                aliquam animi beatae, culpa delectus doloremque doloribus facere fugiat
+                                                harum illo in, ipsa itaque minus omnis possimus rerum sit sunt
+                                                voluptatibus!</p>
+
                                         </div>
                                     </div>
                                 </div>
@@ -108,7 +106,6 @@
         </div>
     </section>
 </div>
-
-<div th:replace="header-footer/footer :: footer"></div>
 </body>
+
 </html>

@@ -1,27 +1,17 @@
-/*footer {*/
-/*    background-color: #333;*/
-/*    color: white;*/
-/*    padding: 10px;*/
-/*    text-align: center;*/
-/*    position: absolute;*/
-/*    bottom: 0;*/
-/*    width: 100%;*/
+body{
+    min-height: 100vh;
+    margin: 0;
 
-/*}*/
-footer {
-    background-color: yellow;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    /*height: 50px;*/
+    display: grid;
+    grid-template-rows: auto 1fr auto;
 }
-.main {
-    padding: 16px;
-    margin-bottom: 30px;
-    height: 1000px; /* Used in this example to enable scrolling */
+
+header{
+    min-height:50px;
+    background:lightcyan;
 }
-body {
-    width: 100%;
-    overflow-y: auto;
+
+footer{
+    min-height:50px;
+    background:PapayaWhip;
 }

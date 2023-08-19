@@ -1,34 +1,36 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>Employee Management</title>
-  <link th:href="@{/css/main.css}" rel="stylesheet">
-  <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
-  <script th:src="@{/js/bootstrap.min.js}"></script>
-  <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
-  <link th:href="@{/css/docs.css}" rel="stylesheet">
+    <meta charset="UTF-8">
+    <title>New Employee</title>
+    <link th:href="@{/css/main.css}" rel="stylesheet">
+    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/css/docs.css}" rel="stylesheet">
 
 </head>
 <body>
 <div th:replace="header-footer/header :: header"></div>
 
 <div>
-  <h1>Add new employee</h1>
-  <hr>
-  <h2>Save employee</h2>
-  <form action="#" th:action="@{/save-employee}" th:object="${user}"  method="POST" >
-    <input type="text" name="username" th:value="*{username}" placeholder="Username" class="form-control" mb-4>
-    <input type="text" name="password" th:field="*{password}" placeholder="Password" class="form-control" mb-4>
-    <div th:object="${employee}">
-    <input type="text" name="email" th:field="*{email}" placeholder="Email" class="form-control" mb-4>
-    <input type="text" name="firstName" th:field="*{firstName}" placeholder="First Name" class="form-control" mb-4>
-    <input type="text" name="lastName" th:field="*{lastName}" placeholder="Last Name" class="form-control" mb-4>
-    <button type="submit" class="btn btn-primary">Save employee</button>
-    </div>
-  </form>
+    <h1>Add new employee</h1>
+    <hr>
+    <h2>Save employee</h2>
+    <form class="container-fluid  " action="#" th:action="@{/save-employee}" th:object="${user}" method="POST">
+        <input type="text" name="username" th:value="*{username}" placeholder="Username" class="form-control" mb-4>
+        <input type="text" name="password" th:field="*{password}" placeholder="Password" class="form-control" mb-4>
+        <div th:object="${employee}">
+            <input type="text" name="email" th:field="*{email}" placeholder="Email" class="form-control" mb-4>
+            <input type="text" name="firstName" th:field="*{firstName}" placeholder="First Name" class="form-control"
+                   mb-4>
+            <input type="text" name="lastName" th:field="*{lastName}" placeholder="Last Name" class="form-control" mb-4>
+            <button type="submit" class="btn btn-primary">Save employee</button>
+        </div>
+    </form>
 </div>
-
-<div th:replace="header-footer/footer :: footer"></div>
+<div style="position: absolute; bottom: 0; left: 0; right: 0">
+    <div th:replace="header-footer/footer :: footer"></div>
+</div>
 </body>
 </html>
