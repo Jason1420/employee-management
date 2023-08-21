@@ -27,7 +27,7 @@
             <td>Email</td>
             <td>Phone number</td>
             <td>Position</td>
-            <td sec:authorize="hasAnyAuthority('ADMIN')">Action</td>
+            <td sec:authorize="hasAnyAuthority('ADMIN','HRSTAFF')">Action</td>
         </tr>
         </thead>
         <tbody>
@@ -40,11 +40,56 @@
             <td th:text="${employee.getEmail()}"/>
             <td th:text="${employee.getPhoneNumber()}"></td>
             <td/>
-            <td sec:authorize="hasAnyAuthority('ADMIN')"><a th:href="@{/updateEmployee/{id}(id=${employee.getId()})}" class="btn btn-primary">Update</a></td>
+            <td sec:authorize="hasAnyAuthority('ADMIN','HRSTAFF')" style="max-width: 140px">
+                <div class="container-fluid">
+                    <a th:href="@{/updateEmployee/{id}(id=${employee.getId()})}" class="btn btn-primary">Update</a>
+                    <a th:href="@{/deleteEmployee/{id}(id=${employee.getId()})}" class="btn btn-danger" style="margin-left: 10px">Delete</a>
+                </div>
+            </td>
         </tr>
         </tbody>
     </table>
 </div>
+<script th:type="java">
+
+</script>
+<ul class="pagination justify-content-center flex-wrap" th:with="pageUrlPrefix = '/employee/list/',pageUrlPostfix = '/5'">
+        <a th:href="@{${pageUrlPrefix} + '1' + ${pageUrlPostfix}}" class="page-link">First</a>
+    <li th:class="${currentPage > 1 ? 'page-item' : 'disabled'}">
+        <a th:href="@{${pageUrlPrefix} + ${currentPage - 1} + ${pageUrlPostfix}}" class="page-link">Previous</a>
+    </li>
+
+    <th:block th:if="${totalPages <= 10}">
+        <li th:each="i : ${#numbers.sequence(1, totalPages)}" th:class="${currentPage != i ? 'page-item': 'disabled'}">
+            <a th:href="@{${pageUrlPrefix} + ${i} + ${pageUrlPostfix}}" class="page-link">[[${i}]]</a>
+        </li>
+    </th:block>
+
+    <th:block th:if="${totalPages > 10}">
+        <th:block th:if="${currentPage <= 5 || currentPage >= totalPages - 4}">
+            <li th:each="i : ${#numbers.sequence(1, 5)}" th:class="${currentPage !=i ? 'page-item': 'disabled'}">
+                <a th:href="@{${pageUrlPrefix} + ${i} + ${pageUrlPostfix}}" class="page-link">[[${i}]]</a>
+            </li>
+            <a th:href="@{${pageUrlPrefix} + ${6} + ${pageUrlPostfix}}" class="page-link">...</a>
+            <li th:each="i : ${#numbers.sequence(totalPages - 4, totalPages)}" th:class="${currentPage != i ? 'page-item': 'disabled'}">
+                <a th:href="@{${pageUrlPrefix} + ${i} + ${pageUrlPostfix}}" class="page-link">[[${i}]]</a>
+            </li>
+        </th:block>
+
+        <th:block th:if="${currentPage > 5 && currentPage < totalPages - 4}">
+            <a th:href="@{${pageUrlPrefix} + ${currentPage - 5} + ${pageUrlPostfix}}" class="page-link">...</a>
+            <li th:each="i : ${#numbers.sequence(currentPage - 4, currentPage + 4)}" th:class="${currentPage != i ? 'page-item': 'disabled'}">
+                <a th:href="@{${pageUrlPrefix} + ${i} + ${pageUrlPostfix}}" class="page-link">[[${i}]]</a>
+            </li>
+            <a th:href="@{${pageUrlPrefix} + ${currentPage + 5} + ${pageUrlPostfix}}" class="page-link">...</a>
+        </th:block>
+    </th:block>
+
+    <li th:class="${currentPage < totalPages ? 'page-item' : 'disabled'}">
+        <a th:href="@{${pageUrlPrefix} + ${currentPage + 1}+${pageUrlPostfix}}" class="page-link">Next</a>
+    </li>
+        <a th:href="@{${pageUrlPrefix} + ${totalPages}+${pageUrlPostfix}}" class="page-link">Last</a>
+</ul>
 <div th:replace="header-footer/footer :: footer"></div>
 </body>
 

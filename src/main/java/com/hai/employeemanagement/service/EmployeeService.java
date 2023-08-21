@@ -5,6 +5,8 @@ import com.hai.employeemanagement.dto.EmployeeDTO;
 import com.hai.employeemanagement.entity.Employee;
 import com.hai.employeemanagement.repository.EmployeeRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,5 +35,10 @@ public class EmployeeService {
         Employee updatedEmployee = employeeConverter.toEntity(employeeDTO, employee);
         employeeRepository.save(updatedEmployee);
         return employeeConverter.toDto(updatedEmployee);
+    }
+    public Page<Employee> showAllEmployeePagination(int offset, int size) {
+        return employeeRepository.findAll(PageRequest.of(offset - 1, size));
+// convert to DTO
+        // use Pageable
     }
 }

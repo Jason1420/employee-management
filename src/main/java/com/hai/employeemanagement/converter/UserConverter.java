@@ -6,6 +6,8 @@ import com.hai.employeemanagement.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+
 @Component
 @RequiredArgsConstructor
 public class UserConverter {
@@ -27,4 +29,5 @@ public class UserConverter {
                 (entity.getEmployee() != null) ?
                         employeeConverter.toDto(entity.getEmployee()): null);
     }
+
 }

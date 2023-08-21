@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta charset="UTF-8">
+    <title>Deleted Employee</title>
+    <link th:href="@{/css/main.css}" rel="stylesheet">
+    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/css/docs.css}" rel="stylesheet">
+
+</head>
+<body>
+<div th:replace="header-footer/header :: header"></div>
+<div class="main">
+    <h3>Deleted Employee</h3>
+    <hr>
+    <table class="table table-bordered table-striped container">
+        <thead class="thead-dark color" >
+        <tr>
+            <td>Id</td>
+            <td>First Name</td>
+            <td>Last Name</td>
+            <td>Gender</td>
+            <td>DateOfBirth</td>
+            <td>Email</td>
+            <td>Phone number</td>
+            <td>Position</td>
+            <td>Deleted date</td>
+            <td sec:authorize="hasAnyAuthority('ADMIN','HRSTAFF')">Action</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="employee: ${listDeletedEmployee}">
+            <td th:text="${employee.getId()}"/>
+            <td th:text="${employee.getFirstName()}"/>
+            <td th:text="${employee.getLastName()}"/>
+            <td th:text="${employee.getGender()}"/>
+            <td th:text="${employee.getDateOfBirth()}"/>
+            <td th:text="${employee.getEmail()}"/>
+            <td th:text="${employee.getPhoneNumber()}"></td>
+            <td></td>
+            <td th:text="${employee.getDeletedDate()}"></td>
+            <td sec:authorize="hasAnyAuthority('ADMIN','HRSTAFF')" style="max-width: 140px">
+                <div class="container-fluid">
+                    <a th:href="@{/updateEmployee/{id}(id=${employee.getId()})}" class="btn btn-primary">Recall</a>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div th:replace="header-footer/footer :: footer"></div>
+</body>
+
+</html>
