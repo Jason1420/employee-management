@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -54,7 +55,7 @@ public class UserService {
         UserDTO returnDTO = userConverter.toDto(savedEntity);
         return returnDTO;
     }
-    public String addUser(UserEntity user, Employee employee) {
+    public String addUser(UserEntity user, Employee employee, String selectedRole) {
         if (userRepository.findOneByUsername(user.getUsername()) != null) {
             throw new Exception409("This username already exists!");
         }
@@ -62,12 +63,13 @@ public class UserService {
             throw new Exception409("This email already exists!");
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRoles(roleRepository.findAllByName("EMPLOYEE"));
+        user.setRoles(roleRepository.findAllByName(selectedRole));
         user.setEmployee(employee);
         employeeRepository.save(employee);
         UserEntity savedEntity = userRepository.save(user);
         return "successfully";
     }
+
 
     public UserDTO updateRoleToUser(Long id, String[] roles) {
         UserEntity userEntity = userRepository.findOneById(id);

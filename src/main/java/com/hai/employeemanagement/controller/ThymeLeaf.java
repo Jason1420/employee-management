@@ -4,10 +4,12 @@ import com.hai.employeemanagement.converter.EmployeeConverter;
 import com.hai.employeemanagement.converter.UserConverter;
 import com.hai.employeemanagement.dto.help.ChangePasswordDTO;
 import com.hai.employeemanagement.entity.Employee;
+import com.hai.employeemanagement.entity.Role;
 import com.hai.employeemanagement.entity.UserEntity;
 import com.hai.employeemanagement.entity.help.DeletedEmployee;
 import com.hai.employeemanagement.repository.DeletedEmployeeRepository;
 import com.hai.employeemanagement.repository.EmployeeRepository;
+import com.hai.employeemanagement.repository.RoleRepository;
 import com.hai.employeemanagement.repository.UserRepository;
 import com.hai.employeemanagement.service.EmployeeService;
 import com.hai.employeemanagement.service.UserService;
@@ -20,6 +22,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 @RequiredArgsConstructor
 public class ThymeLeaf {
@@ -30,6 +34,7 @@ public class ThymeLeaf {
     private final UserRepository userRepository;
     private final UserService userService;
     private final UserConverter userConverter;
+    private final RoleRepository roleRepository;
 
     @RequestMapping("/")
     public String cssTest( Model model){
@@ -64,12 +69,15 @@ public class ThymeLeaf {
         Employee employee = new Employee();
         model.addAttribute("user",user);
         model.addAttribute("employee",employee);
+        List<Role> listRole = roleRepository.findAll();
+        model.addAttribute("listRole",listRole);
         return "new-employee";
     }
     @PostMapping("/save-employee")
     public String saveEmployee(@ModelAttribute("user") UserEntity user,
-                               @ModelAttribute("employee") Employee employee) {
-        userService.addUser(user, employee);
+                               @ModelAttribute("employee") Employee employee,
+                               @RequestParam String selectedRole) {
+        userService.addUser(user, employee, selectedRole);
         return "redirect:/";
     }
     @GetMapping("/updateEmployee/{id}")
