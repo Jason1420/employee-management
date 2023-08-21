@@ -4,18 +4,16 @@
 <head>
     <meta charset="UTF-8">
     <title>Employee Directory</title>
-    <link th:href="@{/css/main.css}" rel="stylesheet">
     <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
     <script th:src="@{/js/bootstrap.min.js}"></script>
     <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
     <link th:href="@{/css/docs.css}" rel="stylesheet">
+    <link th:href="@{/css/main.css}" rel="stylesheet">
 
 </head>
 <body>
 <div th:replace="header-footer/header :: header"></div>
-<div class="main">
-    <h3>Employee Directory</h3>
-    <hr>
+<div class="main" style="padding-top: 50px">
     <table class="table table-bordered table-striped container">
         <thead class="thead-dark color" >
         <tr>
@@ -40,7 +38,7 @@
             <td th:text="${employee.getEmail()}"/>
             <td th:text="${employee.getPhoneNumber()}"></td>
             <td/>
-            <td sec:authorize="hasAnyAuthority('ADMIN','HRSTAFF')" style="max-width: 140px">
+            <td sec:authorize="hasAnyAuthority('ADMIN','HRSTAFF')" style="max-width: 160px">
                 <div class="container-fluid">
                     <a th:href="@{/updateEmployee/{id}(id=${employee.getId()})}" class="btn btn-primary">Update</a>
                     <a th:href="@{/deleteEmployee/{id}(id=${employee.getId()})}" class="btn btn-danger" style="margin-left: 10px">Delete</a>
@@ -53,7 +51,7 @@
 <script th:type="java">
 
 </script>
-<ul class="pagination justify-content-center flex-wrap" th:with="pageUrlPrefix = '/employee/list/',pageUrlPostfix = '/5'">
+<ul class="pagination justify-content-center flex-wrap" th:with="pageUrlPrefix = '/employee/list/',pageUrlPostfix = '/10'">
         <a th:href="@{${pageUrlPrefix} + '1' + ${pageUrlPostfix}}" class="page-link">First</a>
     <li th:class="${currentPage > 1 ? 'page-item' : 'disabled'}">
         <a th:href="@{${pageUrlPrefix} + ${currentPage - 1} + ${pageUrlPostfix}}" class="page-link">Previous</a>
