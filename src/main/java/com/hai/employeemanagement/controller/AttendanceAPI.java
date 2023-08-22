@@ -42,11 +42,11 @@ public class AttendanceAPI {
         return new Result(true, StatusCode.SUCCESS, "Find success!", listDTO);
     }
 
-    @GetMapping("/view/{id}")
-    public Result viewAttendanceOfEmployee(@PathVariable("id") Long id, @RequestBody AttendanceViewDTO dto) {
-        List<AttendanceDTO> listDTO = attendanceService.viewAttendanceOfEmployee(id, dto);
-        return new Result(true, StatusCode.SUCCESS, "Find success!", listDTO);
-    }
+//    @GetMapping("/view/{id}")
+//    public Result viewAttendanceOfEmployee(@PathVariable("id") Long id, @RequestBody AttendanceViewDTO dto) {
+//        List<AttendanceDTO> listDTO = attendanceService.viewAttendanceOfEmployee(id, dto);
+//        return new Result(true, StatusCode.SUCCESS, "Find success!", listDTO);
+//    }
 
     @GetMapping("/count")
     public Result countAttendance(@RequestBody AttendanceViewDTO dto) {

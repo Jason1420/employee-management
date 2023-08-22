@@ -2,7 +2,9 @@ package com.hai.employeemanagement.controller;
 
 import com.hai.employeemanagement.converter.EmployeeConverter;
 import com.hai.employeemanagement.converter.UserConverter;
+import com.hai.employeemanagement.dto.help.AttendanceViewDTO;
 import com.hai.employeemanagement.dto.help.ChangePasswordDTO;
+import com.hai.employeemanagement.entity.Attendance;
 import com.hai.employeemanagement.entity.Employee;
 import com.hai.employeemanagement.entity.Role;
 import com.hai.employeemanagement.entity.UserEntity;
@@ -11,6 +13,7 @@ import com.hai.employeemanagement.repository.DeletedEmployeeRepository;
 import com.hai.employeemanagement.repository.EmployeeRepository;
 import com.hai.employeemanagement.repository.RoleRepository;
 import com.hai.employeemanagement.repository.UserRepository;
+import com.hai.employeemanagement.service.AttendanceService;
 import com.hai.employeemanagement.service.EmployeeService;
 import com.hai.employeemanagement.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +25,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Controller
@@ -35,6 +39,7 @@ public class ThymeLeaf {
     private final UserService userService;
     private final UserConverter userConverter;
     private final RoleRepository roleRepository;
+    private final AttendanceService attendanceService;
 
     @RequestMapping("/")
     public String cssTest(Model model) {
@@ -65,6 +70,7 @@ public class ThymeLeaf {
         model.addAttribute("listEmployee", list);
         return "find-all-employee";
     }
+
     @GetMapping("/user/list/{offset}/{size}")
     public String findAllUser(@PathVariable("offset") int offset, @PathVariable("size") int size, Model model) {
         Page<UserEntity> list = userService.showAllUserPagination(offset, size);
@@ -144,6 +150,7 @@ public class ThymeLeaf {
         userService.updateUser(user);
         return "redirect:/user/list/1/10";
     }
+
     @PostMapping("/update-role")
     public String processingUpdateRoleEmployee(@ModelAttribute("roles") String[] roles,
                                                @RequestParam Long id) {
@@ -174,8 +181,9 @@ public class ThymeLeaf {
         userService.changePassword(user, changePasswordDTO);
         return "change-password";
     }
+
     @GetMapping("/createAccount/{id}")
-    public String createAccount(@PathVariable("id") Long id ,Model model) {
+    public String createAccount(@PathVariable("id") Long id, Model model) {
         UserEntity user = new UserEntity();
         Employee employee = employeeRepository.findOneById(id);
         model.addAttribute("user", user);
@@ -184,26 +192,57 @@ public class ThymeLeaf {
         model.addAttribute("listRole", listRole);
         return "create-account";
     }
+
     @PostMapping("/create-account")
     public String processingCreateAccount(@ModelAttribute("user") UserEntity user,
                                           @ModelAttribute("employee") Employee employee,
                                           @RequestParam String selectedRole) {
         Long eId = employee.getId();
-        userService.addUser(user,eId, selectedRole);
+        userService.addUser(user, eId, selectedRole);
         return "redirect:/updateEmployee/" + user.getEmployee().getId();
     }
+
     @GetMapping("/attendance")
     public String test(Model model) {
         List<Employee> list = employeeRepository.findAll();
         model.addAttribute("listEmployee", list);
         return "attendance";
     }
+
     @GetMapping("/markAttendance")
-    public String markAttendance(Model model) {
+    public String markAttendance(Model model, @RequestParam(required = false) Integer selectedMonth,
+                                 @RequestParam(required = false) Integer selectedYear) {
         UserEntity user = userRepository.findOneByUsername(
                 SecurityContextHolder.getContext().getAuthentication().getName());
         Employee employee = employeeRepository.findOneById(user.getEmployee().getId());
         model.addAttribute("employee", employee);
+        LocalDate currentDate = LocalDate.now();
+        if (selectedMonth != null && selectedMonth > 0 && selectedMonth <= 12) {
+            currentDate = currentDate.withMonth(selectedMonth);
+        }
+
+        if (selectedYear != null && selectedYear > 0) {
+            currentDate = currentDate.withYear(selectedYear);
+        }
+        LocalDate start = currentDate.withDayOfMonth(1);
+        LocalDate end = currentDate.withDayOfMonth(currentDate.lengthOfMonth());
+        List<Attendance> listAttendance = attendanceService.viewAttendanceOfEmployee(employee.getId(),
+                new AttendanceViewDTO(start, end));
+        model.addAttribute("listAttendance", listAttendance);
+        Attendance todayAttendance = attendanceService.viewAttendanceOfEmployeeToday(employee.getId());
+        model.addAttribute("todayAttendance", todayAttendance);
         return "mark-attendance";
     }
+    @PostMapping("/checkIn/{id}")
+    public String checkIn(@PathVariable("id") Long employeeId) {
+        attendanceService.checkIn(employeeId);
+        return "redirect:/markAttendance";
+    }
+
+    @PostMapping("/checkOut/{id}")
+    public String checkOut(@PathVariable("id") Long employeeId) {
+        attendanceService.checkOut(employeeId);
+        return "redirect:/markAttendance";
+    }
+
 }

@@ -92,9 +92,13 @@ public class AttendanceService {
         return list.stream().map(attendanceConverter::toDto).collect(Collectors.toList());
     }
 
-    public List<AttendanceDTO> viewAttendanceOfEmployee(Long id, AttendanceViewDTO dto) {
+//    public List<AttendanceDTO> viewAttendanceOfEmployee(Long id, AttendanceViewDTO dto) {
+//        List<Attendance> list = attendanceRepository.findAllBetweenDateOfEmployee(dto.getStartDate(), dto.getEndDate(), id);
+//        return list.stream().map(attendanceConverter::toDto).collect(Collectors.toList());
+//    }
+    public List<Attendance> viewAttendanceOfEmployee(Long id, AttendanceViewDTO dto) {
         List<Attendance> list = attendanceRepository.findAllBetweenDateOfEmployee(dto.getStartDate(), dto.getEndDate(), id);
-        return list.stream().map(attendanceConverter::toDto).collect(Collectors.toList());
+        return list;
     }
 
     public List<CountAttendanceDTO> countAttendance(AttendanceViewDTO dto) {
@@ -130,5 +134,11 @@ public class AttendanceService {
             throw new RuntimeException(e);
         }
         return byteArrayInputStream;
+    }
+
+    public Attendance viewAttendanceOfEmployeeToday(Long id) {
+        LocalDate today = LocalDate.now();
+        Attendance attendance = attendanceRepository.findOneByEmployeeIdAndDate(id,today);
+        return attendance;
     }
 }

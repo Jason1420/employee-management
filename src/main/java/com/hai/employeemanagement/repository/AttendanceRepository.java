@@ -21,4 +21,6 @@ public interface AttendanceRepository extends JpaRepository<Attendance, Long> {
             "WHERE a.date BETWEEN ?1 AND ?2 " +
             "GROUP BY a.employeeId")
     List<List<Object[]>> countAttendance(LocalDate startDate, LocalDate endDate);
+
+    Attendance findOneByEmployeeIdAndDate(Long id, LocalDate today);
 }

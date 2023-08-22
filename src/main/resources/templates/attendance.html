@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta charset="UTF-8">
+    <title>Employee Directory</title>
+    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/css/docs.css}" rel="stylesheet">
+    <link th:href="@{/css/main.css}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+<div th:replace="header-footer/header :: header"></div>
+<div class="main" style="padding-top: 50px">
+    <table class="table table-bordered table-striped container">
+        <thead class="thead-dark color" >
+        <tr>
+            <td>Employee</td>
+            <td th:each="i : ${#numbers.sequence(1,31)}">[[${i}]]</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="employee: ${listEmployee}">
+            <td th:text="${employee.getFirstName() + ' ' + employee.getLastName()}"/>
+            <td th:each="i : ${#numbers.sequence(1,31)}" data-bs-toggle="modal" data-bs-target="#attendance_info">
+                <i class="fa fa-check text-success" style></i>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div th:replace="header-footer/footer :: footer"></div>
+</body>
+
+</html>
