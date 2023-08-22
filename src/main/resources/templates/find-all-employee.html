@@ -48,9 +48,7 @@
         </tbody>
     </table>
 </div>
-<script th:type="java">
 
-</script>
 <ul class="pagination justify-content-center flex-wrap" th:with="pageUrlPrefix = '/employee/list/',pageUrlPostfix = '/10'">
         <a th:href="@{${pageUrlPrefix} + '1' + ${pageUrlPostfix}}" class="page-link">First</a>
     <li th:class="${currentPage > 1 ? 'page-item' : 'disabled'}">

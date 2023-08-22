@@ -71,7 +71,7 @@ public class ThymeLeaf {
         model.addAttribute("totalPages", list.getTotalPages());
         model.addAttribute("currentPage", offset);
         model.addAttribute("size", size);
-        model.addAttribute("listEmployee", list);
+        model.addAttribute("listUser", list);
         return "find-all-user";
     }
 
@@ -132,12 +132,18 @@ public class ThymeLeaf {
         return "redirect:/employee/list/1/10";
     }
 
-    //    @GetMapping("/updateRoleEmployee/{id}")
-//    public String updateRoleEmployee(@PathVariable("id")Long id, Model model) {
-//        UserEntity user = userRepository.findOneByEmployeeId(id);
-//        model.addAttribute("user",user);
-//        return "update-role";
-//    }
+    @GetMapping("/updateUser/{id}")
+    public String updateUser(@PathVariable("id") Long id, Model model) {
+        UserEntity user = userRepository.findOneByEmployeeId(id);
+        model.addAttribute("user", user);
+        return "update-user";
+    }
+
+    @PostMapping("/update-user")
+    public String processingUpdateUser(@ModelAttribute("user") UserEntity user) {
+        userService.updateUser(user);
+        return "redirect:/user/list/1/10";
+    }
     @PostMapping("/update-role")
     public String processingUpdateRoleEmployee(@ModelAttribute("roles") String[] roles,
                                                @RequestParam Long id) {
@@ -186,9 +192,18 @@ public class ThymeLeaf {
         userService.addUser(user,eId, selectedRole);
         return "redirect:/updateEmployee/" + user.getEmployee().getId();
     }
-    @GetMapping("/test")
-    public String test() {
-
-        return "profile-employee";
+    @GetMapping("/attendance")
+    public String test(Model model) {
+        List<Employee> list = employeeRepository.findAll();
+        model.addAttribute("listEmployee", list);
+        return "attendance";
+    }
+    @GetMapping("/markAttendance")
+    public String markAttendance(Model model) {
+        UserEntity user = userRepository.findOneByUsername(
+                SecurityContextHolder.getContext().getAuthentication().getName());
+        Employee employee = employeeRepository.findOneById(user.getEmployee().getId());
+        model.addAttribute("employee", employee);
+        return "mark-attendance";
     }
 }
