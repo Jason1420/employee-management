@@ -14,7 +14,8 @@
 </head>
 <body>
 <div th:replace="header-footer/header :: header"></div>
-<form action="#" th:action="@{/update-employee}" th:object="${employee}" method="POST" class="container-fluid" style="padding-top: 10px">
+<form action="#" th:action="@{/update-employee}" th:object="${employee}" method="POST" class="container-fluid"
+      style="padding-top: 10px">
     <input type="hidden" th:field="*{id}">
     <div class="container">
         <div class="row gutters">
@@ -26,7 +27,8 @@
                                 <div class="user-avatar">
                                     <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Maxwell Admin">
                                 </div>
-                                <h5 class="user-name" th:text="${employee.getFirstName() + ' '+ employee.getLastName()}"></h5>
+                                <h5 class="user-name"
+                                    th:text="${employee.getFirstName() + ' '+ employee.getLastName()}"></h5>
                                 <h6 class="user-email" th:text="${employee.getEmail()}">yuki@Maxwell.com</h6>
                             </div>
                             <div class="about">
@@ -48,53 +50,66 @@
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                 <div class="form-group">
                                     <label for="firstName">First Name</label>
-                                    <input type="text" th:field="*{firstName}" class="form-control" id="firstName" placeholder="Enter first name">
+                                    <input type="text" th:field="*{firstName}" class="form-control" id="firstName"
+                                           placeholder="Enter first name">
                                 </div>
                             </div>
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                 <div class="form-group">
                                     <label for="lastName">Last Name</label>
-                                    <input type="text" th:field="*{lastName}" class="form-control" id="lastName" placeholder="Enter last name">
+                                    <input type="text" th:field="*{lastName}" class="form-control" id="lastName"
+                                           placeholder="Enter last name">
                                 </div>
                             </div>
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                 <div class="form-group">
                                     <label for="gender">Gender</label>
-                                    <input type="text" th:field="*{gender}" class="form-control" id="gender" placeholder="Enter gender">
+                                    <input type="text" th:field="*{gender}" class="form-control" id="gender"
+                                           placeholder="Enter gender">
                                 </div>
                             </div>
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                 <div class="form-group">
                                     <label for="dateOfBirth">Date Of Birth</label>
-                                    <input type="text" th:field="*{dateOfBirth}" class="form-control" id="dateOfBirth" placeholder="Enter date of birth">
+                                    <input type="text" th:field="*{dateOfBirth}" class="form-control" id="dateOfBirth"
+                                           placeholder="Enter date of birth">
                                 </div>
                             </div>
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                 <div class="form-group">
                                     <label for="eMail">Email</label>
-                                    <input type="email" th:field="*{email}" class="form-control" id="eMail" placeholder="Enter email ID">
+                                    <input type="email" th:field="*{email}" class="form-control" id="eMail"
+                                           placeholder="Enter email ID">
                                 </div>
                             </div>
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                 <div class="form-group">
                                     <label for="phone">Phone</label>
-                                    <input type="text" th:field="*{phoneNumber}" class="form-control" id="phone" placeholder="Enter phone number">
+                                    <input type="text" th:field="*{phoneNumber}" class="form-control" id="phone"
+                                           placeholder="Enter phone number">
                                 </div>
                             </div>
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                                <div class="form-group" >
+                                <div class="form-group" sec:authorize="hasAnyAuthority('ADMIN')">
                                     <th:block th:if="${user != null}">
                                         <label>Role</label>
-                                        <li th:each="role : ${listRole}" >
+                                        <li th:each="role : ${listRole}">
                                             <th:block th:if="${user.getRoles().contains(role)}">
-                                            <input type="checkbox" name="selectedRoles" th:value="${role.getName()}" checked th:text="${role.getName()}">
+                                                <input type="checkbox" name="selectedRoles" th:value="${role.getName()}"
+                                                       checked th:text="${role.getName()}">
                                             </th:block>
                                             <th:block th:if="${!user.getRoles().contains(role)}">
-                                                <input type="checkbox" name="selectedRoles" th:value="${role.getName()}" th:text="${role.getName()}">
+                                                <input type="checkbox" name="selectedRoles" th:value="${role.getName()}"
+                                                       th:text="${role.getName()}">
                                             </th:block>
                                         </li>
                                     </th:block>
-                                </th:block>
+                                    <div style="padding-top: 20px">
+                                        <th:block th:if="${user == null}">
+                                            <a th:href="@{/createAccount/{id}(id=${employee.getId()})}"
+                                               class="btn btn-primary">Create account</a>
+                                        </th:block>
+                                    </div>
                                 </div>
                             </div>
                         </div>

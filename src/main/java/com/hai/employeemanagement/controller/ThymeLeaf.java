@@ -65,6 +65,15 @@ public class ThymeLeaf {
         model.addAttribute("listEmployee", list);
         return "find-all-employee";
     }
+    @GetMapping("/user/list/{offset}/{size}")
+    public String findAllUser(@PathVariable("offset") int offset, @PathVariable("size") int size, Model model) {
+        Page<UserEntity> list = userService.showAllUserPagination(offset, size);
+        model.addAttribute("totalPages", list.getTotalPages());
+        model.addAttribute("currentPage", offset);
+        model.addAttribute("size", size);
+        model.addAttribute("listEmployee", list);
+        return "find-all-user";
+    }
 
     @GetMapping("/admin/user")
     public String addUser(Model model) {
@@ -80,8 +89,7 @@ public class ThymeLeaf {
     @PostMapping("/save-employee")
     public String saveEmployee(@ModelAttribute("user") UserEntity user,
                                @ModelAttribute("employee") Employee employee,
-                               @RequestParam String selectedRole,
-                               Model model) {
+                               @RequestParam String selectedRole) {
         userService.addUser(user, employee, selectedRole);
         return "redirect:/";
     }
@@ -160,7 +168,24 @@ public class ThymeLeaf {
         userService.changePassword(user, changePasswordDTO);
         return "change-password";
     }
-
+    @GetMapping("/createAccount/{id}")
+    public String createAccount(@PathVariable("id") Long id ,Model model) {
+        UserEntity user = new UserEntity();
+        Employee employee = employeeRepository.findOneById(id);
+        model.addAttribute("user", user);
+        model.addAttribute("employee", employee);
+        List<Role> listRole = roleRepository.findAll();
+        model.addAttribute("listRole", listRole);
+        return "create-account";
+    }
+    @PostMapping("/create-account")
+    public String processingCreateAccount(@ModelAttribute("user") UserEntity user,
+                                          @ModelAttribute("employee") Employee employee,
+                                          @RequestParam String selectedRole) {
+        Long eId = employee.getId();
+        userService.addUser(user,eId, selectedRole);
+        return "redirect:/updateEmployee/" + user.getEmployee().getId();
+    }
     @GetMapping("/test")
     public String test() {
 
