@@ -37,60 +37,60 @@ public class ThymeLeaf {
     private final RoleRepository roleRepository;
 
     @RequestMapping("/")
-    public String cssTest( Model model){
-        model.addAttribute("user",SecurityContextHolder.getContext().getAuthentication());
+    public String cssTest(Model model) {
+        model.addAttribute("user", SecurityContextHolder.getContext().getAuthentication());
         return "index";
     }
 
     @GetMapping("/login")
-    public String showLoginPage(){
+    public String showLoginPage() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if(authentication == null || authentication instanceof AnonymousAuthenticationToken){
+        if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {
             return "login";
         }
         return "redirect:/";
     }
+
     @GetMapping("/logout")
-    public String showLogin(){
-        return"redirect:/login?logout";
+    public String showLogin() {
+        return "redirect:/login?logout";
     }
+
     @GetMapping("/employee/list/{offset}/{size}")
-    public String findAllEmployee(@PathVariable("offset") int offset,@PathVariable("size") int size,Model model){
-        Page<Employee> list = employeeService.showAllEmployeePagination(offset,size);
+    public String findAllEmployee(@PathVariable("offset") int offset, @PathVariable("size") int size, Model model) {
+        Page<Employee> list = employeeService.showAllEmployeePagination(offset, size);
         model.addAttribute("totalPages", list.getTotalPages());
         model.addAttribute("currentPage", offset);
         model.addAttribute("size", size);
-        model.addAttribute("listEmployee",list);
+        model.addAttribute("listEmployee", list);
         return "find-all-employee";
     }
+
     @GetMapping("/admin/user")
     public String addUser(Model model) {
         UserEntity user = new UserEntity();
         Employee employee = new Employee();
-        model.addAttribute("user",user);
-        model.addAttribute("employee",employee);
+        model.addAttribute("user", user);
+        model.addAttribute("employee", employee);
         List<Role> listRole = roleRepository.findAll();
-        model.addAttribute("listRole",listRole);
+        model.addAttribute("listRole", listRole);
         return "new-employee";
     }
+
     @PostMapping("/save-employee")
     public String saveEmployee(@ModelAttribute("user") UserEntity user,
                                @ModelAttribute("employee") Employee employee,
-                               @RequestParam String selectedRole) {
+                               @RequestParam String selectedRole,
+                               Model model) {
         userService.addUser(user, employee, selectedRole);
         return "redirect:/";
     }
-    @GetMapping("/updateEmployee/{id}")
-    public String processingUpdateEmployee(@PathVariable("id")Long id, Model model) {
-        Employee employee = employeeRepository.findOneById(id);
-        model.addAttribute("employee",employee);
-        return "update-employee";
-    }
+
     @GetMapping("/deleteEmployee/{id}")
-    public String processingDeleteEmployee(@PathVariable("id")Long id, Model model) {
+    public String processingDeleteEmployee(@PathVariable("id") Long id, Model model) {
         Employee employee = employeeRepository.findOneById(id); // find employee
         UserEntity user = userRepository.findOneByEmployeeId(id); // find user
-        if(user != null) {
+        if (user != null) {
             String[] role = {""};
             userService.updateRoleToUser(user.getId(), role); // delete role
             userRepository.delete(user); // delete user
@@ -98,35 +98,69 @@ public class ThymeLeaf {
         DeletedEmployee deletedEmployee = employeeConverter.toDeleted(employee);// convert employee
         deletedEmployeeRepository.save(deletedEmployee);// save employee to deleted
         employeeRepository.delete(employee); // delete employee
-        model.addAttribute("listDeletedEmployee",deletedEmployeeRepository.findAll());
+        model.addAttribute("listDeletedEmployee", deletedEmployeeRepository.findAll());
         return "delete-employee";
     }
+
+    @GetMapping("/updateEmployee/{id}")
+    public String updateEmployee(@PathVariable("id") Long id, Model model) {
+        Employee employee = employeeRepository.findOneById(id);
+        model.addAttribute("employee", employee);
+        UserEntity user = userRepository.findOneByEmployeeId(id);
+        model.addAttribute("user", user);
+        List<Role> listRole = roleRepository.findAll();
+        model.addAttribute("listRole", listRole);
+        return "update-employee";
+    }
+
     @PostMapping("/update-employee")
-    public String updateEmployee(@ModelAttribute("employee") Employee employee) {
+    public String processingUpdateEmployee(@ModelAttribute("employee") Employee employee,
+                                           @RequestParam List<String> selectedRoles) {
         userService.updateEmployee(employee);
+        UserEntity user = userRepository.findOneByEmployeeId(employee.getId());
+        String[] str = new String[selectedRoles.size()];
+        selectedRoles.toArray(str);
+        userService.updateRoleToUser(user.getId(), str);
+        return "redirect:/employee/list/1/10";
+    }
+
+    //    @GetMapping("/updateRoleEmployee/{id}")
+//    public String updateRoleEmployee(@PathVariable("id")Long id, Model model) {
+//        UserEntity user = userRepository.findOneByEmployeeId(id);
+//        model.addAttribute("user",user);
+//        return "update-role";
+//    }
+    @PostMapping("/update-role")
+    public String processingUpdateRoleEmployee(@ModelAttribute("roles") String[] roles,
+                                               @RequestParam Long id) {
+        userService.updateRoleToUser(id, roles);
         return "redirect:/employee/list/1/5";
     }
+
     @GetMapping("/profile")
     public String viewProfile(Model model) {
         UserEntity user = userRepository.findOneByUsername(
                 SecurityContextHolder.getContext().getAuthentication().getName());
         Employee employee = employeeRepository.findOneById(user.getEmployee().getId());
-        model.addAttribute("employee",employee);
+        model.addAttribute("employee", employee);
         return "profile-employee";
     }
+
     @GetMapping("/profile/change-password")
     public String changePassword(Model model) {
         ChangePasswordDTO changePasswordDTO = new ChangePasswordDTO();
-        model.addAttribute("changePasswordDTO",changePasswordDTO);
+        model.addAttribute("changePasswordDTO", changePasswordDTO);
         return "change-password";
     }
+
     @PostMapping("/change-password")
     public String changePassword(@ModelAttribute("changePasswordDTO") ChangePasswordDTO changePasswordDTO) {
         UserEntity user = userRepository.findOneByUsername(
                 SecurityContextHolder.getContext().getAuthentication().getName());
-        userService.changePassword(user,changePasswordDTO);
+        userService.changePassword(user, changePasswordDTO);
         return "change-password";
     }
+
     @GetMapping("/test")
     public String test() {
 

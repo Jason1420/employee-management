@@ -17,8 +17,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -58,16 +60,18 @@ public class UserService {
     public String addUser(UserEntity user, Employee employee, String selectedRole) {
         if (userRepository.findOneByUsername(user.getUsername()) != null) {
             throw new Exception409("This username already exists!");
+//            return "err1";
         }
         if (employeeRepository.findOneByEmail(employee.getEmail()) != null) {
             throw new Exception409("This email already exists!");
+//            return "err2";
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRoles(roleRepository.findAllByName(selectedRole));
         user.setEmployee(employee);
         employeeRepository.save(employee);
         UserEntity savedEntity = userRepository.save(user);
-        return "successfully";
+        return "success";
     }
 
 

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
     <meta charset="UTF-8">
     <title>Update information</title>
@@ -78,6 +79,22 @@
                                 <div class="form-group">
                                     <label for="phone">Phone</label>
                                     <input type="text" th:field="*{phoneNumber}" class="form-control" id="phone" placeholder="Enter phone number">
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                <div class="form-group" >
+                                    <th:block th:if="${user != null}">
+                                        <label>Role</label>
+                                        <li th:each="role : ${listRole}" >
+                                            <th:block th:if="${user.getRoles().contains(role)}">
+                                            <input type="checkbox" name="selectedRoles" th:value="${role.getName()}" checked th:text="${role.getName()}">
+                                            </th:block>
+                                            <th:block th:if="${!user.getRoles().contains(role)}">
+                                                <input type="checkbox" name="selectedRoles" th:value="${role.getName()}" th:text="${role.getName()}">
+                                            </th:block>
+                                        </li>
+                                    </th:block>
+                                </th:block>
                                 </div>
                             </div>
                         </div>

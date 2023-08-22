@@ -24,7 +24,7 @@
                     <a class="nav-link" th:href="@{/employee/list/1/10}" sec:authorize="isAuthenticated()">All employees <span class="sr-only"></span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" sec:authorize="hasAnyAuthority('ADMIN')" th:href="@{/admin/user}">Add User</a>
+                    <a class="nav-link" sec:authorize="hasAnyAuthority('ADMIN')" th:href="@{/admin/user}">Add user</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Attendance</a>
