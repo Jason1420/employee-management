@@ -14,14 +14,13 @@ import com.hai.employeemanagement.repository.RoleRepository;
 import com.hai.employeemanagement.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.Model;
 
 import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -57,6 +56,7 @@ public class UserService {
         UserDTO returnDTO = userConverter.toDto(savedEntity);
         return returnDTO;
     }
+
     public String addUser(UserEntity user, Employee employee, String selectedRole) {
         if (userRepository.findOneByUsername(user.getUsername()) != null) {
             throw new Exception409("This username already exists!");
@@ -71,6 +71,19 @@ public class UserService {
         user.setEmployee(employee);
         employeeRepository.save(employee);
         UserEntity savedEntity = userRepository.save(user);
+        return "success";
+    }
+
+    public String addUser(UserEntity user, Long id, String selectedRole) {
+        Employee employee = employeeRepository.findOneById(id);
+        user.setEmployee(employee);
+        if (userRepository.findOneByUsername(user.getUsername()) != null) {
+            throw new Exception409("This username already exists!");
+        }
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+        user.setRoles(roleRepository.findAllByName(selectedRole));
+        userRepository.save(user);
         return "success";
     }
 
@@ -101,10 +114,10 @@ public class UserService {
         if (!checkPassword(user, dto.getCurrentPassword())) {
             throw new Exception400("Wrong current password!");
         }
-        if(dto.getNewPassword().equals(dto.getConfirmNewPassword())){
+        if (dto.getNewPassword().equals(dto.getConfirmNewPassword())) {
             user.setPassword(passwordEncoder.encode(dto.getNewPassword()));
             user.setChangedPassword(true);
-        }else{
+        } else {
             throw new Exception400("Confirm password and new password must be the same!");
         }
 
@@ -114,7 +127,16 @@ public class UserService {
         employeeRepository.save(employee);
         return "successfully";
     }
+
     public boolean checkPassword(UserEntity entity, String currentPassword) {
-        return passwordEncoder.matches(currentPassword,entity.getPassword());
+        return passwordEncoder.matches(currentPassword, entity.getPassword());
+    }
+
+    public Page<UserEntity> showAllUserPagination(int offset, int size) {
+            return userRepository.findAll(PageRequest.of(offset - 1, size));
+    }
+
+    public void updateUser(UserEntity user) {
+        userRepository.save(user);
     }
 }

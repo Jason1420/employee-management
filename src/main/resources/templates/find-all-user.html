@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta charset="UTF-8">
+    <title>User Directory</title>
+    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/css/docs.css}" rel="stylesheet">
+    <link th:href="@{/css/main.css}" rel="stylesheet">
+
+</head>
+<body>
+<div th:replace="header-footer/header :: header"></div>
+<div class="main" style="padding-top: 50px">
+    <table class="table table-bordered table-striped container">
+        <thead class="thead-dark color">
+        <tr>
+            <td>Id</td>
+            <td>Username</td>
+            <td>Password</td>
+            <td>Email</td>
+            <td>Employee Id</td>
+            <td>Changed password</td>
+            <td>Enabled</td>
+            <td>Locked</td>
+            <td sec:authorize="hasAnyAuthority('ADMIN','HRSTAFF')">Action</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user: ${listUser}">
+            <td th:text="${user.getId()}"/>
+            <td th:text="${user.getUsername()}"/>
+            <td th:text="${user.getPassword().substring(0,20)+'...'}"/>
+            <td th:text="${user.getEmail() != null ? user.getEmail() : ''}"/>
+            <td th:text="${user.getEmployee() != null ? user.getEmployee().getId() : ''}"/>
+            <td th:text="${user.getChangedPassword()}"/>
+            <td th:text="${user.getEnabled()}"/>
+            <td th:text="${user.getLocked()}"/>
+            <td sec:authorize="hasAnyAuthority('ADMIN')" style="max-width: 180px">
+                <div class="container-fluid">
+                    <a th:href="@{/updateUser/{id}(id=${user.getId()})}" class="btn btn-primary">Update</a>
+                    <a th:href="@{/deleteUser/{id}(id=${user.getId()})}" class="btn btn-danger" style="margin-left: 10px">Delete</a>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<ul class="pagination justify-content-center flex-wrap" th:with="pageUrlPrefix = '/user/list/',pageUrlPostfix = '/10'">
+        <a th:href="@{${pageUrlPrefix} + '1' + ${pageUrlPostfix}}" class="page-link">First</a>
+    <li th:class="${currentPage > 1 ? 'page-item' : 'disabled'}">
+        <a th:href="@{${pageUrlPrefix} + ${currentPage - 1} + ${pageUrlPostfix}}" class="page-link">Previous</a>
+    </li>
+
+    <th:block th:if="${totalPages <= 10}">
+        <li th:each="i : ${#numbers.sequence(1, totalPages)}" th:class="${currentPage != i ? 'page-item': 'disabled'}">
+            <a th:href="@{${pageUrlPrefix} + ${i} + ${pageUrlPostfix}}" class="page-link">[[${i}]]</a>
+        </li>
+    </th:block>
+
+    <th:block th:if="${totalPages > 10}">
+        <th:block th:if="${currentPage <= 5 || currentPage >= totalPages - 4}">
+            <li th:each="i : ${#numbers.sequence(1, 5)}" th:class="${currentPage !=i ? 'page-item': 'disabled'}">
+                <a th:href="@{${pageUrlPrefix} + ${i} + ${pageUrlPostfix}}" class="page-link">[[${i}]]</a>
+            </li>
+            <a th:href="@{${pageUrlPrefix} + ${6} + ${pageUrlPostfix}}" class="page-link">...</a>
+            <li th:each="i : ${#numbers.sequence(totalPages - 4, totalPages)}" th:class="${currentPage != i ? 'page-item': 'disabled'}">
+                <a th:href="@{${pageUrlPrefix} + ${i} + ${pageUrlPostfix}}" class="page-link">[[${i}]]</a>
+            </li>
+        </th:block>
+
+        <th:block th:if="${currentPage > 5 && currentPage < totalPages - 4}">
+            <a th:href="@{${pageUrlPrefix} + ${currentPage - 5} + ${pageUrlPostfix}}" class="page-link">...</a>
+            <li th:each="i : ${#numbers.sequence(currentPage - 4, currentPage + 4)}" th:class="${currentPage != i ? 'page-item': 'disabled'}">
+                <a th:href="@{${pageUrlPrefix} + ${i} + ${pageUrlPostfix}}" class="page-link">[[${i}]]</a>
+            </li>
+            <a th:href="@{${pageUrlPrefix} + ${currentPage + 5} + ${pageUrlPostfix}}" class="page-link">...</a>
+        </th:block>
+    </th:block>
+
+    <li th:class="${currentPage < totalPages ? 'page-item' : 'disabled'}">
+        <a th:href="@{${pageUrlPrefix} + ${currentPage + 1}+ ${pageUrlPostfix}}" class="page-link">Next</a>
+    </li>
+        <a th:href="@{${pageUrlPrefix} + ${totalPages}+ ${pageUrlPostfix}}" class="page-link">Last</a>
+</ul>
+<div th:replace="header-footer/footer :: footer"></div>
+</body>
+
+</html>
