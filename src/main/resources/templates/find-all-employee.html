@@ -17,6 +17,7 @@
     <table class="table table-bordered table-striped container">
         <thead class="thead-dark color" >
         <tr>
+            <td style="background-color: rgba(247, 247, 174, .5)">#</td>
             <td>Id</td>
             <td>First Name</td>
             <td>Last Name</td>
@@ -29,7 +30,8 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="employee: ${listEmployee}">
+        <tr th:each="employee, rowIndex: ${listEmployee}">
+            <td th:text="${rowIndex.count + (currentPage - 1) * size }" style="background-color: rgba(247, 247, 174, .5)"></td>
             <td th:text="${employee.getId()}"/>
             <td th:text="${employee.getFirstName()}"/>
             <td th:text="${employee.getLastName()}"/>

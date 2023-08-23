@@ -17,6 +17,7 @@
     <table class="table table-bordered table-striped container">
         <thead class="thead-dark color">
         <tr>
+            <td style="background-color: rgba(247, 247, 174, .5)">#</td>
             <td>Id</td>
             <td>Username</td>
             <td>Password</td>
@@ -29,7 +30,8 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="user: ${listUser}">
+        <tr th:each="user, rowIndex: ${listUser}">
+            <td th:text="${rowIndex.count + (currentPage - 1) * size }" style="background-color: rgba(247, 247, 174, .5)"></td>
             <td th:text="${user.getId()}"/>
             <td th:text="${user.getUsername()}"/>
             <td th:text="${user.getPassword().substring(0,20)+'...'}"/>
