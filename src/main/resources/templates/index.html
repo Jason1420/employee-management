@@ -5,6 +5,7 @@
     <title>Home</title>
     <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
     <script th:src="@{/js/bootstrap.min.js}"></script>
+    <script th:src="@{/js/pop-up.js}"></script>
     <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
     <link th:href="@{/css/docs.css}" rel="stylesheet">
     <link th:href="@{/css/main.css}" rel="stylesheet">
@@ -14,6 +15,20 @@
 <div th:replace="header-footer/header :: header"></div>
 <div class="container-fluid">
     <p th:text="${user}"></p>
+
+    <button onclick="momodal()">Hiển thị</button>
+
+    <!-- html modal -->
+    <div class="nenmodal" id="nenmodal-1">
+        <div class="nenmodal2"></div>
+        <div class="ndmodal">
+            <div class="closemodal"><button onclick="momodal()">×</button></div>
+            <div class="titlemodal">Attendance Info</div>
+            Nội dung hiển thị trong Modal của bạn
+        </div>
+    </div>
+    <!-- kết thúc html modal -->
+
     <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem delectus eum eveniet minima nemo nihil provident
         quidem quos, vitae. Adipisci autem commodi consequatur dicta dolorem eius eligendi eos et illo illum inventore
         ipsam, itaque laborum laudantium molestias nemo nisi nostrum nulla quos ratione repellat repellendus
@@ -89,6 +104,7 @@
         deleniti omnis quibusdam? A accusamus accusantium aliquam aliquid aperiam assumenda at aut dicta dolores ducimus
         esse ex id illum iste minus molestiae nemo nihil odio officia, optio placeat porro quo quos totam vero! Ab,
         atque consectetur dolorem ducimus, facere fugiat impedit libero molestiae officiis quam repellendus tempore.</p>
+
 </div>
 <div th:replace="header-footer/footer :: footer"></div>
 </body>

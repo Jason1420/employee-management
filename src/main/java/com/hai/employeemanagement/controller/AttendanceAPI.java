@@ -26,14 +26,14 @@ public class AttendanceAPI {
 
     @PostMapping("/{id}")
     public Result checkIn(@PathVariable("id") Long employeeId) {
-        AttendanceDTO dto = attendanceService.checkIn(employeeId);
-        return new Result(true, StatusCode.SUCCESS, "Check in success!", dto);
+        attendanceService.checkInData(employeeId);
+        return new Result(true, StatusCode.SUCCESS, "Check in success!");
     }
 
     @PutMapping("/{id}")
     public Result checkOut(@PathVariable("id") Long employeeId) {
-        AttendanceDTO dto = attendanceService.checkOut(employeeId);
-        return new Result(true, StatusCode.SUCCESS, "Check out success!", dto);
+         attendanceService.checkOutData(employeeId);
+        return new Result(true, StatusCode.SUCCESS, "Check out success!");
     }
 
 //    @GetMapping("/view")

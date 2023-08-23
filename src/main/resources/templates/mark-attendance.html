@@ -128,7 +128,7 @@
                             <select class="select-input floating select2-hidden-accessible"
                                     data-select2-id="select2-data-1-klfg"
                                     tabindex="-1" aria-hidden="true" name="month">
-                                <option>Select Month</option>
+                                <option th:value="${#dates.createNow().getMonth()+1}">Select Month</option>
                                 <option th:value="1">Jan</option>
                                 <option th:value="2">Feb</option>
                                 <option th:value="3">Mar</option>
@@ -149,7 +149,7 @@
                             <select class="select floating select2-hidden-accessible"
                                     data-select2-id="select2-data-4-v2bh"
                                     tabindex="-1" aria-hidden="true" name="year">
-                                <option>Select Year</option>
+                                <option th:value="${#dates.createNow().getYear()+1900}">Select Year</option>
                                 <option th:value="2023">2023</option>
                                 <option th:value="2022">2022</option>
                                 <option th:value="2021">2021</option>

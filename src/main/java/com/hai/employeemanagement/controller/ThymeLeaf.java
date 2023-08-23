@@ -134,13 +134,15 @@ public class ThymeLeaf {
         UserEntity user = userRepository.findOneByEmployeeId(employee.getId());
         String[] str = new String[selectedRoles.size()];
         selectedRoles.toArray(str);
-        userService.updateRoleToUser(user.getId(), str);
+        if(user != null){
+            userService.updateRoleToUser(user.getId(), str);
+        }
         return "redirect:/employee/list/1/10";
     }
 
     @GetMapping("/updateUser/{id}")
     public String updateUser(@PathVariable("id") Long id, Model model) {
-        UserEntity user = userRepository.findOneByEmployeeId(id);
+        UserEntity user = userRepository.findOneById(id);
         model.addAttribute("user", user);
         return "update-user";
     }

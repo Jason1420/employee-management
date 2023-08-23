@@ -24,6 +24,7 @@ public class Attendance {
     private Long employeeId;
     private int lateMinutes;
     private int earlyMinutes;
+    private Double punchHour;
 
     public Attendance(LocalDate date, LocalTime checkInTime, Status status, String employeeName, Long employeeId, int lateMinutes) {
         this.date = date;

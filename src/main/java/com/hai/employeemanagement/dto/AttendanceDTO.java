@@ -19,6 +19,7 @@ public class AttendanceDTO {
     private Long employeeId;
     private int lateMinutes;
     private int earlyMinutes;
+    private Double punchHour;
 
     public AttendanceDTO(Long id, LocalDate date, LocalTime checkInTime,
                          LocalTime checkOutTime, Status status, String employeeName,

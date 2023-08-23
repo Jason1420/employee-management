@@ -27,8 +27,8 @@
                                 <div class="user-avatar">
                                     <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Maxwell Admin">
                                 </div>
-                                <h5 class="user-name"
-                                    th:text="${employee.getFirstName() + ' '+ employee.getLastName()}"></h5>
+                                <h5 class="user-name" th:if="${user != null}"
+                                    th:text="${user.getUsername()}"></h5>
                                 <h6 class="user-email" th:text="${employee.getEmail()}">yuki@Maxwell.com</h6>
                             </div>
                             <div class="about">
@@ -89,7 +89,7 @@
                                            placeholder="Enter phone number">
                                 </div>
                             </div>
-                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12" th:if="${user != null}">
                                 <div class="form-group" sec:authorize="hasAnyAuthority('ADMIN')">
                                     <th:block th:if="${user != null}">
                                         <label>Role</label>
@@ -104,14 +104,16 @@
                                             </th:block>
                                         </li>
                                     </th:block>
-                                    <div style="padding-top: 20px">
-                                        <th:block th:if="${user == null}">
-                                            <a th:href="@{/createAccount/{id}(id=${employee.getId()})}"
-                                               class="btn btn-primary">Create account</a>
-                                        </th:block>
-                                    </div>
                                 </div>
                             </div>
+                            <th:block th:if="${user == null}">
+                                <div style="padding-top: 20px">
+                                    <a th:href="@{/createAccount/{id}(id=${employee.getId()})}"
+                                       class="btn btn-primary">Create account</a>
+                                </div>
+                                <input type="hidden" checked name="selectedRoles" th:value="${null}">
+                                <input type="hidden" checked name="selectedRoles" th:value="${null}">
+                            </th:block>
                         </div>
                         <div class="row gutters">
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">

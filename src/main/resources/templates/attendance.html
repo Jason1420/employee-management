@@ -3,9 +3,11 @@
 >
 <head>
     <meta charset="UTF-8">
-    <title>Employee Directory</title>
+    <title>Attendance Directory</title>
     <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
     <script th:src="@{/js/bootstrap.min.js}"></script>
+    <script th:src="@{/js/pop-up.js}"></script>
+
     <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
     <link th:href="@{/css/docs.css}" rel="stylesheet">
     <link th:href="@{/css/main.css}" rel="stylesheet">
@@ -72,9 +74,46 @@
                 th:styleappend="${(currentDate.withDayOfMonth(i).getDayOfWeek().getValue() == 6 ||
                             currentDate.withDayOfMonth(i).getDayOfWeek().getValue() == 7
                             ) ? 'background-color: rgba(196, 203, 233, .5)' : '' }">
-                <i th:each="attendance: ${listAttendance}"
-                   th:if="${attendance.getEmployeeId() == employee.getId() && attendance.getDate() == currentDate.withDayOfMonth(i)}"
-                   class="fa fa-check text-success" style></i>
+
+
+                <th:block th:each="attendance: ${listAttendance}">
+                    <a href="#"
+                       th:if="${attendance.getEmployeeId() == employee.getId() && attendance.getDate() == currentDate.withDayOfMonth(i)}"
+                       th:onclick="momodal([[${attendance.getCheckInTime()}]],[[${attendance.getCheckOutTime()}]],[[${attendance.getPunchHour()}]])">
+                        <i class="fa fa-check text-success" style></i>
+                    </a>
+                </th:block>
+
+                <div class="nenmodal" id="nenmodal-1">
+                    <div class="nenmodal2"></div>
+                    <div class="ndmodal">
+                        <div class="closemodal">
+                            <button onclick="momodal()">×</button>
+                        </div>
+
+                        <div class="titlemodal">Attendance Info</div>
+
+                        <div class="card-body">
+                            <div class="punch-det">
+                                <h6>Punch In at</h6>
+                                <p id="checkInTime">Wed, 11th Mar 2019 10.00 AM</p>
+                            </div>
+
+                            <div class="punch-info">
+                                <div class="punch-hours" style="padding-top: 45px">
+                                    <span id="punchHour"></span><span>hrs</span>
+                                </div>
+                            </div>
+
+                            <div class="punch-det">
+                                <h6>Punch Out at</h6>
+                                <p id="checkOutTime">Wed, 11th Mar 2019 10.00 AM</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
             </td>
         </tr>
         </tbody>

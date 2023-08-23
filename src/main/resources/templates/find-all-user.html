@@ -43,7 +43,6 @@
             <td sec:authorize="hasAnyAuthority('ADMIN')" style="max-width: 180px">
                 <div class="container-fluid">
                     <a th:href="@{/updateUser/{id}(id=${user.getId()})}" class="btn btn-primary">Update</a>
-                    <a th:href="@{/deleteUser/{id}(id=${user.getId()})}" class="btn btn-danger" style="margin-left: 10px">Delete</a>
                 </div>
             </td>
         </tr>
