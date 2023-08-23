@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+>
 <head>
     <meta charset="UTF-8">
     <title>Employee Directory</title>
@@ -13,19 +13,66 @@
 </head>
 <body>
 <div th:replace="header-footer/header :: header"></div>
+<form th:action="@{/attendance}" method="get">
+    <div class="row">
+        <div class="col-md-3">
+            <select class="form-select" id="month" name="month">
+                <option th:value="${#dates.createNow().getMonth()+1}">month</option>
+                <option th:value="1">January</option>
+                <option th:value="2">February</option>
+                <option th:value="3">March</option>
+                <option th:value="4">April</option>
+                <option th:value="5">May</option>
+                <option th:value="6">June</option>
+                <option th:value="7">July</option>
+                <option th:value="8">August</option>
+                <option th:value="9">September</option>
+                <option th:value="10">October</option>
+                <option th:value="11">November</option>
+                <option th:value="12">December</option>
+            </select>
+            <select class="form-select" id="year" name="year">
+                <option th:value="${#dates.createNow().getYear()+1900}">year</option>
+                <option th:value="2020">2020</option>
+                <option th:value="2021">2021</option>
+                <option th:value="2022">2022</option>
+                <option th:value="2023">2023</option>
+            </select>
+            <div class="col-sm-3">
+                <div class="d-grid">
+                    <input type="submit" value="Search" class="btn btn-primary">
+                </div>
+            </div>
+
+        </div>
+    </div>
+</form>
+
 <div class="main" style="padding-top: 50px">
     <table class="table table-bordered table-striped container">
-        <thead class="thead-dark color" >
+        <thead class="thead-dark color">
         <tr>
             <td>Employee</td>
-            <td th:each="i : ${#numbers.sequence(1,31)}">[[${i}]]</td>
+            <td th:each="i : ${#numbers.sequence(1,currentDate.lengthOfMonth())}"
+                th:styleappend="${(currentDate.withDayOfMonth(i).getDayOfWeek().getValue() == 6 ||
+                            currentDate.withDayOfMonth(i).getDayOfWeek().getValue() == 7
+                            ) ? 'background-color: rgba(196, 203, 233, .5)' : '' }">
+                <!--            th:text="${#dates.dayOfWeek(currentDate.withDayOfMonth(i))}">-->
+                [[${i}]]
+            </td>
         </tr>
         </thead>
         <tbody>
         <tr th:each="employee: ${listEmployee}">
             <td th:text="${employee.getFirstName() + ' ' + employee.getLastName()}"/>
-            <td th:each="i : ${#numbers.sequence(1,31)}" data-bs-toggle="modal" data-bs-target="#attendance_info">
-                <i class="fa fa-check text-success" style></i>
+            <td th:each="i : ${#numbers.sequence(1,currentDate.lengthOfMonth())}" data-bs-toggle="modal"
+                data-bs-target="#attendance_info"
+                th:styleappend="${(currentDate.withDayOfMonth(i).getDayOfWeek().getValue() == 6 ||
+                            currentDate.withDayOfMonth(i).getDayOfWeek().getValue() == 7
+                            ) ? 'background-color: rgba(196, 203, 233, .5)' : '' }">
+                <i th:each="attendance: ${listAttendance}"
+                   th:if="${attendance.getEmployeeId() == employee.getId() && attendance.getDate() == currentDate.withDayOfMonth(i)}"
+                   class="fa fa-check text-success" style></i>
             </td>
         </tr>
         </tbody>

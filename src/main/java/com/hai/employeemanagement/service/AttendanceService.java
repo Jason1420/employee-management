@@ -87,9 +87,9 @@ public class AttendanceService {
         throw new Exception409("You had checked out");
     }
 
-    public List<AttendanceDTO> viewAttendance(AttendanceViewDTO dto) {
+    public List<Attendance> viewAttendance(AttendanceViewDTO dto) {
         List<Attendance> list = attendanceRepository.findAllBetweenDate(dto.getStartDate(), dto.getEndDate());
-        return list.stream().map(attendanceConverter::toDto).collect(Collectors.toList());
+        return list;
     }
 
 //    public List<AttendanceDTO> viewAttendanceOfEmployee(Long id, AttendanceViewDTO dto) {

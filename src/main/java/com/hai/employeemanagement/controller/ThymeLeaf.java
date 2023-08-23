@@ -203,26 +203,40 @@ public class ThymeLeaf {
     }
 
     @GetMapping("/attendance")
-    public String test(Model model) {
+    public String test(Model model, @RequestParam(required = false) Integer month,
+                       @RequestParam(required = false) Integer year) {
         List<Employee> list = employeeRepository.findAll();
+        LocalDate currentDate = LocalDate.now();
+        if (month != null && month > 0 && month <= 12) {
+            currentDate = currentDate.withMonth(month);
+        }
+
+        if (year != null && year > 0) {
+            currentDate = currentDate.withYear(year);
+        }
+        LocalDate start = currentDate.withDayOfMonth(1);
+        LocalDate end = currentDate.withDayOfMonth(currentDate.lengthOfMonth());
+        List<Attendance> listAttendance = attendanceService.viewAttendance(new AttendanceViewDTO(start, end));
         model.addAttribute("listEmployee", list);
+        model.addAttribute("currentDate",currentDate);
+        model.addAttribute("listAttendance",listAttendance);
         return "attendance";
     }
 
     @GetMapping("/markAttendance")
-    public String markAttendance(Model model, @RequestParam(required = false) Integer selectedMonth,
-                                 @RequestParam(required = false) Integer selectedYear) {
+    public String markAttendance(Model model, @RequestParam(required = false) Integer month,
+                                 @RequestParam(required = false) Integer year) {
         UserEntity user = userRepository.findOneByUsername(
                 SecurityContextHolder.getContext().getAuthentication().getName());
         Employee employee = employeeRepository.findOneById(user.getEmployee().getId());
         model.addAttribute("employee", employee);
         LocalDate currentDate = LocalDate.now();
-        if (selectedMonth != null && selectedMonth > 0 && selectedMonth <= 12) {
-            currentDate = currentDate.withMonth(selectedMonth);
+        if (month != null && month > 0 && month <= 12) {
+            currentDate = currentDate.withMonth(month);
         }
 
-        if (selectedYear != null && selectedYear > 0) {
-            currentDate = currentDate.withYear(selectedYear);
+        if (year != null && year > 0) {
+            currentDate = currentDate.withYear(year);
         }
         LocalDate start = currentDate.withDayOfMonth(1);
         LocalDate end = currentDate.withDayOfMonth(currentDate.lengthOfMonth());

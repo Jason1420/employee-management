@@ -15,3 +15,10 @@ footer{
     min-height:50px;
     background:PapayaWhip;
 }
+.saturday {
+    background-color: blue; /* Màu nền cho thứ 7 */
+}
+
+.sunday {
+    background-color: red; /* Màu nền cho chủ nhật */
+}
