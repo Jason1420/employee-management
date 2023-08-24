@@ -1,5 +1,6 @@
 package com.hai.employeemanagement.repository;
 
+import com.hai.employeemanagement.dto.help.ResultAttendanceDTO;
 import com.hai.employeemanagement.entity.Attendance;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

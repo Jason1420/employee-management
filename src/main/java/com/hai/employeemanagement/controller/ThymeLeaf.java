@@ -4,6 +4,7 @@ import com.hai.employeemanagement.converter.EmployeeConverter;
 import com.hai.employeemanagement.converter.UserConverter;
 import com.hai.employeemanagement.dto.help.AttendanceViewDTO;
 import com.hai.employeemanagement.dto.help.ChangePasswordDTO;
+import com.hai.employeemanagement.dto.help.ResultAttendanceDTO;
 import com.hai.employeemanagement.entity.Attendance;
 import com.hai.employeemanagement.entity.Employee;
 import com.hai.employeemanagement.entity.Role;
@@ -26,7 +27,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
@@ -204,10 +209,29 @@ public class ThymeLeaf {
         return "redirect:/updateEmployee/" + user.getEmployee().getId();
     }
 
+//    @GetMapping("/attendance")
+//    public String attendance(Model model, @RequestParam(required = false) Integer month,
+//                       @RequestParam(required = false) Integer year) {
+//        List<Employee> list = employeeRepository.findAll();
+//        LocalDate currentDate = LocalDate.now();
+//        if (month != null && month > 0 && month <= 12) {
+//            currentDate = currentDate.withMonth(month);
+//        }
+//
+//        if (year != null && year > 0) {
+//            currentDate = currentDate.withYear(year);
+//        }
+//        LocalDate start = currentDate.withDayOfMonth(1);
+//        LocalDate end = currentDate.withDayOfMonth(currentDate.lengthOfMonth());
+//        List<Attendance> listAttendance = attendanceService.viewAttendance(new AttendanceViewDTO(start, end));
+//        model.addAttribute("currentDate",currentDate);
+//        model.addAttribute("listEmployee", list);
+//        model.addAttribute("listAttendance",listAttendance);
+//        return "attendance";
+//    }
     @GetMapping("/attendance")
-    public String test(Model model, @RequestParam(required = false) Integer month,
-                       @RequestParam(required = false) Integer year) {
-        List<Employee> list = employeeRepository.findAll();
+    public String attendance(Model model, @RequestParam(required = false) Integer month,
+                             @RequestParam(required = false) Integer year) {
         LocalDate currentDate = LocalDate.now();
         if (month != null && month > 0 && month <= 12) {
             currentDate = currentDate.withMonth(month);
@@ -218,11 +242,26 @@ public class ThymeLeaf {
         }
         LocalDate start = currentDate.withDayOfMonth(1);
         LocalDate end = currentDate.withDayOfMonth(currentDate.lengthOfMonth());
+        List<Employee> listEmployee = employeeRepository.findAll();
         List<Attendance> listAttendance = attendanceService.viewAttendance(new AttendanceViewDTO(start, end));
-        model.addAttribute("listEmployee", list);
-        model.addAttribute("currentDate",currentDate);
-        model.addAttribute("listAttendance",listAttendance);
-        return "attendance";
+        Map<Employee, List<Attendance>> result = listEmployee.stream()
+                .collect(Collectors.toMap(
+                        employee -> employee,
+                        employee -> listAttendance.stream()
+                                .filter(data -> data.getEmployeeId() == employee.getId())
+                                .map(data ->{
+                                    double punch = 0.0;
+                                    if(data.getPunchHour() != null){
+                                        punch = (double) (Math.ceil(data.getPunchHour() * 100) / 100);
+                                    }
+                                    data.setPunchHour(punch);
+                                    return data;
+                                } )
+                                .collect(Collectors.toList())
+                ));
+        model.addAttribute("currentDate", currentDate);
+        model.addAttribute("listResult", result);
+        return "attendance2";
     }
 
     @GetMapping("/markAttendance")

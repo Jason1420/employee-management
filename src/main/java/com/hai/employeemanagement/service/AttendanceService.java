@@ -4,6 +4,7 @@ import com.hai.employeemanagement.converter.AttendanceConverter;
 import com.hai.employeemanagement.dto.AttendanceDTO;
 import com.hai.employeemanagement.dto.help.AttendanceViewDTO;
 import com.hai.employeemanagement.dto.help.CountAttendanceDTO;
+import com.hai.employeemanagement.dto.help.ResultAttendanceDTO;
 import com.hai.employeemanagement.entity.Attendance;
 import com.hai.employeemanagement.entity.AttendanceConfig;
 import com.hai.employeemanagement.entity.Employee;

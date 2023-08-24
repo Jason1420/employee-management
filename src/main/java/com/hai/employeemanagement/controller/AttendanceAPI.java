@@ -3,8 +3,12 @@ package com.hai.employeemanagement.controller;
 import com.hai.employeemanagement.dto.AttendanceDTO;
 import com.hai.employeemanagement.dto.help.AttendanceViewDTO;
 import com.hai.employeemanagement.dto.help.CountAttendanceDTO;
+import com.hai.employeemanagement.dto.help.ResultAttendanceDTO;
+import com.hai.employeemanagement.entity.Attendance;
+import com.hai.employeemanagement.entity.Employee;
 import com.hai.employeemanagement.exception.helper.Result;
 import com.hai.employeemanagement.exception.helper.StatusCode;
+import com.hai.employeemanagement.repository.EmployeeRepository;
 import com.hai.employeemanagement.service.AttendanceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.InputStreamResource;
@@ -16,13 +20,17 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/attendance")
 @RequiredArgsConstructor
 public class AttendanceAPI {
     private final AttendanceService attendanceService;
+    private final EmployeeRepository employeeRepository;
 
     @PostMapping("/{id}")
     public Result checkIn(@PathVariable("id") Long employeeId) {
@@ -36,11 +44,17 @@ public class AttendanceAPI {
         return new Result(true, StatusCode.SUCCESS, "Check out success!");
     }
 
-//    @GetMapping("/view")
-//    public Result viewAttendance(@RequestBody AttendanceViewDTO dto) {
-////        List<AttendanceDTO> listDTO = attendanceService.viewAttendance(dto);
-////        return new Result(true, StatusCode.SUCCESS, "Find success!", listDTO);
-//    }
+    @GetMapping("/view")
+    public Result viewAttendance(@RequestBody AttendanceViewDTO dto) {
+        List<Attendance> listAttendance = attendanceService.viewAttendance(dto);
+        List<Employee> listEmployee = employeeRepository.findAll();
+        Map<Employee, List<Attendance>> result = new HashMap<>();
+        for (Employee employee : listEmployee) {
+            result.put(employee,listAttendance.stream().filter(data ->
+                    data.getEmployeeId() == employee.getId()).collect(Collectors.toList()));
+        }
+        return new Result(true, StatusCode.SUCCESS, "Find success!", result);
+    }
 
 //    @GetMapping("/view/{id}")
 //    public Result viewAttendanceOfEmployee(@PathVariable("id") Long id, @RequestBody AttendanceViewDTO dto) {
