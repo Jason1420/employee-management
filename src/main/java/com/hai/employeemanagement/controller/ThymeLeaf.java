@@ -83,18 +83,8 @@ public class ThymeLeaf {
         model.addAttribute("currentPage", offset);
         model.addAttribute("size", size);
         model.addAttribute("listUser", list);
+        model.addAttribute("newUser", new UserEntity());
         return "find-all-user";
-    }
-
-    @GetMapping("/admin/user")
-    public String addUser(Model model) {
-        UserEntity user = new UserEntity();
-        Employee employee = new Employee();
-        model.addAttribute("user", user);
-        model.addAttribute("employee", employee);
-        List<Role> listRole = roleRepository.findAll();
-        model.addAttribute("listRole", listRole);
-        return "new-employee";
     }
 
     @PostMapping("/save-employee")
@@ -157,8 +147,8 @@ public class ThymeLeaf {
     }
 
     @PostMapping("/update-user")
-    public String processingUpdateUser(@ModelAttribute("user") UserEntity user) {
-        userService.updateUser(user);
+    public String processingUpdateUser(@ModelAttribute("newUser") UserEntity newUser) {
+        userService.updateUser(newUser);
         return "redirect:/user/list/1/10";
     }
 

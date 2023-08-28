@@ -16,5 +16,8 @@ function momodal2() {
 function momodal(employeeId) {
     var popupId = 'nenmodal-' + employeeId;
     document.getElementById(popupId).classList.toggle("active");
-
+}
+function momodalUser(userId) {
+    var popupId = 'nenmodalUser-' +userId;
+    document.getElementById(popupId).classList.toggle("active");
 }
