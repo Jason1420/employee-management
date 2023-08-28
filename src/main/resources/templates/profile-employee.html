@@ -34,16 +34,17 @@
                                 <div class="col-lg-4">
                                     <div class="card shadow-sm">
                                         <div class="card-header bg-transparent text-center">
-                                            <img class="profile_img" src="https://source.unsplash.com/600x300/?student"
+                                            <img class="profile_img" src="https://source.unsplash.com/600x300/?employee"
                                                  alt="student dp">
                                             <!--                                            employee.getFirstName() + employee.getLastName()-->
                                             <h3 th:text="${employee.getFirstName()+' '+employee.getLastName()}"></h3>
                                         </div>
                                         <div class="card-body">
-                                            <p class="mb-0"><strong class="pr-1">Employee ID: </strong>
-                                            <p th:text="${employee.getId()}"></p>
-                                            <p class="mb-0"><strong class="pr-1">Department:</strong>non-update</p>
-                                            <p class="mb-0"><strong class="pr-1">Position:</strong>non_update</p>
+                                            <p class="mb-0"><strong>Employee Code: </strong> <p class="mb-0" th:text="${employee.getCode()}"></p>
+                                            <p class="mb-0"><strong>Department:</strong>
+                                            <p class="mb-0" th:text="${employee.getDepartment() != null ? employee.getDepartment().getName() : null}"></p>
+                                                non-update</p>
+                                            <p class="mb-0"><strong>Position:</strong>non_update</p>
                                         </div>
                                     </div>
                                 </div>

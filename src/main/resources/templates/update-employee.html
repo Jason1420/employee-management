@@ -25,7 +25,7 @@
                         <div class="account-settings">
                             <div class="user-profile">
                                 <div class="user-avatar">
-                                    <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Maxwell Admin">
+                                    <img th:src="'https://source.unsplash.com/130x130/?employee='+${employee.getId()}" alt="Maxwell Admin">
                                 </div>
                                 <h5 class="user-name" th:if="${user != null}"
                                     th:text="${user.getUsername()}"></h5>
@@ -87,6 +87,32 @@
                                     <label for="phone">Phone</label>
                                     <input type="text" th:field="*{phoneNumber}" class="form-control" id="phone"
                                            placeholder="Enter phone number">
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                <div class="form-group">
+                                    <label for="code">Code</label>
+                                    <input type="text" th:field="*{code}" class="form-control" id="code"
+                                           placeholder="Enter email ID">
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                <div class="form-group">
+                                    <label for="department">Department</label>
+<!--                                    <input type="text" th:field="*{department}" class="form-control" id="department"-->
+<!--                                           name="department"-->
+<!--                                           placeholder="Chose your department">-->
+                                    <select class="form-select" name="department" id="department"  >
+                                        <th:block th:if="${employee.getDepartment() != null}">
+                                            <option th:value="${employee.getDepartment().getId()}"></option>
+                                        </th:block>
+                                        <th:block th:if="${employee.getDepartment() == null}">
+                                            <option th:value="${''}">Choose department</option>
+                                        </th:block>
+                                        <option th:each="department: ${listDepartment}"
+                                                th:text="${department.getName()}"
+                                        th:value="${department.getId()}">department</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12" th:if="${user != null}">

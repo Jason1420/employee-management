@@ -4,17 +4,11 @@ import com.hai.employeemanagement.converter.EmployeeConverter;
 import com.hai.employeemanagement.converter.UserConverter;
 import com.hai.employeemanagement.dto.help.AttendanceViewDTO;
 import com.hai.employeemanagement.dto.help.ChangePasswordDTO;
-import com.hai.employeemanagement.dto.help.ResultAttendanceDTO;
-import com.hai.employeemanagement.entity.Attendance;
-import com.hai.employeemanagement.entity.Employee;
-import com.hai.employeemanagement.entity.Role;
-import com.hai.employeemanagement.entity.UserEntity;
+import com.hai.employeemanagement.entity.*;
 import com.hai.employeemanagement.entity.help.DeletedEmployee;
-import com.hai.employeemanagement.repository.DeletedEmployeeRepository;
-import com.hai.employeemanagement.repository.EmployeeRepository;
-import com.hai.employeemanagement.repository.RoleRepository;
-import com.hai.employeemanagement.repository.UserRepository;
+import com.hai.employeemanagement.repository.*;
 import com.hai.employeemanagement.service.AttendanceService;
+import com.hai.employeemanagement.service.DepartmentService;
 import com.hai.employeemanagement.service.EmployeeService;
 import com.hai.employeemanagement.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -27,8 +21,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -37,6 +29,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ThymeLeaf {
     private final EmployeeRepository employeeRepository;
+    private final DepartmentRepository departmentRepository;
     private final EmployeeService employeeService;
     private final EmployeeConverter employeeConverter;
     private final DeletedEmployeeRepository deletedEmployeeRepository;
@@ -45,6 +38,7 @@ public class ThymeLeaf {
     private final UserConverter userConverter;
     private final RoleRepository roleRepository;
     private final AttendanceService attendanceService;
+    private final DepartmentService departmentService;
 
     @RequestMapping("/")
     public String cssTest(Model model) {
@@ -70,6 +64,12 @@ public class ThymeLeaf {
     public String findAllEmployee(@PathVariable("offset") int offset, @PathVariable("size") int size, Model model) {
         Page<Employee> list = employeeService.showAllEmployeePagination(offset, size);
         model.addAttribute("totalPages", list.getTotalPages());
+        UserEntity user = new UserEntity();
+        Employee employee = new Employee();
+        model.addAttribute("user", user);
+        model.addAttribute("employee", employee);
+        List<Role> listRole = roleRepository.findAll();
+        model.addAttribute("listRole", listRole);
         model.addAttribute("currentPage", offset);
         model.addAttribute("size", size);
         model.addAttribute("listEmployee", list);
@@ -102,7 +102,7 @@ public class ThymeLeaf {
                                @ModelAttribute("employee") Employee employee,
                                @RequestParam String selectedRole) {
         userService.addUser(user, employee, selectedRole);
-        return "redirect:/";
+        return "redirect:/employee/list/1/8";
     }
 
     @GetMapping("/deleteEmployee/{id}")
@@ -129,20 +129,24 @@ public class ThymeLeaf {
         model.addAttribute("user", user);
         List<Role> listRole = roleRepository.findAll();
         model.addAttribute("listRole", listRole);
+        List<Department> listDepartment = departmentRepository.findAll();
+        model.addAttribute("listDepartment", listDepartment);
         return "update-employee";
     }
 
     @PostMapping("/update-employee")
     public String processingUpdateEmployee(@ModelAttribute("employee") Employee employee,
-                                           @RequestParam List<String> selectedRoles) {
+                                           @RequestParam List<String> selectedRoles,
+                                           @RequestParam Long department) {
+        employee.setDepartment(departmentRepository.findOneById(department));
         userService.updateEmployee(employee);
         UserEntity user = userRepository.findOneByEmployeeId(employee.getId());
         String[] str = new String[selectedRoles.size()];
         selectedRoles.toArray(str);
-        if(user != null){
+        if (user != null) {
             userService.updateRoleToUser(user.getId(), str);
         }
-        return "redirect:/employee/list/1/10";
+        return "redirect:/employee/list/1/8";
     }
 
     @GetMapping("/updateUser/{id}")
@@ -209,26 +213,6 @@ public class ThymeLeaf {
         return "redirect:/updateEmployee/" + user.getEmployee().getId();
     }
 
-//    @GetMapping("/attendance")
-//    public String attendance(Model model, @RequestParam(required = false) Integer month,
-//                       @RequestParam(required = false) Integer year) {
-//        List<Employee> list = employeeRepository.findAll();
-//        LocalDate currentDate = LocalDate.now();
-//        if (month != null && month > 0 && month <= 12) {
-//            currentDate = currentDate.withMonth(month);
-//        }
-//
-//        if (year != null && year > 0) {
-//            currentDate = currentDate.withYear(year);
-//        }
-//        LocalDate start = currentDate.withDayOfMonth(1);
-//        LocalDate end = currentDate.withDayOfMonth(currentDate.lengthOfMonth());
-//        List<Attendance> listAttendance = attendanceService.viewAttendance(new AttendanceViewDTO(start, end));
-//        model.addAttribute("currentDate",currentDate);
-//        model.addAttribute("listEmployee", list);
-//        model.addAttribute("listAttendance",listAttendance);
-//        return "attendance";
-//    }
     @GetMapping("/attendance")
     public String attendance(Model model, @RequestParam(required = false) Integer month,
                              @RequestParam(required = false) Integer year) {
@@ -249,14 +233,14 @@ public class ThymeLeaf {
                         employee -> employee,
                         employee -> listAttendance.stream()
                                 .filter(data -> data.getEmployeeId() == employee.getId())
-                                .map(data ->{
+                                .map(data -> {
                                     double punch = 0.0;
-                                    if(data.getPunchHour() != null){
+                                    if (data.getPunchHour() != null) {
                                         punch = (double) (Math.ceil(data.getPunchHour() * 100) / 100);
                                     }
                                     data.setPunchHour(punch);
                                     return data;
-                                } )
+                                })
                                 .collect(Collectors.toList())
                 ));
         model.addAttribute("currentDate", currentDate);
@@ -288,6 +272,7 @@ public class ThymeLeaf {
         model.addAttribute("todayAttendance", todayAttendance);
         return "mark-attendance";
     }
+
     @PostMapping("/checkIn/{id}")
     public String checkIn(@PathVariable("id") Long employeeId) {
         attendanceService.checkIn(employeeId);
@@ -300,4 +285,31 @@ public class ThymeLeaf {
         return "redirect:/markAttendance";
     }
 
+    @GetMapping("/department/list/{offset}/{size}")
+    public String findAllDepartment(@PathVariable("offset") int offset, @PathVariable("size") int size, Model model) {
+        Page<Department> list = departmentService.showAllDepartmentPagination(offset, size);
+        model.addAttribute("newDepartment", new Department());
+        model.addAttribute("totalPages", list.getTotalPages());
+        model.addAttribute("currentPage", offset);
+        model.addAttribute("size", size);
+        model.addAttribute("listDepartment", list);
+        return "find-all-department";
+    }
+
+    @PostMapping("/new-department")
+    public String newDepartment(@ModelAttribute("newDepartment") Department newDepartment) {
+        departmentService.addNew(newDepartment);
+        return "redirect:/department/list/1/10";
+    }
+
+    @PostMapping("/update-department/{id}")
+    public String updateDepartment(@PathVariable("id") Long id, @ModelAttribute("newDepartment") Department department) {
+        departmentService.update(id, department);
+        return "redirect:/department/list/1/10";
+    }
+
+    @GetMapping("/test")
+    public String test() {
+        return "/header-footer/header2";
+    }
 }

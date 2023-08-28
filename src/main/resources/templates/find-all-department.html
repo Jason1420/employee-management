@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta charset="UTF-8">
+    <title>Department Directory</title>
+    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <script th:src="@{/js/pop-up.js}"></script>
+
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/css/docs.css}" rel="stylesheet">
+    <link th:href="@{/css/main.css}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+</head>
+<body>
+<div th:replace="header-footer/header :: header"></div>
+    <div class="col-auto float-end ms-auto" style="padding-top: 10px; padding-right: 5px">
+        <a href="#" class="btn add-btn" th:onclick="momodalNewEmployee()" data-bs-toggle="modal" data-bs-target="#add_department"
+           style="background-color: #ffc720"><i class="fa fa-plus"></i> Add new department</a>
+        <div class="nenmodal" id="nenmodalemp">
+            <div class="nenmodal2"></div>
+            <div class="ndmodal4 scaled" >
+                <div class="closemodal">
+                    <button onclick="momodalNewEmployee()">×</button>
+                </div>
+
+                <div class="titlemodal">New Department</div>
+                <div class="card-body">
+                    <form class="container-fluid" th:action="@{/new-department}" th:object="${newDepartment}" method="POST">
+                        <div class="container py-2 h-100">
+                            <div class="row justify-content-center align-items-center">
+                                <div>
+                                    <div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
+                                        <div class="card-body p-2 p-md-5">
+                                            <form>
+                                                <div class="row">
+                                                    <div class="col-md-5 mb-4">
+                                                        <div class="form-outline">
+                                                            <input type="text" id="name" class="form-control form-control-lg"
+                                                                   th:field="*{name}"/>
+                                                            <label class="form-label" for="name">Department name</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-5 mb-4">
+
+                                                        <div class="form-outline">
+                                                            <input type="text" id="code" class="form-control form-control-lg"
+                                                                   th:field="*{code}"/>
+                                                            <label class="form-label" for="code">Department code</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2 mb-4">
+                                                        <input class="btn btn-primary btn-lg" type="submit" value="Add"/>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+<div class="main" style="padding-top: 10px">
+    <table class="table table-bordered table-striped container">
+        <thead class="thead-dark color">
+        <tr>
+            <td style="background-color: rgba(247, 247, 174, .5)">#</td>
+            <td>Code</td>
+            <td>Name</td>
+            <td sec:authorize="hasAnyAuthority('ADMIN')">Action</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="department, rowIndex: ${listDepartment}">
+            <td th:text="${rowIndex.count + (currentPage - 1) * size }"
+                style="background-color: rgba(247, 247, 174, .5)"></td>
+            <td th:text="${department.getCode()}"/>
+            <td th:text="${department.getName()}"/>
+            <td sec:authorize="hasAnyAuthority('ADMIN')" style="max-width: 160px">
+                <div class="container-fluid">
+                    <a href="#" th:onclick="momodal2()" class="btn btn-primary"><i class="fas fa-edit fa-lg"></i></a>
+                    <a th:href="@{/deleteDepartment/{id}(id=${department.getId()})}" class="btn btn-danger"
+                       style="margin-left: 10px">Delete</a>
+                    <div class="nenmodal" id="nenmodal-2">
+                        <div class="nenmodal2"></div>
+                        <div class="ndmodal4 scaled" >
+                            <div class="closemodal">
+                                <button onclick="momodal2()">×</button>
+                            </div>
+
+                            <div class="titlemodal">Update Department</div>
+                            <div class="card-body">
+                                <form class="container-fluid" th:action="@{/update-department/{id}(id=${department.getId()})}" th:object="${newDepartment}" method="POST">
+                                    <div class="container py-2 h-100">
+                                        <div class="row justify-content-center align-items-center">
+                                            <div>
+                                                <div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
+                                                    <div class="card-body p-2 p-md-5">
+                                                        <form>
+                                                            <div class="row">
+                                                                <div class="col-md-5 mb-4">
+                                                                    <div class="form-outline">
+                                                                        <input type="text" id="name-update" class="form-control form-control-lg"
+                                                                               th:field="*{name}"/>
+                                                                        <label class="form-label" for="name-update">Department name</label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-5 mb-4">
+
+                                                                    <div class="form-outline">
+                                                                        <input type="text" id="code-update" class="form-control form-control-lg"
+                                                                               th:field="*{code}"/>
+                                                                        <label class="form-label" for="code-update">Department code</label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-2 mb-4">
+                                                                    <input class="btn btn-primary btn-lg" type="submit" value="Save"/>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<ul class="pagination justify-content-center flex-wrap"
+    th:with="pageUrlPrefix = '/department/list/',pageUrlPostfix = '/10'">
+    <a th:href="@{${pageUrlPrefix} + '1' + ${pageUrlPostfix}}" class="page-link">First</a>
+    <li th:class="${currentPage > 1 ? 'page-item' : 'disabled'}">
+        <a th:href="@{${pageUrlPrefix} + ${currentPage - 1} + ${pageUrlPostfix}}" class="page-link">Previous</a>
+    </li>
+
+    <th:block th:if="${totalPages <= 10}">
+        <li th:each="i : ${#numbers.sequence(1, totalPages)}" th:class="${currentPage != i ? 'page-item': 'disabled'}">
+            <a th:href="@{${pageUrlPrefix} + ${i} + ${pageUrlPostfix}}" class="page-link">[[${i}]]</a>
+        </li>
+    </th:block>
+
+    <th:block th:if="${totalPages > 10}">
+        <th:block th:if="${currentPage <= 5 || currentPage >= totalPages - 4}">
+            <li th:each="i : ${#numbers.sequence(1, 5)}" th:class="${currentPage !=i ? 'page-item': 'disabled'}">
+                <a th:href="@{${pageUrlPrefix} + ${i} + ${pageUrlPostfix}}" class="page-link">[[${i}]]</a>
+            </li>
+            <a th:href="@{${pageUrlPrefix} + ${6} + ${pageUrlPostfix}}" class="page-link">...</a>
+            <li th:each="i : ${#numbers.sequence(totalPages - 4, totalPages)}"
+                th:class="${currentPage != i ? 'page-item': 'disabled'}">
+                <a th:href="@{${pageUrlPrefix} + ${i} + ${pageUrlPostfix}}" class="page-link">[[${i}]]</a>
+            </li>
+        </th:block>
+
+        <th:block th:if="${currentPage > 5 && currentPage < totalPages - 4}">
+            <a th:href="@{${pageUrlPrefix} + ${currentPage - 5} + ${pageUrlPostfix}}" class="page-link">...</a>
+            <li th:each="i : ${#numbers.sequence(currentPage - 4, currentPage + 4)}"
+                th:class="${currentPage != i ? 'page-item': 'disabled'}">
+                <a th:href="@{${pageUrlPrefix} + ${i} + ${pageUrlPostfix}}" class="page-link">[[${i}]]</a>
+            </li>
+            <a th:href="@{${pageUrlPrefix} + ${currentPage + 5} + ${pageUrlPostfix}}" class="page-link">...</a>
+        </th:block>
+    </th:block>
+
+    <li th:class="${currentPage < totalPages ? 'page-item' : 'disabled'}">
+        <a th:href="@{${pageUrlPrefix} + ${currentPage + 1}+${pageUrlPostfix}}" class="page-link">Next</a>
+    </li>
+    <a th:href="@{${pageUrlPrefix} + ${totalPages}+${pageUrlPostfix}}" class="page-link">Last</a>
+</ul>
+<div th:replace="header-footer/footer :: footer"></div>
+</body>
+
+</html>

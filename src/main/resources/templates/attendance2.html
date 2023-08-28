@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Attendance Directory</title>
@@ -78,15 +77,15 @@
                           th:with="attendanceDate=${attendance.getDate()}">
                 <a href="#"
                        th:if="${attendanceDate == currentDate.withDayOfMonth(i)}"
-                       th:onclick="momodal([[${attendance.getCheckInTime()}]],[[${attendance.getCheckOutTime()}]],[[${attendance.getPunchHour()}]])">
+                       th:onclick="momodalAttendance([[${attendance.getCheckInTime()}]],[[${attendance.getCheckOutTime()}]],[[${attendance.getPunchHour()}]])">
                         <i class="fa fa-check text-success" style></i>
                     </a>
                 </th:block>
-                <div class="nenmodal" id="nenmodal-1">
+                <div class="nenmodal" id="nenmodal-attendance">
                     <div class="nenmodal2"></div>
                     <div class="ndmodal">
                         <div class="closemodal">
-                            <button onclick="momodal()">×</button>
+                            <button onclick="momodalAttendance()">×</button>
                         </div>
 
                         <div class="titlemodal">Attendance Info</div>
