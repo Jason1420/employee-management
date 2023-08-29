@@ -14,150 +14,187 @@
     <link th:href="@{/css/profile-card.css}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link th:href="@{/css/main.css}" rel="stylesheet">
-
-
 </head>
 <body>
 <div th:replace="header-footer/header :: header"></div>
 <div class="col-auto float-end ms-auto" style="padding-top: 10px; padding-right: 5px">
-    <a href="#" class="btn add-btn" th:onclick="momodalNewEmployee()" data-bs-toggle="modal" data-bs-target="#add_employee"
-       style="background-color: #ffc720" sec:authorize="hasAnyAuthority('ADMIN')"><i class="fa fa-plus"></i> Add new employee</a>
+    <a href="#" class="btn add-btn" th:onclick="momodalNewEmployee()" data-bs-toggle="modal"
+       data-bs-target="#add_employee"
+       style="background-color: #ffc720" sec:authorize="hasAnyAuthority('ADMIN')"><i class="fa fa-plus"></i> Add new
+        employee</a>
     <div class="nenmodal" id="nenmodalemp">
         <div class="nenmodal2"></div>
-        <div class="ndmodal3 scaled" >
+        <div class="ndmodal3 scaled">
             <div class="closemodal">
                 <button onclick="momodalNewEmployee()">×</button>
             </div>
 
             <div class="titlemodal">New Employee</div>
-                <div class="card-body">
-                    <form class="container-fluid" th:action="@{/save-employee}" th:object="${user}" method="POST">
-                            <div class="container py-2 h-100">
-                                <div class="row justify-content-center align-items-center">
-                                    <div>
-                                        <div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
-                                            <div class="card-body p-2 p-md-5">
-                                                <form>
-                                                    <div class="row">
-                                                        <div class="col-md-4 mb-4">
-                                                            <div class="form-outline">
-                                                                <input type="text" id="username" class="form-control form-control-lg"
-                                                                       th:field="*{username}"/>
-                                                                <label class="form-label" for="username">Username</label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-4 mb-4">
+            <div class="card-body">
+                <form class="container-fluid" th:action="@{/save-employee}" th:object="${user}" method="POST">
+                    <div class="container py-2 h-100">
+                        <div class="row justify-content-center align-items-center">
+                            <div>
+                                <div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
+                                    <div class="card-body p-2 p-md-5">
+                                        <form>
+                                            <div class="row">
+                                                <div class="col-md-4 mb-4">
+                                                    <div class="form-outline">
+                                                        <input type="text" id="username"
+                                                               class="form-control form-control-lg"
+                                                               th:field="*{username}"/>
+                                                        <label class="form-label" for="username">Username</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 mb-4">
 
-                                                            <div class="form-outline">
-                                                                <input type="text" id="password" class="form-control form-control-lg"
-                                                                       th:field="*{password}"/>
-                                                                <label class="form-label" for="password">Password</label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-4 mb-4 pb-2" th:object="${listRole}">
-                                                            <div class="col-12">
+                                                    <div class="form-outline">
+                                                        <input type="text" id="password"
+                                                               class="form-control form-control-lg"
+                                                               th:field="*{password}"/>
+                                                        <label class="form-label" for="password">Password</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 mb-4 pb-2" th:object="${listRole}">
+                                                    <div class="col-12">
 
-                                                                <select class="select form-control-lg" name="selectedRole">
-                                                                    <option value="1" disabled>Choose role</option>
-                                                                    <option th:each="role :${listRole}"
-                                                                            th:text="${role.getName()}"></option>
-                                                                </select>
-                                                                <label class="form-label select-label">Choose role</label>
-
-                                                            </div>
-
-                                                        </div>
+                                                        <select class="select form-control-lg" name="selectedRole">
+                                                            <option value="1" disabled>Choose role</option>
+                                                            <option th:each="role :${listRole}"
+                                                                    th:text="${role.getName()}"></option>
+                                                        </select>
+                                                        <label class="form-label select-label">Choose role</label>
 
                                                     </div>
-                                                    <div th:object="${employee}">
-                                                        <div class="row">
-                                                            <div class="col-md-4 mb-4">
-                                                                <div class="form-outline">
-                                                                    <input type="text" id="firstName"
-                                                                           class="form-control form-control-lg"
-                                                                           th:field="*{firstName}"/>
-                                                                    <label class="form-label" for="firstName">First
-                                                                        Name</label>
-                                                                </div>
 
-                                                            </div>
-                                                            <div class="col-md-4 mb-4">
+                                                </div>
 
-                                                                <div class="form-outline">
-                                                                    <input type="text" id="lastName"
-                                                                           class="form-control form-control-lg" th:field="*{lastName}"/>
-                                                                    <label class="form-label" for="lastName">Last
-                                                                        Name</label>
-                                                                </div>
-
-                                                            </div>
-                                                            <div class="col-md-4 mb-4">
-
-                                                                <h6 class="mb-2 pb-1">Gender: </h6>
-
-                                                                <div class="form-check form-check-inline">
-                                                                    <input class="form-check-input" type="radio"
-                                                                           name="inlineRadioOptions" id="femaleGender"
-                                                                           th:value="FEMALE" checked th:field="*{gender}"/>
-                                                                    <label class="form-check-label" for="femaleGender">FEMALE</label>
-                                                                </div>
-
-                                                                <div class="form-check form-check-inline">
-                                                                    <input class="form-check-input" type="radio"
-                                                                           name="inlineRadioOptions" id="maleGender"
-                                                                           th:value="MALE" checked th:field="*{gender}"/>
-                                                                    <label class="form-check-label" for="maleGender">MALE</label>
-                                                                </div>
-
-                                                            </div>
-
-                                                        </div>
-
-                                                        <div class="row">
-                                                            <div class="col-md-4 mb-4 d-flex align-items-center">
-
-                                                                <div class="form-outline datepicker w-100">
-                                                                    <input type="date" class="form-control form-control-lg"
-                                                                           id="birthdayDate" th:field="*{dateOfBirth}"/>
-                                                                    <label for="birthdayDate" class="form-label">Birthday</label>
-                                                                </div>
-
-                                                            </div>
-                                                            <div class="col-md-4 mb-4 pb-2">
-
-                                                                <div class="form-outline">
-                                                                    <input type="email" id="emailAddress"
-                                                                           class="form-control form-control-lg" th:field="*{email}"/>
-                                                                    <label class="form-label" for="emailAddress">Email</label>
-                                                                </div>
-
-                                                            </div>
-                                                            <div class="col-md-4 mb-4 pb-2">
-
-                                                                <div class="form-outline">
-                                                                    <input type="tel" id="phoneNumber"
-                                                                           class="form-control form-control-lg"
-                                                                           th:field="*{phoneNumber}"/>
-                                                                    <label class="form-label" for="phoneNumber"
-                                                                    >Phone Number</label>
-                                                                </div>
-
-                                                            </div>
-
-                                                        </div>
-
-                                                        <div class="mt-4 pt-2 text-end">
-                                                            <input class="btn btn-primary btn-lg" type="submit" value="Submit"/>
-                                                        </div>
-                                                    </div>
-                                                </form>
                                             </div>
-                                        </div>
+                                            <div th:object="${employee}">
+                                                <div class="row">
+                                                    <div class="col-md-4 mb-4">
+                                                        <div class="form-outline">
+                                                            <input type="text" id="firstName"
+                                                                   class="form-control form-control-lg"
+                                                                   th:field="*{firstName}"/>
+                                                            <label class="form-label" for="firstName">First
+                                                                Name</label>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="col-md-4 mb-4">
+
+                                                        <div class="form-outline">
+                                                            <input type="text" id="lastName"
+                                                                   class="form-control form-control-lg"
+                                                                   th:field="*{lastName}"/>
+                                                            <label class="form-label" for="lastName">Last
+                                                                Name</label>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="col-md-4 mb-4">
+
+                                                        <h6 class="mb-2 pb-1">Gender: </h6>
+
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio"
+                                                                   name="inlineRadioOptions" id="femaleGender"
+                                                                   th:value="FEMALE" checked th:field="*{gender}"/>
+                                                            <label class="form-check-label"
+                                                                   for="femaleGender">FEMALE</label>
+                                                        </div>
+
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio"
+                                                                   name="inlineRadioOptions" id="maleGender"
+                                                                   th:value="MALE" checked th:field="*{gender}"/>
+                                                            <label class="form-check-label"
+                                                                   for="maleGender">MALE</label>
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-4 mb-4 d-flex align-items-center">
+
+                                                        <div class="form-outline datepicker w-100">
+                                                            <input type="date" class="form-control form-control-lg"
+                                                                   id="birthdayDate" th:field="*{dateOfBirth}"/>
+                                                            <label for="birthdayDate"
+                                                                   class="form-label">Birthday</label>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="col-md-4 mb-4 pb-2">
+
+                                                        <div class="form-outline">
+                                                            <input type="email" id="emailAddress"
+                                                                   class="form-control form-control-lg"
+                                                                   th:field="*{email}"/>
+                                                            <label class="form-label" for="emailAddress">Email</label>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="col-md-4 mb-4 pb-2">
+
+                                                        <div class="form-outline">
+                                                            <input type="tel" id="phoneNumber"
+                                                                   class="form-control form-control-lg"
+                                                                   th:field="*{phoneNumber}"/>
+                                                            <label class="form-label" for="phoneNumber"
+                                                            >Phone Number</label>
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-4 mb-4 pb-2">
+                                                        <div class="form-outline">
+                                                            <input type="text" id="code"
+                                                                   class="form-control form-control-lg"
+                                                                   th:field="*{code}"/>
+                                                            <label class="form-label" for="code"
+                                                            >Code</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4 mb-4 pb-2">
+                                                        <div class="form-group">
+                                                            <select class="form-select form-control form-control-lg" name="department"
+                                                                    id="department">
+                                                                <th:block th:if="${employee.getDepartment() != null}">
+                                                                    <option th:value="${employee.getDepartment().getId()}"
+                                                                            th:text="${employee.getDepartment().getName()}"></option>
+                                                                </th:block>
+                                                                <th:block th:if="${employee.getDepartment() == null}">
+                                                                    <option th:value="${''}">Choose department</option>
+                                                                </th:block>
+                                                                <option th:each="department: ${listDepartment}"
+                                                                        th:text="${department.getName()}"
+                                                                        th:value="${department.getId()}">department
+                                                                </option>
+                                                            </select>
+                                                            <label class="form-label" for="department">Department</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4 mb-4 pb-2 text-end">
+                                                        <input class="btn btn-primary btn-lg" type="submit"
+                                                               value="Add"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
-                    </form>
-                </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </div>
@@ -168,7 +205,8 @@
                 <div class="our-team">
                     <div class="picture">
                         <a href="#" th:onclick="'momodal(' + ${employee.getId()} + ')'">
-                            <img class="img-fluid" th:src="'https://source.unsplash.com/130x130/?employee='+${employee.getId()}">
+                            <img class="img-fluid"
+                                 th:src="'https://source.unsplash.com/130x130/?employee='+${employee.getId()}">
                         </a>
                     </div>
                     <div class="team-content">
@@ -202,9 +240,11 @@
                                                                     <h3 th:text="${employee.getFirstName()+' '+employee.getLastName()}"></h3>
                                                                 </div>
                                                                 <div class="card-body">
-                                                                    <p class="mb-0"><strong>Employee Code: </strong> <p class="mb-0" th:text="${employee.getCode()}"></p>
+                                                                    <p class="mb-0"><strong>Employee Code: </strong>
+                                                                    <p class="mb-0" th:text="${employee.getCode()}"></p>
                                                                     <p class="mb-0"><strong>Department:</strong>
-                                                                    <p class="mb-0" th:text="${employee.getDepartment() != null ? employee.getDepartment().getName() : null}"></p>
+                                                                    <p class="mb-0"
+                                                                       th:text="${employee.getDepartment() != null ? employee.getDepartment().getName() : null}"></p>
                                                                     </p>
                                                                     <p class="mb-0"><strong>Position:</strong></p>
                                                                 </div>
@@ -213,13 +253,18 @@
                                                         <div class="col-lg-8">
                                                             <div class="card shadow-sm">
                                                                 <div class="card-header bg-transparent border-0">
-                                                                    <h3 class="mb-0"><i class="far fa-clone pr-1"></i> General
+                                                                    <h3 class="mb-0"><i class="far fa-clone pr-1"></i>
+                                                                        General
                                                                         Information</h3>
                                                                 </div>
                                                                 <div class="card-body pt-0">
+                                                                    <a th:href="@{/deleteEmployee/{id}(id=${employee.getId()})}"
+                                                                       sec:authorize="hasAnyAuthority('ADMIN','MANAGER')"><i
+                                                                            class="fa fa-trash text-danger fa-lg"
+                                                                            style="padding-right: 630px"></i></a>
                                                                     <a th:href="@{/updateEmployee/{id}(id=${employee.getId()})}"
-                                                                       sec:authorize="hasAnyAuthority('ADMIN','MANAGER','HRSTAFF')"><i class="fas fa-edit fa-lg"></i></a>
-
+                                                                       sec:authorize="hasAnyAuthority('ADMIN','MANAGER','HRSTAFF')"><i
+                                                                            class="fas fa-edit fa-lg"></i></a>
                                                                     <table class="table table-bordered">
                                                                         <tr>
                                                                             <th width="30%">Full name</th>
@@ -239,7 +284,8 @@
                                                                         <tr>
                                                                             <th width="30%">Email</th>
                                                                             <td width="2%">:</td>
-                                                                            <td th:text="${employee.getEmail()}">Group</td>
+                                                                            <td th:text="${employee.getEmail()}">Group
+                                                                            </td>
                                                                         </tr>
                                                                         <tr>
                                                                             <th width="30%">Phone number</th>
@@ -252,15 +298,18 @@
                                                             <div style="height: 26px"></div>
                                                             <div class="card shadow-sm">
                                                                 <div class="card-header bg-transparent border-0">
-                                                                    <h3 class="mb-0"><i class="far fa-clone pr-1"></i> Other
+                                                                    <h3 class="mb-0"><i class="far fa-clone pr-1"></i>
+                                                                        Other
                                                                         Information</h3>
                                                                 </div>
                                                                 <div class="card-body pt-0">
-                                                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                                                                    <p>Lorem ipsum dolor sit amet, consectetur
+                                                                        adipisicing elit.
                                                                         Accusantium
                                                                         aliquam animi beatae, culpa delectus doloremque
                                                                         doloribus facere fugiat
-                                                                        harum illo in, ipsa itaque minus omnis possimus rerum
+                                                                        harum illo in, ipsa itaque minus omnis possimus
+                                                                        rerum
                                                                         sit sunt
                                                                         voluptatibus!</p>
                                                                 </div>

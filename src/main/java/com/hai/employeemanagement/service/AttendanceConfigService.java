@@ -28,6 +28,10 @@ public class AttendanceConfigService {
         dto.setId(1L);
         return dto;
     }
+    public void configAttendance(AttendanceConfig attendanceConfig) {
+        attendanceConfig.setId(1L);
+        attendanceConfigRepository.save(attendanceConfig);
+    }
 
     public boolean checkWorkingDay(Double workingDaysOfWeek) {
         DayOfWeek dayOfWeek = LocalDate.now().getDayOfWeek();
@@ -74,8 +78,8 @@ public class AttendanceConfigService {
         return earlyTime.getMinute() + earlyTime.getHour() * 60; // 5
     }
 
-    public boolean checkValidCheckIn(int lateMinutes, LocalTime lateTime) {
-        return lateMinutes <= (lateTime.getMinute() + lateTime.getHour() * 60);
+    public boolean checkValidCheckIn(int lateMinutes, Long lateTime) {
+        return lateMinutes <= lateTime;
     }
 
     public boolean checkValidCheckOut(int earlyMinutes, LocalTime earlyTime) {

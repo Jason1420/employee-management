@@ -28,7 +28,6 @@ public class Helper {
      * Export file excel
      */
     public static String[] HEADERS = {
-            "id",
             "date",
             "employeeId",
             "employeeName",
@@ -36,7 +35,8 @@ public class Helper {
             "lateMinutes",
             "checkOutTime",
             "earlyMinutes",
-            "status"
+            "status",
+            "punchHour"
     };
     public static String[] HEADERS2 = {
             "employeeID",
@@ -73,15 +73,15 @@ public class Helper {
             for (Attendance attendance : list) {
                 Row dataRow = sheet.createRow(rowIndex);
                 rowIndex++;
-                dataRow.createCell(0).setCellValue(attendance.getId() != null ? attendance.getId() : 0);
-                dataRow.createCell(1).setCellValue(attendance.getDate() != null ? attendance.getDate().toString() : "");
-                dataRow.createCell(2).setCellValue(attendance.getEmployeeId());
-                dataRow.createCell(3).setCellValue(attendance.getEmployeeName() != null ? attendance.getEmployeeName() : "");
-                dataRow.createCell(4).setCellValue(attendance.getCheckInTime() != null ? attendance.getCheckInTime().toString() : "");
-                dataRow.createCell(5).setCellValue(attendance.getLateMinutes());
-                dataRow.createCell(6).setCellValue(attendance.getCheckOutTime() != null ? attendance.getCheckOutTime().toString() :"");
-                dataRow.createCell(7).setCellValue(attendance.getEarlyMinutes());
-                dataRow.createCell(8).setCellValue(attendance.getStatus() != null ? attendance.getStatus().toString() : "");
+                dataRow.createCell(0).setCellValue(attendance.getDate() != null ? attendance.getDate().toString() : "");
+                dataRow.createCell(1).setCellValue(attendance.getEmployeeId());
+                dataRow.createCell(2).setCellValue(attendance.getEmployeeName() != null ? attendance.getEmployeeName() : "");
+                dataRow.createCell(3).setCellValue(attendance.getCheckInTime() != null ? attendance.getCheckInTime().toString() : "");
+                dataRow.createCell(4).setCellValue(attendance.getLateMinutes());
+                dataRow.createCell(5).setCellValue(attendance.getCheckOutTime() != null ? attendance.getCheckOutTime().toString() :"");
+                dataRow.createCell(6).setCellValue(attendance.getEarlyMinutes());
+                dataRow.createCell(7).setCellValue(attendance.getStatus() != null ? attendance.getStatus().toString() : "");
+                dataRow.createCell(8).setCellValue(attendance.getPunchHour() != null ? attendance.getPunchHour() : 0);
             }
             workbook.write(out);
             return new ByteArrayInputStream(out.toByteArray());

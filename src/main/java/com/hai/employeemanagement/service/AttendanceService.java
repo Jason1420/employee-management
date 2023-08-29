@@ -86,7 +86,7 @@ public class AttendanceService {
             int checkInHour = attendance.getCheckInTime().getHour();
             int checkInMinutes = attendance.getCheckInTime().getMinute();
             LocalTime punchTime = LocalTime.now().minusHours(checkInHour).minusMinutes(checkInMinutes);
-            double breakHour = config.getBreakTime().getHour() + config.getBreakTime().getMinute() / 60.0;
+            double breakHour = config.getBreakTime()/60.0;
             double punchHour = punchTime.getHour() + punchTime.getMinute() / 60.0 - breakHour;
             attendance.setPunchHour(punchHour);
             attendanceRepository.save(attendance);
@@ -123,8 +123,8 @@ public class AttendanceService {
         return returnList;
     }
 
-    public ByteArrayInputStream getActualData() {
-        List<Attendance> all = attendanceRepository.findAll();
+    public ByteArrayInputStream getActualData(LocalDate from, LocalDate to) {
+        List<Attendance> all = attendanceRepository.findAllBetweenDate(from,to);
         ByteArrayInputStream byteArrayInputStream = null;
         try {
             byteArrayInputStream = helper.dataToExcel(all);
@@ -171,7 +171,7 @@ public class AttendanceService {
                 LocalTime checkInTime = LocalTime.of(8, minute);
                 int lateMinutes = Math.max(checkInTime.getMinute() - config.getStartWorkTime().getMinute(), 0);
                 Status status = Status.PRESENT;
-                if (lateMinutes > config.getLateAndEarlyTime().getHour() + config.getLateAndEarlyTime().getMinute() * 60) { //
+                if (lateMinutes > config.getLateAndEarlyTime()) { //
                     status = Status.LATE;
                 }
                 Attendance attendance = new Attendance(today,
@@ -206,7 +206,7 @@ public class AttendanceService {
                     LocalTime punchTimeLate = checkOutTime.minusHours(attendance.getCheckInTime()
                             .getHour()).minusMinutes(attendance.getCheckInTime().getMinute());
                     LocalTime punchTime = (attendance.getCheckInTime().getMinute() < config.getStartWorkTime().getMinute()) ? punchTimeEarly : punchTimeLate;
-                    double breakHour = config.getBreakTime().getHour() + config.getBreakTime().getMinute() / 60.0;
+                    double breakHour = config.getBreakTime() / 60.0;
                     double punchHour = punchTime.getHour() + punchTime.getMinute() / 60.0 - breakHour;
                     attendance.setPunchHour(punchHour);
                     attendanceRepository.save(attendance);

@@ -104,7 +104,7 @@
 <!--                                           placeholder="Chose your department">-->
                                     <select class="form-select" name="department" id="department"  >
                                         <th:block th:if="${employee.getDepartment() != null}">
-                                            <option th:value="${employee.getDepartment().getId()}"></option>
+                                            <option th:value="${employee.getDepartment().getId()}" th:text="${employee.getDepartment().getName()}"></option>
                                         </th:block>
                                         <th:block th:if="${employee.getDepartment() == null}">
                                             <option th:value="${''}">Choose department</option>

@@ -15,7 +15,6 @@ public class UserConverter {
     public UserEntity toEntity(UserDTO dto) {
         return new UserEntity(dto.getUsername(),
                 dto.getPassword(),
-                dto.getEmail(),
                 (dto.getEmployee() != null) ?
                         new Employee(dto.getEmployee().getFirstName(),
                                 dto.getEmployee().getLastName()) : null);
@@ -25,7 +24,6 @@ public class UserConverter {
         return new UserDTO(entity.getId(),
                 entity.getUsername(),
                 entity.getPassword(),
-                entity.getEmail(),
                 (entity.getEmployee() != null) ?
                         employeeConverter.toDto(entity.getEmployee()): null);
     }

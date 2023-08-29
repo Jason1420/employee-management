@@ -10,6 +10,9 @@ function momodal() {
 function momodalNewEmployee() {
     document.getElementById("nenmodalemp").classList.toggle("active");
 }
+function momodalExport() {
+    document.getElementById("nenmodalexp").classList.toggle("active");
+}
 function momodal2() {
     document.getElementById("nenmodal-2").classList.toggle("active");
 }
@@ -19,5 +22,25 @@ function momodal(employeeId) {
 }
 function momodalUser(userId) {
     var popupId = 'nenmodalUser-' +userId;
+    document.getElementById(popupId).classList.toggle("active");
+}
+function momodalUserReset(userId) {
+    var popupId = 'nenmodalUserReset-' +userId;
+    document.getElementById(popupId).classList.toggle("active");
+}
+function momodalUserEnable(userId) {
+    var popupId = 'nenmodalUserEnable-' +userId;
+    document.getElementById(popupId).classList.toggle("active");
+}
+function momodalUserDisable(userId) {
+    var popupId = 'nenmodalUserDisable-' +userId;
+    document.getElementById(popupId).classList.toggle("active");
+}
+function momodalUserLock(userId) {
+    var popupId = 'nenmodalUserLock-' +userId;
+    document.getElementById(popupId).classList.toggle("active");
+}
+function momodalUserUnlock(userId) {
+    var popupId = 'nenmodalUserUnlock-' +userId;
     document.getElementById(popupId).classList.toggle("active");
 }

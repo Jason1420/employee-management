@@ -22,121 +22,216 @@
         <tr>
             <td style="background-color: rgba(247, 247, 174, .5)">#</td>
             <td>Username</td>
-            <td>Email</td>
-            <td>Employee Id</td>
-            <td>Changed password</td>
+            <td>Reset password</td>
             <td>Enabled</td>
             <td>Locked</td>
-            <td sec:authorize="hasAnyAuthority('ADMIN','HRSTAFF')">Action</td>
         </tr>
         </thead>
         <tbody>
         <tr th:each="user, rowIndex: ${listUser}">
-            <td th:text="${rowIndex.count + (currentPage - 1) * size }" style="background-color: rgba(247, 247, 174, .5)"></td>
+            <td th:text="${rowIndex.count + (currentPage - 1) * size }"
+                style="background-color: rgba(247, 247, 174, .5)"></td>
             <td th:text="${user.getUsername()}"/>
-            <td th:text="${user.getEmail() != null ? user.getEmail() : ''}"/>
-            <td th:text="${user.getEmployee() != null ? user.getEmployee().getId() : ''}"/>
-            <td th:text="${user.getChangedPassword()}"/>
-            <td th:text="${user.getEnabled()}"/>
-            <td th:text="${user.getLocked()}"/>
-            <td sec:authorize="hasAnyAuthority('ADMIN')" style="max-width: 180px">
-                <div class="container-fluid">
-<!--                    <a th:href="@{/updateUser/{id}(id=${user.getId()})}" class="btn btn-primary"><i class="fas fa-edit fa-lg"></i></a>-->
-                    <a href="#" th:onclick="'momodalUser(' + ${user.getId()} + ')'"><i class="fas fa-edit fa-lg"></i></a>
-                </div>
+            <td>
+                <!--                <a th:href="@{/user/reset/{id}(id=${user.getId()})}">-->
+                <a href="#" th:onclick="'momodalUserReset(' + ${user.getId()} + ')'">
+                    <span class="fa-passwd-reset fa-stack text-success fa-xs">
+                        <i class="fa fa-undo fa-stack-2x"></i>
+                        <i class="fa fa-lock fa-stack-1x"></i>
+                    </span>
+                </a>
             </td>
-            <div class="nenmodal" th:attr="id='nenmodalUser-' + ${user.getId()}">
+            <div class="nenmodal" th:attr="id='nenmodalUserReset-' + ${user.getId()}">
                 <div class="nenmodal2"></div>
                 <div class="ndmodal4">
                     <div class="closemodal">
-                        <button th:onclick="'momodalUser(' + ${user.getId()} + ')'">×</button>
+                        <button th:onclick="'momodalUserReset(' + ${user.getId()} + ')'">×</button>
                     </div>
-                    <div class="titlemodal">User Info</div>
+                    <div class="titlemodal">Reset password</div>
 
                     <div class="card-body">
-                        <form action="#" th:action="@{/update-user}" th:object="${newUser}" method="POST" class="container-fluid"
+                        <form action="#" th:action="@{/user/reset/{id}(id=${user.getId()})}" method="POST"
                               style="padding-top: 10px">
-                            <input type="hidden" th:field="*{id}">
                             <div class="container">
                                 <div class="row gutters">
-                                    <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
+                                    <div>
                                         <div class="card h-100">
                                             <div class="card-body">
                                                 <div class="row gutters">
+                                                    <div>
+                                                        <p>Are you sure to reset password for this user???</p>
+                                                    </div>
                                                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                                                        <h6 class="mb-2 text-primary">User Details</h6>
-                                                    </div>
-                                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                                                        <div class="form-group">
-                                                            <label >Username</label>
-                                                            <br>
-                                                            <h6  th:text="${user.getUsername()}"></h6>
+                                                        <div class="text-center" style="padding-top: 10px">
+                                                            <button type="submit" class="btn btn-primary">Reset
+                                                            </button>
                                                         </div>
-                                                    </div>
-                                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                                                        <div class="form-group">
-                                                            <label for="password">Password</label>
-                                                            <input type="text" th:field="*{password}" class="form-control" id="password"
-                                                                   placeholder="Enter password">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                                                        <div class="form-group">
-                                                            <label for="email">Email</label>
-                                                            <input type="email" th:field="*{email}" class="form-control" id="email"
-                                                                   placeholder="Enter email">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                                                        <div class="form-group">
-                                                            <label for="employee">Employee Id</label>
-                                                            <input type="text" th:field="*{employee}" class="form-control" id="employee"
-                                                                   placeholder="Enter employee id">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6 mb-4">
-
-                                                        <h6 class="mb-2 pb-1">Enable</h6>
-
-                                                        <div class="form-check form-check-inline">
-                                                            <input class="form-check-input" type="radio"
-                                                                   name="inlineRadioOptions" id="enabled"
-                                                                   th:value="true" checked th:field="*{enabled}"/>
-                                                            <label class="form-check-label" for="enabled">Enable</label>
-                                                        </div>
-
-                                                        <div class="form-check form-check-inline">
-                                                            <input class="form-check-input" type="radio"
-                                                                   name="inlineRadioOptions" id="disable"
-                                                                   th:value="false" checked th:field="*{enabled}"/>
-                                                            <label class="form-check-label" for="disable">Disable</label>
-                                                        </div>
-
-                                                    </div>
-                                                    <div class="col-md-6 mb-4">
-
-                                                        <h6 class="mb-2 pb-1">Lock</h6>
-
-                                                        <div class="form-check form-check-inline">
-                                                            <input class="form-check-input" type="radio"
-                                                                   name="inlineRadioOptions" id="lock"
-                                                                   th:value="true" checked th:field="*{locked}"/>
-                                                            <label class="form-check-label" for="lock">Lock</label>
-                                                        </div>
-
-                                                        <div class="form-check form-check-inline">
-                                                            <input class="form-check-input" type="radio"
-                                                                   name="inlineRadioOptions" id="unlock"
-                                                                   th:value="false" checked th:field="*{locked}"/>
-                                                            <label class="form-check-label" for="unlock">Unlock</label>
-                                                        </div>
-
                                                     </div>
                                                 </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <th:block th:if="${user.getEnabled()}">
+                <td>
+                        <a href="#" th:onclick="'momodalUserDisable(' + ${user.getId()} + ')'">
+                        <i class="fa fa-check text-success fa-lg"></i></a>
+                </td>
+            </th:block>
+            <th:block th:if="${!user.getEnabled()}">
+                <td>
+                    <a href="#" th:onclick="'momodalUserEnable(' + ${user.getId()} + ')'">
+                    <i class="fas fa-window-close text-danger fa-lg"></i></a></td>
+            </th:block>
+            <th:block th:if="${!user.getLocked()}">
+                <td>
+                    <a href="#" th:onclick="'momodalUserLock(' + ${user.getId()} + ')'">
+                    <i class="fa fa-lock-open text-success fa-lg"></i></a>
+                </td>
+            </th:block>
+            <th:block th:if="${user.getLocked()}">
+                <td>
+                    <a href="#" th:onclick="'momodalUserUnlock(' + ${user.getId()} + ')'">
+                    <i class="fa fa-lock text-danger fa-lg"></i></a>
+                </td>
+            </th:block>
+            <div class="nenmodal" th:attr="id='nenmodalUserDisable-' + ${user.getId()}">
+                <div class="nenmodal2"></div>
+                <div class="ndmodal4">
+                    <div class="closemodal">
+                        <button th:onclick="'momodalUserDisable(' + ${user.getId()} + ')'">×</button>
+                    </div>
+                    <div class="titlemodal">Disable account</div>
+
+                    <div class="card-body">
+                        <form action="#" th:action="@{/user/disable/{id}(id=${user.getId()})}" method="POST"
+                              style="padding-top: 10px">
+                            <div class="container">
+                                <div class="row gutters">
+                                    <div>
+                                        <div class="card h-100">
+                                            <div class="card-body">
                                                 <div class="row gutters">
+                                                    <div>
+                                                        <p>Are you sure to disable this account???</p>
+                                                    </div>
                                                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                                                        <div class="text-end" style="padding-top: 10px">
-                                                            <button type="submit" class="btn btn-primary">Update</button>
+                                                        <div class="text-center" style="padding-top: 10px">
+                                                            <button type="submit" class="btn btn-primary">Disable
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="nenmodal" th:attr="id='nenmodalUserEnable-' + ${user.getId()}">
+                <div class="nenmodal2"></div>
+                <div class="ndmodal4">
+                    <div class="closemodal">
+                        <button th:onclick="'momodalUserEnable(' + ${user.getId()} + ')'">×</button>
+                    </div>
+                    <div class="titlemodal">Enable account</div>
+
+                    <div class="card-body">
+                        <form action="#" th:action="@{/user/enable/{id}(id=${user.getId()})}" method="POST"
+                              style="padding-top: 10px">
+                            <div class="container">
+                                <div class="row gutters">
+                                    <div>
+                                        <div class="card h-100">
+                                            <div class="card-body">
+                                                <div class="row gutters">
+                                                    <div>
+                                                        <p>Are you sure to enable this account???</p>
+                                                    </div>
+                                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                                        <div class="text-center" style="padding-top: 10px">
+                                                            <button type="submit" class="btn btn-primary">Enable
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="nenmodal" th:attr="id='nenmodalUserLock-' + ${user.getId()}">
+                <div class="nenmodal2"></div>
+                <div class="ndmodal4">
+                    <div class="closemodal">
+                        <button th:onclick="'momodalUserLock(' + ${user.getId()} + ')'">×</button>
+                    </div>
+                    <div class="titlemodal">Lock account</div>
+
+                    <div class="card-body">
+                        <form action="#" th:action="@{/user/lock/{id}(id=${user.getId()})}" method="POST"
+                              style="padding-top: 10px">
+                            <div class="container">
+                                <div class="row gutters">
+                                    <div>
+                                        <div class="card h-100">
+                                            <div class="card-body">
+                                                <div class="row gutters">
+                                                    <div>
+                                                        <p>Are you sure to lock this account???</p>
+                                                    </div>
+                                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                                        <div class="text-center" style="padding-top: 10px">
+                                                            <button type="submit" class="btn btn-primary">Lock
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="nenmodal" th:attr="id='nenmodalUserUnlock-' + ${user.getId()}">
+                <div class="nenmodal2"></div>
+                <div class="ndmodal4">
+                    <div class="closemodal">
+                        <button th:onclick="'momodalUserUnlock(' + ${user.getId()} + ')'">×</button>
+                    </div>
+                    <div class="titlemodal">Unlock account</div>
+
+                    <div class="card-body">
+                        <form action="#" th:action="@{/user/unlock/{id}(id=${user.getId()})}" method="POST"
+                              style="padding-top: 10px">
+                            <div class="container">
+                                <div class="row gutters">
+                                    <div>
+                                        <div class="card h-100">
+                                            <div class="card-body">
+                                                <div class="row gutters">
+                                                    <div>
+                                                        <p>Are you sure to unlock this account???</p>
+                                                    </div>
+                                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                                        <div class="text-center" style="padding-top: 10px">
+                                                            <button type="submit" class="btn btn-primary">Unlock
+                                                            </button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -154,7 +249,7 @@
     </table>
 </div>
 <ul class="pagination justify-content-center flex-wrap" th:with="pageUrlPrefix = '/user/list/',pageUrlPostfix = '/10'">
-        <a th:href="@{${pageUrlPrefix} + '1' + ${pageUrlPostfix}}" class="page-link">First</a>
+    <a th:href="@{${pageUrlPrefix} + '1' + ${pageUrlPostfix}}" class="page-link">First</a>
     <li th:class="${currentPage > 1 ? 'page-item' : 'disabled'}">
         <a th:href="@{${pageUrlPrefix} + ${currentPage - 1} + ${pageUrlPostfix}}" class="page-link">Previous</a>
     </li>
@@ -171,14 +266,16 @@
                 <a th:href="@{${pageUrlPrefix} + ${i} + ${pageUrlPostfix}}" class="page-link">[[${i}]]</a>
             </li>
             <a th:href="@{${pageUrlPrefix} + ${6} + ${pageUrlPostfix}}" class="page-link">...</a>
-            <li th:each="i : ${#numbers.sequence(totalPages - 4, totalPages)}" th:class="${currentPage != i ? 'page-item': 'disabled'}">
+            <li th:each="i : ${#numbers.sequence(totalPages - 4, totalPages)}"
+                th:class="${currentPage != i ? 'page-item': 'disabled'}">
                 <a th:href="@{${pageUrlPrefix} + ${i} + ${pageUrlPostfix}}" class="page-link">[[${i}]]</a>
             </li>
         </th:block>
 
         <th:block th:if="${currentPage > 5 && currentPage < totalPages - 4}">
             <a th:href="@{${pageUrlPrefix} + ${currentPage - 5} + ${pageUrlPostfix}}" class="page-link">...</a>
-            <li th:each="i : ${#numbers.sequence(currentPage - 4, currentPage + 4)}" th:class="${currentPage != i ? 'page-item': 'disabled'}">
+            <li th:each="i : ${#numbers.sequence(currentPage - 4, currentPage + 4)}"
+                th:class="${currentPage != i ? 'page-item': 'disabled'}">
                 <a th:href="@{${pageUrlPrefix} + ${i} + ${pageUrlPostfix}}" class="page-link">[[${i}]]</a>
             </li>
             <a th:href="@{${pageUrlPrefix} + ${currentPage + 5} + ${pageUrlPostfix}}" class="page-link">...</a>
@@ -188,7 +285,7 @@
     <li th:class="${currentPage < totalPages ? 'page-item' : 'disabled'}">
         <a th:href="@{${pageUrlPrefix} + ${currentPage + 1}+ ${pageUrlPostfix}}" class="page-link">Next</a>
     </li>
-        <a th:href="@{${pageUrlPrefix} + ${totalPages}+ ${pageUrlPostfix}}" class="page-link">Last</a>
+    <a th:href="@{${pageUrlPrefix} + ${totalPages}+ ${pageUrlPostfix}}" class="page-link">Last</a>
 </ul>
 <div th:replace="header-footer/footer :: footer"></div>
 </body>

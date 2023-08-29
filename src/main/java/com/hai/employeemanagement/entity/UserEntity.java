@@ -18,7 +18,6 @@ public class UserEntity {
     @Column(unique = true)
     private String username;
     private String password;
-    private String email;
     private Boolean locked = false;
     private Boolean enabled = false;
     private Boolean changedPassword = false;
@@ -33,10 +32,9 @@ public class UserEntity {
     @JoinColumn(name = "employee_id")
     private Employee employee;
 
-    public UserEntity(String username, String password, String email, Employee employee) {
+    public UserEntity(String username, String password, Employee employee) {
         this.username = username;
         this.password = password;
-        this.email = email;
         this.employee = employee;
     }
 }

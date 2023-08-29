@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -68,9 +69,10 @@ public class AttendanceAPI {
         return new Result(true, StatusCode.SUCCESS, "Find success!", listDTO);
     }
     @GetMapping("/export")
-    private ResponseEntity<Resource> exportAttendance() throws IOException {
+    private ResponseEntity<Resource> exportAttendance(@RequestParam("fromDate")LocalDate from,
+                                                      @RequestParam("toDate")LocalDate to) throws IOException {
         String fileName = "attendance.xlsx";
-        ByteArrayInputStream actualData = attendanceService.getActualData();
+        ByteArrayInputStream actualData = attendanceService.getActualData(from,to);
         InputStreamResource file = new InputStreamResource(actualData);
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + fileName)

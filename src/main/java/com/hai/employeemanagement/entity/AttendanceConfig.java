@@ -20,10 +20,10 @@ public class AttendanceConfig {
     private Double workingDaysOfWeek;
     private LocalTime startWorkTime;
     private LocalTime endWorkTime;
-    private LocalTime lateAndEarlyTime;
-    private LocalTime breakTime;
+    private Long lateAndEarlyTime;
+    private Long breakTime;
 
-    public AttendanceConfig(Long id, Double workingDaysOfWeek, LocalTime startWorkTime, LocalTime endWorkTime, LocalTime lateAndEarlyTime) {
+    public AttendanceConfig(Long id, Double workingDaysOfWeek, LocalTime startWorkTime, LocalTime endWorkTime, Long lateAndEarlyTime) {
         this.id = id;
         this.workingDaysOfWeek = workingDaysOfWeek;
         this.startWorkTime = startWorkTime;
