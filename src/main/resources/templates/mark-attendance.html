@@ -6,54 +6,54 @@
     <title>Attendance Information</title>
     <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
     <script th:src="@{/js/bootstrap.min.js}"></script>
-    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
-    <link th:href="@{/css/docs.css}" rel="stylesheet">
-    <link th:href="@{/css/main.css}" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/docs.css}">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <script th:src="@{/js/mark-attendance.js}"></script>
 </head>
 <body>
 <div th:replace="header-footer/header :: header"></div>
 <div class="page-wrapper row" style="min-height: 150px; padding-top: 10px; padding-left: 10px">
-    <form th:action="@{/markAttendance}" method="get">
-    <div class="col-md-4 mb-4">
-        <div class="card punch-status">
-            <div class="card-body">
-                <h5 class="card-title">Timesheet <small class="text-muted"><span id="time"></span></small></h5>
-                <th:block th:if="${todayAttendance != null}">
-                    <div class="punch-det">
-                        <h6>Punch In at</h6>
-                        <p th:text="${todayAttendance.getCheckInTime()}">Wed, 11th Mar 2019 10.00 AM</p>
-                    </div>
-                    <th:block th:if="${todayAttendance.getCheckOutTime() != null}">
+    <form method="get" th:action="@{/markAttendance}">
+        <div class="col-md-4 mb-4">
+            <div class="card punch-status">
+                <div class="card-body">
+                    <h5 class="card-title">Timesheet <small class="text-muted"><span id="time"></span></small></h5>
+                    <th:block th:if="${todayAttendance != null}">
                         <div class="punch-det">
-                            <h6>Punch Out at</h6>
-                            <p th:text="${todayAttendance.getCheckOutTime()}">Wed, 11th Mar 2019 18.00 AM</p>
+                            <h6>Punch In at</h6>
+                            <p th:text="${todayAttendance.getCheckInTime()}">Wed, 11th Mar 2019 10.00 AM</p>
                         </div>
+                        <th:block th:if="${todayAttendance.getCheckOutTime() != null}">
+                            <div class="punch-det">
+                                <h6>Punch Out at</h6>
+                                <p th:text="${todayAttendance.getCheckOutTime()}">Wed, 11th Mar 2019 18.00 AM</p>
+                            </div>
+                        </th:block>
                     </th:block>
-                </th:block>
-                <div class="row text-center">
-                    <div class="col-md-6 col-6 text-center">
-                        <form th:action="@{/checkIn/{id}(id=${employee.getId()})}" method="POST">
-                            <input type="submit" value="Punch in" class="btn btn-primary">
-                        </form>
-                    </div>
-                    <div class="col-md-6 col-6 text-center">
-                        <form th:action="@{/checkOut/{id}(id=${employee.getId()})}" method="POST">
-                            <input type="submit" value="Punch out" class="btn btn-primary">
-                        </form>
+                    <div class="row text-center">
+                        <div class="col-md-6 col-6 text-center">
+                            <form method="POST" th:action="@{/checkIn/{id}(id=${employee.getId()})}">
+                                <input class="btn btn-primary" type="submit" value="Punch in">
+                            </form>
+                        </div>
+                        <div class="col-md-6 col-6 text-center">
+                            <form method="POST" th:action="@{/checkOut/{id}(id=${employee.getId()})}">
+                                <input class="btn btn-primary" type="submit" value="Punch out">
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="col-md-3 mb-4">
+        <div class="col-md-3 mb-4">
 
-            <div >
+            <div>
                 <div class="form-group custom-select">
-                    <select class="select-input floating select2-hidden-accessible"
-                            data-select2-id="select2-data-1-klfg"
-                            tabindex="-1" aria-hidden="true" name="month">
+                    <select aria-hidden="true"
+                            class="select-input floating select2-hidden-accessible"
+                            data-select2-id="select2-data-1-klfg" name="month" tabindex="-1">
                         <option th:value="${#dates.createNow().getMonth()+1}">Select Month</option>
                         <option th:value="1">Jan</option>
                         <option th:value="2">Feb</option>
@@ -70,27 +70,27 @@
                     </select><span>Select Month</span>
                 </div>
             </div>
-    </div>
+        </div>
 
-            <div class="col-md-3 mb-4">
-                <div class="form-group custom-select">
-                    <select class="select floating select2-hidden-accessible"
-                            data-select2-id="select2-data-4-v2bh"
-                            tabindex="-1" aria-hidden="true" name="year">
-                        <option th:value="${#dates.createNow().getYear()+1900}">Select Year</option>
-                        <option th:value="2023">2023</option>
-                        <option th:value="2022">2022</option>
-                        <option th:value="2021">2021</option>
-                        <option th:value="2020">2020</option>
-                    </select><span>Select Year</span></span>
-                </div>
+        <div class="col-md-3 mb-4">
+            <div class="form-group custom-select">
+                <select aria-hidden="true"
+                        class="select floating select2-hidden-accessible"
+                        data-select2-id="select2-data-4-v2bh" name="year" tabindex="-1">
+                    <option th:value="${#dates.createNow().getYear()+1900}">Select Year</option>
+                    <option th:value="2023">2023</option>
+                    <option th:value="2022">2022</option>
+                    <option th:value="2021">2021</option>
+                    <option th:value="2020">2020</option>
+                </select><span>Select Year</span></span>
             </div>
-            <div class="col-md-2 mb-4">
-                <div class="d-grid">
-                    <input type="submit" value="Search" class="btn btn-primary">
-                </div>
+        </div>
+        <div class="col-md-2 mb-4">
+            <div class="d-grid">
+                <input class="btn btn-primary" type="submit" value="Search">
             </div>
-        </form>
+        </div>
+    </form>
 
 </div>
 

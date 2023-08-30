@@ -27,6 +27,7 @@ public class Employee {
     @ManyToOne
     @JoinColumn(name = "department_code", referencedColumnName = "code")
     private Department department;
+
     public Employee(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -43,7 +44,7 @@ public class Employee {
     }
 
     public Employee(Long id, String firstName, String lastName, String email,
-                    Gender gender, Date dateOfBirth, String phoneNumber,String code) {
+                    Gender gender, Date dateOfBirth, String phoneNumber, String code) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;

@@ -3,7 +3,6 @@ package com.hai.employeemanagement.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.stereotype.Controller;
 
 import java.util.Set;
 

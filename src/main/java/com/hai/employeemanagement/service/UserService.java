@@ -133,7 +133,7 @@ public class UserService {
     }
 
     public Page<UserEntity> showAllUserPagination(int offset, int size) {
-            return userRepository.findAll(PageRequest.of(offset - 1, size));
+        return userRepository.findAll(PageRequest.of(offset - 1, size));
     }
 
     public void updateUser(UserEntity user) {

@@ -1,7 +1,6 @@
 package com.hai.employeemanagement.service;
 
 import com.hai.employeemanagement.entity.Department;
-import com.hai.employeemanagement.entity.UserEntity;
 import com.hai.employeemanagement.repository.DepartmentRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;

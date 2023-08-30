@@ -85,7 +85,7 @@ public class AttendanceService {
             int checkInHour = attendance.getCheckInTime().getHour();
             int checkInMinutes = attendance.getCheckInTime().getMinute();
             LocalTime punchTime = LocalTime.now().minusHours(checkInHour).minusMinutes(checkInMinutes);
-            double breakHour = config.getBreakTime()/60.0;
+            double breakHour = config.getBreakTime() / 60.0;
             double punchHour = punchTime.getHour() + punchTime.getMinute() / 60.0 - breakHour;
             attendance.setPunchHour(punchHour);
             attendanceRepository.save(attendance);
@@ -123,7 +123,7 @@ public class AttendanceService {
     }
 
     public ByteArrayInputStream getActualData(LocalDate from, LocalDate to) {
-        List<Attendance> all = attendanceRepository.findAllBetweenDate(from,to);
+        List<Attendance> all = attendanceRepository.findAllBetweenDate(from, to);
         ByteArrayInputStream byteArrayInputStream = null;
         try {
             byteArrayInputStream = helper.dataToExcel(all);
@@ -161,7 +161,7 @@ public class AttendanceService {
             int leave2 = new Random().nextInt(tempDate.lengthOfMonth());
             int leave3 = new Random().nextInt(tempDate.lengthOfMonth());
             for (int k = 1; k <= tempDate.lengthOfMonth(); k++) {
-                if(k == leave1 || k == leave2 || k == leave3) continue;
+                if (k == leave1 || k == leave2 || k == leave3) continue;
                 LocalDate today = LocalDate.of(2023, i, k);
                 if (today.getDayOfWeek().getValue() == 6 || today.getDayOfWeek().getValue() == 7) {
                     continue;
@@ -197,7 +197,7 @@ public class AttendanceService {
                     int minute = new Random().nextInt(60);
                     LocalTime checkOutTime = minute >= 30 ? LocalTime.of(17, minute) : LocalTime.of(18, minute);
                     int earlyTime = Math.max(config.getEndWorkTime().getMinute() + config.getEndWorkTime().getHour() * 60
-                            -  checkOutTime.getMinute() -  checkOutTime.getHour() * 60, 0);
+                            - checkOutTime.getMinute() - checkOutTime.getHour() * 60, 0);
                     attendance.setCheckOutTime(checkOutTime);
                     attendance.setEarlyMinutes(earlyTime);
                     LocalTime punchTimeEarly = checkOutTime.minusHours(config.getStartWorkTime()

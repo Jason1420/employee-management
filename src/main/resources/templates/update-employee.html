@@ -1,22 +1,22 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Update information</title>
     <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
     <script th:src="@{/js/bootstrap.min.js}"></script>
-    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
-    <link th:href="@{/css/docs.css}" rel="stylesheet">
-    <link th:href="@{/css/update-employee.css}" rel="stylesheet">
-    <link th:href="@{/css/main.css}" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/docs.css}">
+    <link rel="stylesheet" th:href="@{/css/update-employee.css}">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
 
 </head>
 <body>
 <div th:replace="header-footer/header :: header"></div>
-<form action="#" th:action="@{/update-employee}" th:object="${employee}" method="POST" class="container-fluid"
-      style="padding-top: 10px">
-    <input type="hidden" th:field="*{id}">
+<form action="#" class="container-fluid" method="POST" style="padding-top: 10px" th:action="@{/update-employee}"
+      th:object="${employee}">
+    <input th:field="*{id}" type="hidden">
     <div class="container">
         <div class="row gutters">
             <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
@@ -25,7 +25,8 @@
                         <div class="account-settings">
                             <div class="user-profile">
                                 <div class="user-avatar">
-                                    <img th:src="'https://source.unsplash.com/130x130/?employee='+${employee.getId()}" alt="Maxwell Admin">
+                                    <img alt="Maxwell Admin"
+                                         th:src="'https://source.unsplash.com/130x130/?employee='+${employee.getId()}">
                                 </div>
                                 <h5 class="user-name" th:if="${user != null}"
                                     th:text="${user.getUsername()}"></h5>
@@ -50,68 +51,70 @@
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                 <div class="form-group">
                                     <label for="firstName">First Name</label>
-                                    <input type="text" th:field="*{firstName}" class="form-control" id="firstName"
-                                           placeholder="Enter first name">
+                                    <input class="form-control" id="firstName" placeholder="Enter first name" th:field="*{firstName}"
+                                           type="text">
                                 </div>
                             </div>
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                 <div class="form-group">
                                     <label for="lastName">Last Name</label>
-                                    <input type="text" th:field="*{lastName}" class="form-control" id="lastName"
-                                           placeholder="Enter last name">
+                                    <input class="form-control" id="lastName" placeholder="Enter last name" th:field="*{lastName}"
+                                           type="text">
                                 </div>
                             </div>
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                 <div class="form-group">
                                     <label for="gender">Gender</label>
-                                    <input type="text" th:field="*{gender}" class="form-control" id="gender"
-                                           placeholder="Enter gender">
+                                    <input class="form-control" id="gender" placeholder="Enter gender" th:field="*{gender}"
+                                           type="text">
                                 </div>
                             </div>
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                 <div class="form-group">
                                     <label for="dateOfBirth">Date Of Birth</label>
-                                    <input type="text" th:field="*{dateOfBirth}" class="form-control" id="dateOfBirth"
-                                           placeholder="Enter date of birth">
+                                    <input class="form-control" id="dateOfBirth" placeholder="Enter date of birth" th:field="*{dateOfBirth}"
+                                           type="text">
                                 </div>
                             </div>
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                 <div class="form-group">
                                     <label for="eMail">Email</label>
-                                    <input type="email" th:field="*{email}" class="form-control" id="eMail"
-                                           placeholder="Enter email ID">
+                                    <input class="form-control" id="eMail" placeholder="Enter email ID" th:field="*{email}"
+                                           type="email">
                                 </div>
                             </div>
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                 <div class="form-group">
                                     <label for="phone">Phone</label>
-                                    <input type="text" th:field="*{phoneNumber}" class="form-control" id="phone"
-                                           placeholder="Enter phone number">
+                                    <input class="form-control" id="phone" placeholder="Enter phone number" th:field="*{phoneNumber}"
+                                           type="text">
                                 </div>
                             </div>
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                 <div class="form-group">
                                     <label for="code">Code</label>
-                                    <input type="text" th:field="*{code}" class="form-control" id="code"
-                                           placeholder="Enter email ID">
+                                    <input class="form-control" id="code" placeholder="Enter email ID" th:field="*{code}"
+                                           type="text">
                                 </div>
                             </div>
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                                 <div class="form-group">
                                     <label for="department">Department</label>
-<!--                                    <input type="text" th:field="*{department}" class="form-control" id="department"-->
-<!--                                           name="department"-->
-<!--                                           placeholder="Chose your department">-->
-                                    <select class="form-select" name="department" id="department"  >
+                                    <!--                                    <input type="text" th:field="*{department}" class="form-control" id="department"-->
+                                    <!--                                           name="department"-->
+                                    <!--                                           placeholder="Chose your department">-->
+                                    <select class="form-select" id="department" name="department">
                                         <th:block th:if="${employeeDepartment != null}">
-                                            <option th:value="${employeeDepartment.getId()}" th:text="${employeeDepartment.getName()}"></option>
+                                            <option th:text="${employeeDepartment.getName()}"
+                                                    th:value="${employeeDepartment.getId()}"></option>
                                         </th:block>
                                         <th:block th:if="${employeeDepartment == null}">
                                             <option th:value="${''}">Choose department</option>
                                         </th:block>
                                         <option th:each="department: ${listDepartment}"
                                                 th:text="${department.getName()}"
-                                        th:value="${department.getId()}">department</option>
+                                                th:value="${department.getId()}">department
+                                        </option>
                                     </select>
                                 </div>
                             </div>
@@ -121,12 +124,12 @@
                                         <label>Role</label>
                                         <li th:each="role : ${listRole}">
                                             <th:block th:if="${user.getRoles().contains(role)}">
-                                                <input type="checkbox" name="selectedRoles" th:value="${role.getName()}"
-                                                       checked th:text="${role.getName()}">
+                                                <input checked name="selectedRoles" th:text="${role.getName()}"
+                                                       th:value="${role.getName()}" type="checkbox">
                                             </th:block>
                                             <th:block th:if="${!user.getRoles().contains(role)}">
-                                                <input type="checkbox" name="selectedRoles" th:value="${role.getName()}"
-                                                       th:text="${role.getName()}">
+                                                <input name="selectedRoles" th:text="${role.getName()}" th:value="${role.getName()}"
+                                                       type="checkbox">
                                             </th:block>
                                         </li>
                                     </th:block>
@@ -134,17 +137,17 @@
                             </div>
                             <th:block th:if="${user == null}">
                                 <div style="padding-top: 20px">
-                                    <a th:href="@{/createAccount/{id}(id=${employee.getId()})}"
-                                       class="btn btn-primary">Create account</a>
+                                    <a class="btn btn-primary"
+                                       th:href="@{/createAccount/{id}(id=${employee.getId()})}">Create account</a>
                                 </div>
-                                <input type="hidden" checked name="selectedRoles" th:value="${null}">
-                                <input type="hidden" checked name="selectedRoles" th:value="${null}">
+                                <input checked name="selectedRoles" th:value="${null}" type="hidden">
+                                <input checked name="selectedRoles" th:value="${null}" type="hidden">
                             </th:block>
                         </div>
                         <div class="row gutters">
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                 <div class="text-end" style="padding-top: 10px">
-                                    <button type="submit" class="btn btn-primary">Update</button>
+                                    <button class="btn btn-primary" type="submit">Update</button>
                                 </div>
                             </div>
                         </div>

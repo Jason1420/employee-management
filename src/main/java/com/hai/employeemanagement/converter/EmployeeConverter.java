@@ -3,7 +3,6 @@ package com.hai.employeemanagement.converter;
 import com.hai.employeemanagement.dto.EmployeeDTO;
 import com.hai.employeemanagement.entity.Employee;
 import com.hai.employeemanagement.entity.help.DeletedEmployee;
-import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -41,7 +40,8 @@ public class EmployeeConverter {
                 entity.getDateOfBirth(),
                 entity.getPhoneNumber());
     }
-    public DeletedEmployee toDeleted(Employee entity){
+
+    public DeletedEmployee toDeleted(Employee entity) {
         return new DeletedEmployee(entity.getId(),
                 entity.getFirstName(),
                 entity.getLastName(),

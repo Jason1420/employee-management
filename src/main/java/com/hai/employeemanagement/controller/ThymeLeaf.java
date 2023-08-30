@@ -4,7 +4,6 @@ import com.hai.employeemanagement.converter.EmployeeConverter;
 import com.hai.employeemanagement.converter.RegisterConverter;
 import com.hai.employeemanagement.converter.UserConverter;
 import com.hai.employeemanagement.dto.EmployeeDTO;
-import com.hai.employeemanagement.dto.UserDTO;
 import com.hai.employeemanagement.dto.help.AttendanceViewDTO;
 import com.hai.employeemanagement.dto.help.ChangePasswordDTO;
 import com.hai.employeemanagement.dto.help.RegisterDTO;
@@ -12,7 +11,6 @@ import com.hai.employeemanagement.entity.*;
 import com.hai.employeemanagement.entity.help.DeletedEmployee;
 import com.hai.employeemanagement.repository.*;
 import com.hai.employeemanagement.service.*;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -99,10 +97,10 @@ public class ThymeLeaf {
     @PostMapping("/save-employee")
     public String saveEmployee(@ModelAttribute("register") RegisterDTO registerDTO,
                                @RequestParam String selectedRole,
-                               @RequestParam Long department){
+                               @RequestParam Long department) {
         UserEntity user = registerConverter.toUser(registerDTO);
         Employee employee = registerConverter.toEmployee(registerDTO);
-        if(department != 0){
+        if (department != 0) {
             employee.setDepartment(departmentRepository.findOneById(department));
         }
         userService.addUser(user, employee, selectedRole);
@@ -124,6 +122,7 @@ public class ThymeLeaf {
         model.addAttribute("listDeletedEmployee", deletedEmployeeRepository.findAll());
         return "delete-employee";
     }
+
     @GetMapping("/deleteDepartment/{id}")
     public String processingDeleteDepartment(@PathVariable("id") Long id) {
         departmentRepository.deleteById(id);
@@ -133,7 +132,7 @@ public class ThymeLeaf {
     @GetMapping("/updateEmployee/{id}")
     public String updateEmployee(@PathVariable("id") Long id, Model model) {
         Employee employee = employeeRepository.findOneById(id);
-        model.addAttribute("employeeDepartment",employee.getDepartment());
+        model.addAttribute("employeeDepartment", employee.getDepartment());
         EmployeeDTO employeeDTO = employeeConverter.toDto(employee);
         model.addAttribute("employee", employeeDTO);
         UserEntity user = userRepository.findOneByEmployeeId(id);
@@ -146,7 +145,7 @@ public class ThymeLeaf {
     }
 
     @PostMapping("/update-employee")
-    public String processingUpdateEmployee( @ModelAttribute("employee") EmployeeDTO emp,
+    public String processingUpdateEmployee(@ModelAttribute("employee") EmployeeDTO emp,
                                            @RequestParam List<String> selectedRoles,
                                            @RequestParam Long department, Model model,
                                            final BindingResult bindingResult) {
@@ -161,6 +160,7 @@ public class ThymeLeaf {
         }
         return "redirect:/employee/list/1/8";
     }
+
     @PostMapping("/update-user")
     public String processingUpdateUser(@RequestParam("id") Long id,
                                        @RequestParam("password") String password,
@@ -257,7 +257,7 @@ public class ThymeLeaf {
                 ));
         model.addAttribute("currentDate", currentDate);
         model.addAttribute("listResult", result);
-        model.addAttribute("attendanceConfig",attendanceConfigRepository.findOneById(1));
+        model.addAttribute("attendanceConfig", attendanceConfigRepository.findOneById(1));
         return "attendance2";
     }
 
@@ -320,46 +320,53 @@ public class ThymeLeaf {
         departmentService.update(id, department);
         return "redirect:/department/list/1/10";
     }
+
     @PostMapping("/user/reset/{id}")
-    public String resetPassword(@PathVariable("id")  Long id) {
+    public String resetPassword(@PathVariable("id") Long id) {
         UserEntity user = userRepository.findOneById(id);
         user.setPassword(passwordEncoder.encode("123"));
         userService.updateUser(user);
         return "redirect:/user/list/1/10";
     }
+
     @PostMapping("/user/disable/{id}")
-    public String disableUser(@PathVariable("id")  Long id) {
+    public String disableUser(@PathVariable("id") Long id) {
         UserEntity user = userRepository.findOneById(id);
         user.setEnabled(false);
         userService.updateUser(user);
         return "redirect:/user/list/1/10";
     }
+
     @PostMapping("/user/enable/{id}")
-    public String enableUser(@PathVariable("id")  Long id) {
+    public String enableUser(@PathVariable("id") Long id) {
         UserEntity user = userRepository.findOneById(id);
         user.setEnabled(true);
         userService.updateUser(user);
         return "redirect:/user/list/1/10";
     }
+
     @PostMapping("/user/lock/{id}")
-    public String lockUser(@PathVariable("id")  Long id) {
+    public String lockUser(@PathVariable("id") Long id) {
         UserEntity user = userRepository.findOneById(id);
         user.setLocked(true);
         userService.updateUser(user);
         return "redirect:/user/list/1/10";
     }
+
     @PostMapping("/user/unlock/{id}")
-    public String unlockUser(@PathVariable("id")  Long id) {
+    public String unlockUser(@PathVariable("id") Long id) {
         UserEntity user = userRepository.findOneById(id);
         user.setLocked(false);
         userService.updateUser(user);
         return "redirect:/user/list/1/10";
     }
+
     @PostMapping("/save-config")
     public String configAttendance(@ModelAttribute("attendanceConfig") AttendanceConfig attendanceConfig) {
         attendanceConfigService.configAttendance(attendanceConfig);
         return "redirect:/attendance";
     }
+
     @GetMapping("/test")
     public String test() {
         return "/header-footer/header2";

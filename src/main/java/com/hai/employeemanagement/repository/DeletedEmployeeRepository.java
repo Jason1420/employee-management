@@ -1,6 +1,5 @@
 package com.hai.employeemanagement.repository;
 
-import com.hai.employeemanagement.entity.Employee;
 import com.hai.employeemanagement.entity.help.DeletedEmployee;
 import org.springframework.data.jpa.repository.JpaRepository;
 

@@ -21,15 +21,15 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 @AllArgsConstructor
 public class SecurityConfig {
-    private CustomUserDetailServiceImpl customUserDetailService;
     private final JwtAuthEntryPoint jwtAuthEntryPoint;
     private final JwtAuthHandler jwtAuthHandler;
+    private CustomUserDetailServiceImpl customUserDetailService;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/lib/bootstrap/**", "/css/**", "/img/**", "/js/**","/","/login**").permitAll()
+                        .requestMatchers("/lib/bootstrap/**", "/css/**", "/img/**", "/js/**", "/", "/login**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form.loginPage("/login").permitAll().defaultSuccessUrl("/"))

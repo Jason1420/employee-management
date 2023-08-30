@@ -1,9 +1,6 @@
 package com.hai.employeemanagement.dto;
 
 import com.hai.employeemanagement.entity.help.Gender;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -28,6 +28,7 @@ public class AttendanceConfigService {
         dto.setId(1L);
         return dto;
     }
+
     public void configAttendance(AttendanceConfig attendanceConfig) {
         attendanceConfig.setId(1L);
         attendanceConfigRepository.save(attendanceConfig);

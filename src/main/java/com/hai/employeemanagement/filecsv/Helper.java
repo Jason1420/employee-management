@@ -1,4 +1,5 @@
 package com.hai.employeemanagement.filecsv;
+
 import com.hai.employeemanagement.dto.help.CountAttendanceDTO;
 import com.hai.employeemanagement.entity.Attendance;
 import lombok.AllArgsConstructor;
@@ -6,7 +7,6 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,11 +14,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 @Component
@@ -78,7 +73,7 @@ public class Helper {
                 dataRow.createCell(2).setCellValue(attendance.getEmployeeName() != null ? attendance.getEmployeeName() : "");
                 dataRow.createCell(3).setCellValue(attendance.getCheckInTime() != null ? attendance.getCheckInTime().toString() : "");
                 dataRow.createCell(4).setCellValue(attendance.getLateMinutes());
-                dataRow.createCell(5).setCellValue(attendance.getCheckOutTime() != null ? attendance.getCheckOutTime().toString() :"");
+                dataRow.createCell(5).setCellValue(attendance.getCheckOutTime() != null ? attendance.getCheckOutTime().toString() : "");
                 dataRow.createCell(6).setCellValue(attendance.getEarlyMinutes());
                 dataRow.createCell(7).setCellValue(attendance.getStatus() != null ? attendance.getStatus().toString() : "");
                 dataRow.createCell(8).setCellValue(attendance.getPunchHour() != null ? attendance.getPunchHour() : 0);
@@ -96,6 +91,7 @@ public class Helper {
         }
 
     }
+
     public ByteArrayInputStream dataCountToExcel(List<CountAttendanceDTO> list) throws IOException {
         //Create workbook
         Workbook workbook = new XSSFWorkbook();

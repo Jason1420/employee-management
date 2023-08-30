@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<html xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+      xmlns:th="https://www.thymeleaf.org">
 <head>
     <title>Header</title>
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
@@ -14,48 +14,53 @@
 <header>
     <nav class="navbar navbar-expand-lg navbar-dark bg-info">
         <a class="navbar-brand" style="margin-left: 10px" th:href="@{/}">Home</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
-                aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <button aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"
+                data-target="#navbarNavDropdown" data-toggle="collapse" type="button">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav">
                 <li class="nav-item ">
-                    <a class="nav-link active" th:href="@{/employee/list/1/8}" sec:authorize="isAuthenticated()">Employee<span class="sr-only"></span></a>
+                    <a class="nav-link active" sec:authorize="isAuthenticated()" th:href="@{/employee/list/1/8}">Employee<span
+                            class="sr-only"></span></a>
                 </li>
                 <li class="nav-item ">
-                    <a class="nav-link active" th:href="@{/user/list/1/10}" sec:authorize="hasAnyAuthority('ADMIN')">User<span class="sr-only"></span></a>
+                    <a class="nav-link active" sec:authorize="hasAnyAuthority('ADMIN')" th:href="@{/user/list/1/10}">User<span
+                            class="sr-only"></span></a>
                 </li>
                 <li class="nav-item ">
-                    <a class="nav-link active" th:href="@{/department/list/1/10}" sec:authorize="hasAnyAuthority('ADMIN')">Department<span class="sr-only"></span></a>
+                    <a class="nav-link active" sec:authorize="hasAnyAuthority('ADMIN')"
+                       th:href="@{/department/list/1/10}">Department<span class="sr-only"></span></a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link active" th:href="@{/attendance}" sec:authorize="isAuthenticated()">Attendance</a>
+                    <a class="nav-link active" sec:authorize="isAuthenticated()" th:href="@{/attendance}">Attendance</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" th:href="@{/markAttendance}" sec:authorize="isAuthenticated()">Mark attendance</a>
+                    <a class="nav-link active" sec:authorize="isAuthenticated()" th:href="@{/markAttendance}">Mark
+                        attendance</a>
                 </li>
             </ul>
         </div>
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" style="margin-right: 10px" href="#" id="navbarDropdownMenuLink"
-                       role="button" data-bs-toggle="dropdown" sec:authorize="isAuthenticated()"
-                       th:text="${#authentication.getName()}">
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <a class="dropdown-item" th:href="@{/profile}">View profile</a>
-                        <a class="dropdown-item" th:href="@{/profile/change-password}">Change password</a>
-                    </div>
-                </li>
-            </ul>
-            <form class="form-inline" style="margin-right: 10px" th:action="@{/login}"  sec:authorize="!isAuthenticated()">
-                <input type="submit" value="Login" class="btn btn-primary" >
-            </form>
-            <form class="form-inline" style="margin-right: 10px" th:action="@{/logout}" method="get" sec:authorize="isAuthenticated()">
-                <input type="submit" value="Logout" class="btn btn-primary">
-            </form>
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" id="navbarDropdownMenuLink"
+                   role="button" sec:authorize="isAuthenticated()" style="margin-right: 10px"
+                   th:text="${#authentication.getName()}">
+                </a>
+                <div aria-labelledby="navbarDropdownMenuLink" class="dropdown-menu">
+                    <a class="dropdown-item" th:href="@{/profile}">View profile</a>
+                    <a class="dropdown-item" th:href="@{/profile/change-password}">Change password</a>
+                </div>
+            </li>
+        </ul>
+        <form class="form-inline" sec:authorize="!isAuthenticated()" style="margin-right: 10px" th:action="@{/login}">
+            <input class="btn btn-primary" type="submit" value="Login">
+        </form>
+        <form class="form-inline" method="get" sec:authorize="isAuthenticated()" style="margin-right: 10px"
+              th:action="@{/logout}">
+            <input class="btn btn-primary" type="submit" value="Logout">
+        </form>
     </nav>
 </header>
 </body>

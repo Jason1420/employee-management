@@ -1,11 +1,9 @@
 package com.hai.employeemanagement.controller;
 
-import com.hai.employeemanagement.dto.help.ChangePasswordDTO;
-import com.hai.employeemanagement.exception.helper.Result;
-import com.hai.employeemanagement.exception.helper.StatusCode;
 import com.hai.employeemanagement.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping()

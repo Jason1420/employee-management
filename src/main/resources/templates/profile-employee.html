@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Profile</title>
-    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
-    <link th:href="@{/css/change-password.css}" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/change-password.css}">
     <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
     <script th:src="@{/js/bootstrap.min.js}"></script>
-    <link th:href="@{/css/demo.css}" rel="stylesheet">
-    <link th:href="@{/css/style.css}" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/demo.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <div th:replace="header-footer/header :: header"></div>
 <body>
@@ -34,16 +34,18 @@
                                 <div class="col-lg-4">
                                     <div class="card shadow-sm">
                                         <div class="card-header bg-transparent text-center">
-                                            <img class="profile_img" src="https://source.unsplash.com/600x300/?employee"
-                                                 alt="student dp">
+                                            <img alt="student dp" class="profile_img"
+                                                 src="https://source.unsplash.com/600x300/?employee">
                                             <!--                                            employee.getFirstName() + employee.getLastName()-->
                                             <h3 th:text="${employee.getFirstName()+' '+employee.getLastName()}"></h3>
                                         </div>
                                         <div class="card-body">
-                                            <p class="mb-0"><strong>Employee Code: </strong> <p class="mb-0" th:text="${employee.getCode()}"></p>
+                                            <p class="mb-0"><strong>Employee Code: </strong>
+                                            <p class="mb-0" th:text="${employee.getCode()}"></p>
                                             <p class="mb-0"><strong>Department:</strong>
-                                            <p class="mb-0" th:text="${employee.getDepartment() != null ? employee.getDepartment().getName() : null}"></p>
-                                                non-update</p>
+                                            <p class="mb-0"
+                                               th:text="${employee.getDepartment() != null ? employee.getDepartment().getName() : null}"></p>
+                                            non-update</p>
                                             <p class="mb-0"><strong>Position:</strong>non_update</p>
                                         </div>
                                     </div>

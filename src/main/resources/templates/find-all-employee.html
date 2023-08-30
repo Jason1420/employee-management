@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Employee Directory</title>
@@ -8,19 +8,19 @@
     <script th:src="@{/js/bootstrap.min.js}"></script>
     <script th:src="@{/js/pop-up.js}"></script>
 
-    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
-    <link th:href="@{/css/demo.css}" rel="stylesheet">
-    <link th:href="@{/css/style.css}" rel="stylesheet">
-    <link th:href="@{/css/profile-card.css}" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link th:href="@{/css/main.css}" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/demo.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/profile-card.css}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
 </head>
 <body>
 <div th:replace="header-footer/header :: header"></div>
 <div class="col-auto float-end ms-auto" style="padding-top: 10px; padding-right: 5px">
-    <a href="#" class="btn add-btn" th:onclick="momodalNewEmployee()" data-bs-toggle="modal"
-       data-bs-target="#add_employee"
-       style="background-color: #ffc720" sec:authorize="hasAnyAuthority('ADMIN')"><i class="fa fa-plus"></i> Add new
+    <a class="btn add-btn" data-bs-target="#add_employee" data-bs-toggle="modal" href="#"
+       sec:authorize="hasAnyAuthority('ADMIN')"
+       style="background-color: #ffc720" th:onclick="momodalNewEmployee()"><i class="fa fa-plus"></i> Add new
         employee</a>
     <div class="nenmodal" id="nenmodalemp">
         <div class="nenmodal2"></div>
@@ -31,7 +31,7 @@
 
             <div class="titlemodal">New Employee</div>
             <div class="card-body">
-                <form class="container-fluid" th:action="@{/save-employee}" th:object="${register}" method="POST">
+                <form class="container-fluid" method="POST" th:action="@{/save-employee}" th:object="${register}">
                     <div class="container py-2 h-100">
                         <div class="row justify-content-center align-items-center">
                             <div>
@@ -42,24 +42,26 @@
                                                 <div class="col-md-4 mb-4">
                                                     <div class="form-outline">
 
-                                                        <input type="text" id="username" required="required" pattern="^[a-zA-z][^\W_]{7,14}$"
+                                                        <input class="form-control form-control-lg" id="username" oninput="this.setCustomValidity('')"
                                                                oninvalid="this.setCustomValidity('Username must be 8-15 characters and must start with a letter')"
-                                                               oninput="this.setCustomValidity('')"
-                                                               class="form-control form-control-lg"
-                                                               th:field="*{username}"/>
+                                                               pattern="^[a-zA-z][^\W_]{7,14}$"
+                                                               required="required"
+                                                               th:field="*{username}"
+                                                               type="text"/>
                                                         <label class="form-label" for="username">Username</label>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 mb-4">
 
                                                     <div class="form-outline">
-                                                        <input type="password" id="password"
-                                                               required="required" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
+                                                        <input class="form-control form-control-lg" id="password"
+                                                               oninput="this.setCustomValidity('')"
                                                                oninvalid="this.setCustomValidity('Password minimum eight characters, at least one uppercase letter,' +
                                                                 'one lowercase letter, one number and one special character')"
-                                                               oninput="this.setCustomValidity('')"
-                                                               class="form-control form-control-lg"
-                                                               th:field="*{password}"/>
+                                                               pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
+                                                               required="required"
+                                                               th:field="*{password}"
+                                                               type="password"/>
                                                         <label class="form-label" for="password">Password</label>
                                                     </div>
                                                 </div>
@@ -67,7 +69,7 @@
                                                     <div class="col-12">
 
                                                         <select class="select form-control-lg" name="selectedRole">
-                                                            <option value="1" disabled>Choose role</option>
+                                                            <option disabled value="1">Choose role</option>
                                                             <option th:each="role :${listRole}"
                                                                     th:text="${role.getName()}"></option>
                                                         </select>
@@ -82,12 +84,12 @@
                                                 <div class="row">
                                                     <div class="col-md-4 mb-4">
                                                         <div class="form-outline">
-                                                            <input type="text" id="firstName"
-                                                                   required="required" minlength="4" maxlength="25"
-                                                                   class="form-control form-control-lg"
+                                                            <input class="form-control form-control-lg" id="firstName"
+                                                                   maxlength="25" minlength="4" oninput="this.setCustomValidity('')"
                                                                    oninvalid="this.setCustomValidity('First name consisting 4 to 25 characters')"
-                                                                   oninput="this.setCustomValidity('')"
-                                                                   th:field="*{firstName}"/>
+                                                                   required="required"
+                                                                   th:field="*{firstName}"
+                                                                   type="text"/>
                                                             <label class="form-label" for="firstName">First
                                                                 Name</label>
                                                         </div>
@@ -96,12 +98,12 @@
                                                     <div class="col-md-4 mb-4">
 
                                                         <div class="form-outline">
-                                                            <input type="text" id="lastName"
-                                                                   required="required" minlength="4" maxlength="25"
+                                                            <input class="form-control form-control-lg" id="lastName"
+                                                                   maxlength="25" minlength="4" oninput="this.setCustomValidity('')"
                                                                    oninvalid="this.setCustomValidity('Last name consisting 4 to 25 characters')"
-                                                                   oninput="this.setCustomValidity('')"
-                                                                   class="form-control form-control-lg"
-                                                                   th:field="*{lastName}"/>
+                                                                   required="required"
+                                                                   th:field="*{lastName}"
+                                                                   type="text"/>
                                                             <label class="form-label" for="lastName">Last
                                                                 Name</label>
                                                         </div>
@@ -112,17 +114,17 @@
                                                         <h6 class="mb-2 pb-1">Gender: </h6>
 
                                                         <div class="form-check form-check-inline">
-                                                            <input class="form-check-input" type="radio"
-                                                                   name="inlineRadioOptions" id="femaleGender"
-                                                                   th:value="FEMALE" checked th:field="*{gender}"/>
+                                                            <input checked class="form-check-input"
+                                                                   id="femaleGender" name="inlineRadioOptions"
+                                                                   th:field="*{gender}" th:value="FEMALE" type="radio"/>
                                                             <label class="form-check-label"
                                                                    for="femaleGender">FEMALE</label>
                                                         </div>
 
                                                         <div class="form-check form-check-inline">
-                                                            <input class="form-check-input" type="radio"
-                                                                   name="inlineRadioOptions" id="maleGender"
-                                                                   th:value="MALE" checked th:field="*{gender}"/>
+                                                            <input checked class="form-check-input"
+                                                                   id="maleGender" name="inlineRadioOptions"
+                                                                   th:field="*{gender}" th:value="MALE" type="radio"/>
                                                             <label class="form-check-label"
                                                                    for="maleGender">MALE</label>
                                                         </div>
@@ -135,19 +137,19 @@
                                                     <div class="col-md-4 mb-4 d-flex align-items-center">
 
                                                         <div class="form-outline datepicker w-100">
-                                                            <input type="date" class="form-control form-control-lg"
-                                                                   id="birthdayDate" th:field="*{dateOfBirth}"/>
-                                                            <label for="birthdayDate"
-                                                                   class="form-label">Birthday</label>
+                                                            <input class="form-control form-control-lg" id="birthdayDate"
+                                                                   th:field="*{dateOfBirth}" type="date"/>
+                                                            <label class="form-label"
+                                                                   for="birthdayDate">Birthday</label>
                                                         </div>
 
                                                     </div>
                                                     <div class="col-md-4 mb-4 pb-2">
 
                                                         <div class="form-outline">
-                                                            <input type="email" id="emailAddress"
-                                                                   class="form-control form-control-lg"
-                                                                   th:field="*{email}"/>
+                                                            <input class="form-control form-control-lg" id="emailAddress"
+                                                                   th:field="*{email}"
+                                                                   type="email"/>
                                                             <label class="form-label" for="emailAddress">Email</label>
                                                         </div>
 
@@ -155,40 +157,41 @@
                                                     <div class="col-md-4 mb-4 pb-2">
 
                                                         <div class="form-outline">
-                                                            <input type="tel" id="phoneNumber"
-                                                                   required="required" pattern="^0[0-9]{9}$"
-                                                                   oninvalid="this.setCustomValidity('Invalid phone number')"
-                                                                   oninput="this.setCustomValidity('')"
-                                                                   class="form-control form-control-lg"
-                                                                   th:field="*{phoneNumber}"/>
+                                                            <input class="form-control form-control-lg" id="phoneNumber"
+                                                                   oninput="this.setCustomValidity('')" oninvalid="this.setCustomValidity('Invalid phone number')"
+                                                                   pattern="^0[0-9]{9}$"
+                                                                   required="required"
+                                                                   th:field="*{phoneNumber}"
+                                                                   type="tel"/>
                                                             <label class="form-label" for="phoneNumber"
                                                             >Phone Number</label>
                                                         </div>
-
                                                     </div>
 
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-md-4 mb-4 pb-2">
                                                         <div class="form-outline">
-                                                            <input type="text" id="code"
-                                                                   class="form-control form-control-lg"
-                                                                   th:field="*{code}"/>
+                                                            <input class="form-control form-control-lg" id="code"
+                                                                   th:field="*{code}"
+                                                                   type="text"/>
                                                             <label class="form-label" for="code"
                                                             >Code</label>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-4 mb-4 pb-2">
                                                         <div class="form-group">
-                                                            <select class="form-select form-control form-control-lg" name="department"
-                                                                    id="department">
-                                                                    <option th:value="${0}">Choose department</option>
+                                                            <select class="form-select form-control form-control-lg"
+                                                                    id="department"
+                                                                    name="department">
+                                                                <option th:value="${0}">Choose department</option>
                                                                 <option th:each="department: ${listDepartment}"
                                                                         th:text="${department.getName()}"
                                                                         th:value="${department.getId()}">department
                                                                 </option>
                                                             </select>
-                                                            <label class="form-label" for="department">Department</label>
+                                                            <label class="form-label"
+                                                                   for="department">Department</label>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-4 mb-4 pb-2 text-end">
@@ -244,9 +247,9 @@
                                                         <div class="col-lg-4">
                                                             <div class="card shadow-sm">
                                                                 <div class="card-header bg-transparent text-center">
-                                                                    <img class="profile_img"
-                                                                         th:src="'https://source.unsplash.com/600x300/?employee='+${employee.getId()}"
-                                                                         alt="student dp">
+                                                                    <img alt="student dp"
+                                                                         class="profile_img"
+                                                                         th:src="'https://source.unsplash.com/600x300/?employee='+${employee.getId()}">
                                                                     <h3 th:text="${employee.getFirstName()+' '+employee.getLastName()}"></h3>
                                                                 </div>
                                                                 <div class="card-body">
@@ -268,12 +271,12 @@
                                                                         Information</h3>
                                                                 </div>
                                                                 <div class="card-body pt-0">
-                                                                    <a th:href="@{/deleteEmployee/{id}(id=${employee.getId()})}"
-                                                                       sec:authorize="hasAnyAuthority('ADMIN','MANAGER')"><i
+                                                                    <a sec:authorize="hasAnyAuthority('ADMIN','MANAGER')"
+                                                                       th:href="@{/deleteEmployee/{id}(id=${employee.getId()})}"><i
                                                                             class="fa fa-trash text-danger fa-lg"
                                                                             style="padding-right: 630px"></i></a>
-                                                                    <a th:href="@{/updateEmployee/{id}(id=${employee.getId()})}"
-                                                                       sec:authorize="hasAnyAuthority('ADMIN','MANAGER','HRSTAFF')"><i
+                                                                    <a sec:authorize="hasAnyAuthority('ADMIN','MANAGER','HRSTAFF')"
+                                                                       th:href="@{/updateEmployee/{id}(id=${employee.getId()})}"><i
                                                                             class="fas fa-edit fa-lg"></i></a>
                                                                     <table class="table table-bordered">
                                                                         <tr>
@@ -343,43 +346,43 @@
 
 <ul class="pagination justify-content-center flex-wrap"
     th:with="pageUrlPrefix = '/employee/list/',pageUrlPostfix = '/8'">
-    <a th:href="@{${pageUrlPrefix} + '1' + ${pageUrlPostfix}}" class="page-link">First</a>
+    <a class="page-link" th:href="@{${pageUrlPrefix} + '1' + ${pageUrlPostfix}}">First</a>
     <li th:class="${currentPage > 1 ? 'page-item' : 'disabled'}">
-        <a th:href="@{${pageUrlPrefix} + ${currentPage - 1} + ${pageUrlPostfix}}" class="page-link">Previous</a>
+        <a class="page-link" th:href="@{${pageUrlPrefix} + ${currentPage - 1} + ${pageUrlPostfix}}">Previous</a>
     </li>
 
     <th:block th:if="${totalPages <= 10}">
-        <li th:each="i : ${#numbers.sequence(1, totalPages)}" th:class="${currentPage != i ? 'page-item': 'disabled'}">
-            <a th:href="@{${pageUrlPrefix} + ${i} + ${pageUrlPostfix}}" class="page-link">[[${i}]]</a>
+        <li th:class="${currentPage != i ? 'page-item': 'disabled'}" th:each="i : ${#numbers.sequence(1, totalPages)}">
+            <a class="page-link" th:href="@{${pageUrlPrefix} + ${i} + ${pageUrlPostfix}}">[[${i}]]</a>
         </li>
     </th:block>
 
     <th:block th:if="${totalPages > 10}">
         <th:block th:if="${currentPage <= 5 || currentPage >= totalPages - 4}">
-            <li th:each="i : ${#numbers.sequence(1, 5)}" th:class="${currentPage !=i ? 'page-item': 'disabled'}">
-                <a th:href="@{${pageUrlPrefix} + ${i} + ${pageUrlPostfix}}" class="page-link">[[${i}]]</a>
+            <li th:class="${currentPage !=i ? 'page-item': 'disabled'}" th:each="i : ${#numbers.sequence(1, 5)}">
+                <a class="page-link" th:href="@{${pageUrlPrefix} + ${i} + ${pageUrlPostfix}}">[[${i}]]</a>
             </li>
-            <a th:href="@{${pageUrlPrefix} + ${6} + ${pageUrlPostfix}}" class="page-link">...</a>
-            <li th:each="i : ${#numbers.sequence(totalPages - 4, totalPages)}"
-                th:class="${currentPage != i ? 'page-item': 'disabled'}">
-                <a th:href="@{${pageUrlPrefix} + ${i} + ${pageUrlPostfix}}" class="page-link">[[${i}]]</a>
+            <a class="page-link" th:href="@{${pageUrlPrefix} + ${6} + ${pageUrlPostfix}}">...</a>
+            <li th:class="${currentPage != i ? 'page-item': 'disabled'}"
+                th:each="i : ${#numbers.sequence(totalPages - 4, totalPages)}">
+                <a class="page-link" th:href="@{${pageUrlPrefix} + ${i} + ${pageUrlPostfix}}">[[${i}]]</a>
             </li>
         </th:block>
 
         <th:block th:if="${currentPage > 5 && currentPage < totalPages - 4}">
-            <a th:href="@{${pageUrlPrefix} + ${currentPage - 5} + ${pageUrlPostfix}}" class="page-link">...</a>
-            <li th:each="i : ${#numbers.sequence(currentPage - 4, currentPage + 4)}"
-                th:class="${currentPage != i ? 'page-item': 'disabled'}">
-                <a th:href="@{${pageUrlPrefix} + ${i} + ${pageUrlPostfix}}" class="page-link">[[${i}]]</a>
+            <a class="page-link" th:href="@{${pageUrlPrefix} + ${currentPage - 5} + ${pageUrlPostfix}}">...</a>
+            <li th:class="${currentPage != i ? 'page-item': 'disabled'}"
+                th:each="i : ${#numbers.sequence(currentPage - 4, currentPage + 4)}">
+                <a class="page-link" th:href="@{${pageUrlPrefix} + ${i} + ${pageUrlPostfix}}">[[${i}]]</a>
             </li>
-            <a th:href="@{${pageUrlPrefix} + ${currentPage + 5} + ${pageUrlPostfix}}" class="page-link">...</a>
+            <a class="page-link" th:href="@{${pageUrlPrefix} + ${currentPage + 5} + ${pageUrlPostfix}}">...</a>
         </th:block>
     </th:block>
 
     <li th:class="${currentPage < totalPages ? 'page-item' : 'disabled'}">
-        <a th:href="@{${pageUrlPrefix} + ${currentPage + 1}+${pageUrlPostfix}}" class="page-link">Next</a>
+        <a class="page-link" th:href="@{${pageUrlPrefix} + ${currentPage + 1}+${pageUrlPostfix}}">Next</a>
     </li>
-    <a th:href="@{${pageUrlPrefix} + ${totalPages}+${pageUrlPostfix}}" class="page-link">Last</a>
+    <a class="page-link" th:href="@{${pageUrlPrefix} + ${totalPages}+${pageUrlPostfix}}">Last</a>
 </ul>
 <div th:replace="header-footer/footer :: footer"></div>
 </body>

@@ -1,9 +1,7 @@
 package com.hai.employeemanagement.controller;
 
-import com.hai.employeemanagement.dto.AttendanceDTO;
 import com.hai.employeemanagement.dto.help.AttendanceViewDTO;
 import com.hai.employeemanagement.dto.help.CountAttendanceDTO;
-import com.hai.employeemanagement.dto.help.ResultAttendanceDTO;
 import com.hai.employeemanagement.entity.Attendance;
 import com.hai.employeemanagement.entity.Employee;
 import com.hai.employeemanagement.exception.helper.Result;
@@ -41,7 +39,7 @@ public class AttendanceAPI {
 
     @PutMapping("/{id}")
     public Result checkOut(@PathVariable("id") Long employeeId) {
-         attendanceService.checkOutData(employeeId);
+        attendanceService.checkOutData(employeeId);
         return new Result(true, StatusCode.SUCCESS, "Check out success!");
     }
 
@@ -51,7 +49,7 @@ public class AttendanceAPI {
         List<Employee> listEmployee = employeeRepository.findAll();
         Map<Employee, List<Attendance>> result = new HashMap<>();
         for (Employee employee : listEmployee) {
-            result.put(employee,listAttendance.stream().filter(data ->
+            result.put(employee, listAttendance.stream().filter(data ->
                     data.getEmployeeId() == employee.getId()).collect(Collectors.toList()));
         }
         return new Result(true, StatusCode.SUCCESS, "Find success!", result);
@@ -68,17 +66,19 @@ public class AttendanceAPI {
         List<CountAttendanceDTO> listDTO = attendanceService.countAttendance(dto);
         return new Result(true, StatusCode.SUCCESS, "Find success!", listDTO);
     }
+
     @GetMapping("/export")
-    private ResponseEntity<Resource> exportAttendance(@RequestParam("fromDate")LocalDate from,
-                                                      @RequestParam("toDate")LocalDate to) throws IOException {
+    private ResponseEntity<Resource> exportAttendance(@RequestParam("fromDate") LocalDate from,
+                                                      @RequestParam("toDate") LocalDate to) throws IOException {
         String fileName = "attendance.xlsx";
-        ByteArrayInputStream actualData = attendanceService.getActualData(from,to);
+        ByteArrayInputStream actualData = attendanceService.getActualData(from, to);
         InputStreamResource file = new InputStreamResource(actualData);
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + fileName)
                 .contentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
                 .body(file);
     }
+
     @GetMapping("/count/export")
     private ResponseEntity<Resource> exportCountAttendance(@RequestBody AttendanceViewDTO dto) throws IOException {
         String fileName = "count.xlsx";

@@ -8,14 +8,14 @@
     <script th:src="@{/js/bootstrap.min.js}"></script>
     <script th:src="@{/js/pop-up.js}"></script>
 
-    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
-    <link th:href="@{/css/docs.css}" rel="stylesheet">
-    <link th:href="@{/css/main.css}" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/docs.css}">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 </head>
 <body>
 <div th:replace="header-footer/header :: header"></div>
-<form th:action="@{/attendance}" method="get">
+<form method="get" th:action="@{/attendance}">
     <div class="row">
         <div class="col-md-3">
             <select class="form-select" id="month" name="month">
@@ -42,7 +42,7 @@
             </select>
             <div class="col-sm-3">
                 <div class="d-grid">
-                    <input type="submit" value="Search" class="btn btn-primary">
+                    <input class="btn btn-primary" type="submit" value="Search">
                 </div>
             </div>
 
@@ -69,8 +69,8 @@
         <tr th:each="employee, rowIndex: ${listEmployee}">
             <td th:text="${rowIndex.count}"></td>
             <td th:text="${employee.getFirstName() + ' ' + employee.getLastName()}"/>
-            <td th:each="i : ${#numbers.sequence(1,currentDate.lengthOfMonth())}" data-bs-toggle="modal"
-                data-bs-target="#attendance_info"
+            <td data-bs-target="#attendance_info" data-bs-toggle="modal"
+                th:each="i : ${#numbers.sequence(1,currentDate.lengthOfMonth())}"
                 th:styleappend="${(currentDate.withDayOfMonth(i).getDayOfWeek().getValue() == 6 ||
                             currentDate.withDayOfMonth(i).getDayOfWeek().getValue() == 7
                             ) ? 'background-color: rgba(196, 203, 233, .5)' : '' }">
@@ -96,8 +96,8 @@
                         <div class="card-body">
                             <div class="punch-det">
                                 <div class="form-outline">
-                                    <input type="text" id="username" class="form-control form-control-lg"
-                                           th:field="*{username}"/>
+                                    <input class="form-control form-control-lg" id="username" th:field="*{username}"
+                                           type="text"/>
                                     <label class="form-label" for="username">Username</label>
                                 </div>
                             </div>

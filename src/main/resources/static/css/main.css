@@ -1,4 +1,4 @@
-body{
+body {
     min-height: 100vh;
     margin: 0;
     font-family: 'Lato', sans-serif;
@@ -6,15 +6,16 @@ body{
     grid-template-rows: auto 1fr auto;
 }
 
-header{
-    min-height:50px;
-    background:lightcyan;
+header {
+    min-height: 50px;
+    background: lightcyan;
 }
 
-footer{
-    min-height:50px;
-    background:PapayaWhip;
+footer {
+    min-height: 50px;
+    background: PapayaWhip;
 }
+
 .saturday {
     background-color: blue; /* Màu nền cho thứ 7 */
 }
@@ -22,142 +23,168 @@ footer{
 .sunday {
     background-color: red; /* Màu nền cho chủ nhật */
 }
+
 /* Popup container */
 /* CSS nền hiển thị Modal */
 .nenmodal .nenmodal2 {
-    position:fixed;
-    top:0px;
-    left:0px;
-    width:100vw;
-    height:100vh;
-    background:rgba(0,0,0,0.7);
-    z-index:1;
-    display:none;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 1;
+    display: none;
 }
+
 /* CSS bảng nội dung Modal */
 .nenmodal .ndmodal {
-    position:absolute;
-    top:50%;
-    left:50%;
-    transform:translate(-50%,-50%) scale(0);
-    background:#fff;
-    width:1250px;
-    z-index:2;
-    text-align:center;
-    padding:20px;
-    box-sizing:border-box;
-    font-family:"Open Sans",sans-serif;
-    border-radius:20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    background: #fff;
+    width: 1250px;
+    z-index: 2;
+    text-align: center;
+    padding: 20px;
+    box-sizing: border-box;
+    font-family: "Open Sans", sans-serif;
+    border-radius: 20px;
     display: block;
     position: fixed;
-    box-shadow:0px 0px 10px #111;
+    box-shadow: 0px 0px 10px #111;
 }
+
 .nenmodal .ndmodal3 {
-    position:absolute;
-    top:50%;
-    left:50%;
-    transform:translate(-50%,-50%) scale(0);
-    background:#fff;
-    width:1000px;
-    z-index:2;
-    text-align:center;
-    padding:20px;
-    box-sizing:border-box;
-    font-family:"Open Sans",sans-serif;
-    border-radius:20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    background: #fff;
+    width: 1000px;
+    z-index: 2;
+    text-align: center;
+    padding: 20px;
+    box-sizing: border-box;
+    font-family: "Open Sans", sans-serif;
+    border-radius: 20px;
     display: block;
     position: fixed;
-    box-shadow:0px 0px 10px #111;
+    box-shadow: 0px 0px 10px #111;
 }
+
 .nenmodal .ndmodal4 {
-    position:absolute;
-    top:50%;
-    left:50%;
-    transform:translate(-50%,-50%) scale(0);
-    background:#fff;
-    width:800px;
-    z-index:2;
-    text-align:center;
-    padding:20px;
-    box-sizing:border-box;
-    font-family:"Open Sans",sans-serif;
-    border-radius:20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    background: #fff;
+    width: 800px;
+    z-index: 2;
+    text-align: center;
+    padding: 20px;
+    box-sizing: border-box;
+    font-family: "Open Sans", sans-serif;
+    border-radius: 20px;
     display: block;
     position: fixed;
-    box-shadow:0px 0px 10px #111;
+    box-shadow: 0px 0px 10px #111;
 }
+
 .nenmodal .ndmodal5 {
-    position:absolute;
-    top:50%;
-    left:50%;
-    transform:translate(-50%,-50%) scale(0);
-    background:#fff;
-    width:600px;
-    z-index:2;
-    text-align:center;
-    padding:20px;
-    box-sizing:border-box;
-    font-family:"Open Sans",sans-serif;
-    border-radius:20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    background: #fff;
+    width: 600px;
+    z-index: 2;
+    text-align: center;
+    padding: 20px;
+    box-sizing: border-box;
+    font-family: "Open Sans", sans-serif;
+    border-radius: 20px;
     display: block;
     position: fixed;
-    box-shadow:0px 0px 10px #111;
+    box-shadow: 0px 0px 10px #111;
 }
+
 @media (max-width: 700px) {
-    .nenmodal .ndmodal {width:90%;}
+    .nenmodal .ndmodal {
+        width: 90%;
+    }
 }
+
 @media (max-width: 700px) {
-    .nenmodal .ndmodal3 {width:90%;}
+    .nenmodal .ndmodal3 {
+        width: 90%;
+    }
 }
+
 @media (max-width: 700px) {
-    .nenmodal .ndmodal4 {width:90%;}
+    .nenmodal .ndmodal4 {
+        width: 90%;
+    }
 }
+
 @media (max-width: 700px) {
-    .nenmodal .ndmodal5 {width:90%;}
+    .nenmodal .ndmodal5 {
+        width: 90%;
+    }
 }
+
 /* CSS bao bọc của nút tắt Modal */
 .nenmodal .closemodal {
-    text-align:center;
-    margin-top:-40px;
-    margin-bottom:10px;
+    text-align: center;
+    margin-top: -40px;
+    margin-bottom: 10px;
 }
+
 /* CSS tieu de của Modal */
-.titlemodal{
-    font-weight:bold;
-    font-size:20px;
-    margin-bottom:10px;
+.titlemodal {
+    font-weight: bold;
+    font-size: 20px;
+    margin-bottom: 10px;
 }
+
 /* CSS nút tắt modal */
-.closemodal button{
-    width:40px;
-    height:40px;
-    font-size:30px;
-    padding:0px;
-    border-radius:100%;
-    background:#333;
-    color:#fff;
-    border:none;
+.closemodal button {
+    width: 40px;
+    height: 40px;
+    font-size: 30px;
+    padding: 0px;
+    border-radius: 100%;
+    background: #333;
+    color: #fff;
+    border: none;
 }
+
 .nenmodal.active .nenmodal2 {
-    display:block;
+    display: block;
 }
+
 /* CSS hiệu ứng hiển thị Modal */
 .nenmodal.active .ndmodal {
-    transition:all 300ms ease-in-out;
-    transform:translate(-50%,-50%) scale(1);
+    transition: all 300ms ease-in-out;
+    transform: translate(-50%, -50%) scale(1);
 }
+
 .nenmodal.active .ndmodal3 {
-    transition:all 300ms ease-in-out;
-    transform:translate(-50%,-50%) scale(1);
+    transition: all 300ms ease-in-out;
+    transform: translate(-50%, -50%) scale(1);
 }
+
 .nenmodal.active .ndmodal4 {
-    transition:all 300ms ease-in-out;
-    transform:translate(-50%,-50%) scale(1);
+    transition: all 300ms ease-in-out;
+    transform: translate(-50%, -50%) scale(1);
 }
+
 .nenmodal.active .ndmodal5 {
-    transition:all 300ms ease-in-out;
-    transform:translate(-50%,-50%) scale(1);
+    transition: all 300ms ease-in-out;
+    transform: translate(-50%, -50%) scale(1);
 }
+
 .punch-det {
     background-color: #f9f9f9;
     border: 1px solid #e3e3e3;
@@ -165,34 +192,41 @@ footer{
     margin: 0 0 20px;
     padding: 10px 15px;
 }
+
 .punch-info {
     margin: 0 0 20px;
 }
+
 .punch-info .punch-hours {
-     background-color: #f9f9f9;
-     border: 5px solid #e3e3e3;
-     font-size: 18px;
-     height: 120px;
-     width: 120px;
-     margin: 0 auto;
-     border-radius: 50%;
- }
+    background-color: #f9f9f9;
+    border: 5px solid #e3e3e3;
+    font-size: 18px;
+    height: 120px;
+    width: 120px;
+    margin: 0 auto;
+    border-radius: 50%;
+}
+
 .card-body {
     flex: 1 1 auto;
     padding: 1rem 1rem;
 }
+
 .shorten-text {
     max-width: 3ch;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+
 .scaled {
     transform: scale(0.7); /* Equal to scaleX(0.7) scaleY(0.7) */
 }
+
 .navbar-nav .nav-link:active {
     color: red;
 }
+
 .navbar-nav .nav-link:hover {
     color: red;
 }
