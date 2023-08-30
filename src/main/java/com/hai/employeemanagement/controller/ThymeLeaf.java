@@ -1,13 +1,18 @@
 package com.hai.employeemanagement.controller;
 
 import com.hai.employeemanagement.converter.EmployeeConverter;
+import com.hai.employeemanagement.converter.RegisterConverter;
 import com.hai.employeemanagement.converter.UserConverter;
+import com.hai.employeemanagement.dto.EmployeeDTO;
+import com.hai.employeemanagement.dto.UserDTO;
 import com.hai.employeemanagement.dto.help.AttendanceViewDTO;
 import com.hai.employeemanagement.dto.help.ChangePasswordDTO;
+import com.hai.employeemanagement.dto.help.RegisterDTO;
 import com.hai.employeemanagement.entity.*;
 import com.hai.employeemanagement.entity.help.DeletedEmployee;
 import com.hai.employeemanagement.repository.*;
 import com.hai.employeemanagement.service.*;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -16,6 +21,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -40,6 +46,7 @@ public class ThymeLeaf {
     private final PasswordEncoder passwordEncoder;
     private final AttendanceConfigRepository attendanceConfigRepository;
     private final AttendanceConfigService attendanceConfigService;
+    private final RegisterConverter registerConverter;
 
 
     @RequestMapping("/")
@@ -66,10 +73,8 @@ public class ThymeLeaf {
     public String findAllEmployee(@PathVariable("offset") int offset, @PathVariable("size") int size, Model model) {
         Page<Employee> list = employeeService.showAllEmployeePagination(offset, size);
         model.addAttribute("totalPages", list.getTotalPages());
-        UserEntity user = new UserEntity();
-        Employee employee = new Employee();
-        model.addAttribute("user", user);
-        model.addAttribute("employee", employee);
+        RegisterDTO registerDTO = new RegisterDTO();
+        model.addAttribute("register", registerDTO);
         List<Role> listRole = roleRepository.findAll();
         model.addAttribute("listRole", listRole);
         model.addAttribute("currentPage", offset);
@@ -92,11 +97,14 @@ public class ThymeLeaf {
     }
 
     @PostMapping("/save-employee")
-    public String saveEmployee(@ModelAttribute("user") UserEntity user,
-                               @ModelAttribute("employee") Employee employee,
+    public String saveEmployee(@ModelAttribute("register") RegisterDTO registerDTO,
                                @RequestParam String selectedRole,
-                               @RequestParam Long department) {
-        employee.setDepartment(departmentRepository.findOneById(department));
+                               @RequestParam Long department){
+        UserEntity user = registerConverter.toUser(registerDTO);
+        Employee employee = registerConverter.toEmployee(registerDTO);
+        if(department != 0){
+            employee.setDepartment(departmentRepository.findOneById(department));
+        }
         userService.addUser(user, employee, selectedRole);
         return "redirect:/employee/list/1/8";
     }
@@ -116,11 +124,18 @@ public class ThymeLeaf {
         model.addAttribute("listDeletedEmployee", deletedEmployeeRepository.findAll());
         return "delete-employee";
     }
+    @GetMapping("/deleteDepartment/{id}")
+    public String processingDeleteDepartment(@PathVariable("id") Long id) {
+        departmentRepository.deleteById(id);
+        return "redirect:/department/list/1/10";
+    }
 
     @GetMapping("/updateEmployee/{id}")
     public String updateEmployee(@PathVariable("id") Long id, Model model) {
         Employee employee = employeeRepository.findOneById(id);
-        model.addAttribute("employee", employee);
+        model.addAttribute("employeeDepartment",employee.getDepartment());
+        EmployeeDTO employeeDTO = employeeConverter.toDto(employee);
+        model.addAttribute("employee", employeeDTO);
         UserEntity user = userRepository.findOneByEmployeeId(id);
         model.addAttribute("user", user);
         List<Role> listRole = roleRepository.findAll();
@@ -131,12 +146,14 @@ public class ThymeLeaf {
     }
 
     @PostMapping("/update-employee")
-    public String processingUpdateEmployee(@ModelAttribute("employee") Employee employee,
+    public String processingUpdateEmployee( @ModelAttribute("employee") EmployeeDTO emp,
                                            @RequestParam List<String> selectedRoles,
-                                           @RequestParam Long department) {
+                                           @RequestParam Long department, Model model,
+                                           final BindingResult bindingResult) {
+        Employee employee = employeeConverter.toEntity(emp);
         employee.setDepartment(departmentRepository.findOneById(department));
         userService.updateEmployee(employee);
-        UserEntity user = userRepository.findOneByEmployeeId(employee.getId());
+        UserEntity user = userRepository.findOneByEmployeeId(emp.getId());
         String[] str = new String[selectedRoles.size()];
         selectedRoles.toArray(str);
         if (user != null) {
@@ -144,14 +161,6 @@ public class ThymeLeaf {
         }
         return "redirect:/employee/list/1/8";
     }
-
-    @GetMapping("/updateUser/{id}")
-    public String updateUser(@PathVariable("id") Long id, Model model) {
-        UserEntity user = userRepository.findOneById(id);
-        model.addAttribute("user", user);
-        return "update-user";
-    }
-
     @PostMapping("/update-user")
     public String processingUpdateUser(@RequestParam("id") Long id,
                                        @RequestParam("password") String password,

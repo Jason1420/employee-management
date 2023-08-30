@@ -31,7 +31,7 @@
 
             <div class="titlemodal">New Employee</div>
             <div class="card-body">
-                <form class="container-fluid" th:action="@{/save-employee}" th:object="${user}" method="POST">
+                <form class="container-fluid" th:action="@{/save-employee}" th:object="${register}" method="POST">
                     <div class="container py-2 h-100">
                         <div class="row justify-content-center align-items-center">
                             <div>
@@ -41,7 +41,10 @@
                                             <div class="row">
                                                 <div class="col-md-4 mb-4">
                                                     <div class="form-outline">
-                                                        <input type="text" id="username"
+
+                                                        <input type="text" id="username" required="required" pattern="^[a-zA-z][^\W_]{7,14}$"
+                                                               oninvalid="this.setCustomValidity('Username must be 8-15 characters and must start with a letter')"
+                                                               oninput="this.setCustomValidity('')"
                                                                class="form-control form-control-lg"
                                                                th:field="*{username}"/>
                                                         <label class="form-label" for="username">Username</label>
@@ -50,7 +53,11 @@
                                                 <div class="col-md-4 mb-4">
 
                                                     <div class="form-outline">
-                                                        <input type="text" id="password"
+                                                        <input type="password" id="password"
+                                                               required="required" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
+                                                               oninvalid="this.setCustomValidity('Password minimum eight characters, at least one uppercase letter,' +
+                                                                'one lowercase letter, one number and one special character')"
+                                                               oninput="this.setCustomValidity('')"
                                                                class="form-control form-control-lg"
                                                                th:field="*{password}"/>
                                                         <label class="form-label" for="password">Password</label>
@@ -71,12 +78,15 @@
                                                 </div>
 
                                             </div>
-                                            <div th:object="${employee}">
+                                            <div>
                                                 <div class="row">
                                                     <div class="col-md-4 mb-4">
                                                         <div class="form-outline">
                                                             <input type="text" id="firstName"
+                                                                   required="required" minlength="4" maxlength="25"
                                                                    class="form-control form-control-lg"
+                                                                   oninvalid="this.setCustomValidity('First name consisting 4 to 25 characters')"
+                                                                   oninput="this.setCustomValidity('')"
                                                                    th:field="*{firstName}"/>
                                                             <label class="form-label" for="firstName">First
                                                                 Name</label>
@@ -87,6 +97,9 @@
 
                                                         <div class="form-outline">
                                                             <input type="text" id="lastName"
+                                                                   required="required" minlength="4" maxlength="25"
+                                                                   oninvalid="this.setCustomValidity('Last name consisting 4 to 25 characters')"
+                                                                   oninput="this.setCustomValidity('')"
                                                                    class="form-control form-control-lg"
                                                                    th:field="*{lastName}"/>
                                                             <label class="form-label" for="lastName">Last
@@ -143,6 +156,9 @@
 
                                                         <div class="form-outline">
                                                             <input type="tel" id="phoneNumber"
+                                                                   required="required" pattern="^0[0-9]{9}$"
+                                                                   oninvalid="this.setCustomValidity('Invalid phone number')"
+                                                                   oninput="this.setCustomValidity('')"
                                                                    class="form-control form-control-lg"
                                                                    th:field="*{phoneNumber}"/>
                                                             <label class="form-label" for="phoneNumber"
@@ -166,13 +182,7 @@
                                                         <div class="form-group">
                                                             <select class="form-select form-control form-control-lg" name="department"
                                                                     id="department">
-                                                                <th:block th:if="${employee.getDepartment() != null}">
-                                                                    <option th:value="${employee.getDepartment().getId()}"
-                                                                            th:text="${employee.getDepartment().getName()}"></option>
-                                                                </th:block>
-                                                                <th:block th:if="${employee.getDepartment() == null}">
-                                                                    <option th:value="${''}">Choose department</option>
-                                                                </th:block>
+                                                                    <option th:value="${0}">Choose department</option>
                                                                 <option th:each="department: ${listDepartment}"
                                                                         th:text="${department.getName()}"
                                                                         th:value="${department.getId()}">department

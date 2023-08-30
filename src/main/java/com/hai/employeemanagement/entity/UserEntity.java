@@ -32,6 +32,11 @@ public class UserEntity {
     @JoinColumn(name = "employee_id")
     private Employee employee;
 
+    public UserEntity(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
     public UserEntity(String username, String password, Employee employee) {
         this.username = username;
         this.password = password;

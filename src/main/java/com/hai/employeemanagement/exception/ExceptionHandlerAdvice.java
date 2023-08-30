@@ -15,15 +15,15 @@ import java.util.Map;
 
 @RestControllerAdvice
 public class ExceptionHandlerAdvice {
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public Map<String, String> handleInvalidArgument(MethodArgumentNotValidException ex) {
-        Map<String, String> errorMap = new HashMap<>();
-        ex.getBindingResult().getFieldErrors().forEach(error -> {
-            errorMap.put(error.getField(), error.getDefaultMessage());
-        });
-        return errorMap;
-    }
+//    @ExceptionHandler(MethodArgumentNotValidException.class)
+//    @ResponseStatus(HttpStatus.BAD_REQUEST)
+//    public Map<String, String> handleInvalidArgument(MethodArgumentNotValidException ex) {
+//        Map<String, String> errorMap = new HashMap<>();
+//        ex.getBindingResult().getFieldErrors().forEach(error -> {
+//            errorMap.put(error.getField(), error.getDefaultMessage());
+//        });
+//        return errorMap;
+//    }
 
     @ExceptionHandler({Exception404.class, MethodArgumentTypeMismatchException.class})
     @ResponseStatus(HttpStatus.NOT_FOUND)

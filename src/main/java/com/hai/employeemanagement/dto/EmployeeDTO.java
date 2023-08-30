@@ -1,6 +1,9 @@
 package com.hai.employeemanagement.dto;
 
 import com.hai.employeemanagement.entity.help.Gender;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,6 +15,7 @@ import java.sql.Date;
 @AllArgsConstructor
 public class EmployeeDTO {
     private Long id;
+    private String code;
     private String firstName;
     private String lastName;
     private String email;

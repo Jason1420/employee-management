@@ -16,7 +16,8 @@ public class EmployeeConverter {
                 dto.getEmail(),
                 dto.getGender(),
                 dto.getDateOfBirth(),
-                dto.getPhoneNumber());
+                dto.getPhoneNumber(),
+                dto.getCode());
     }
 
     public Employee toEntity(EmployeeDTO dto, Employee entity) {
@@ -26,11 +27,13 @@ public class EmployeeConverter {
                 dto.getEmail(),
                 dto.getGender(),
                 dto.getDateOfBirth(),
-                dto.getPhoneNumber());
+                dto.getPhoneNumber(),
+                dto.getCode());
     }
 
     public EmployeeDTO toDto(Employee entity) {
         return new EmployeeDTO(entity.getId(),
+                entity.getCode(),
                 entity.getFirstName(),
                 entity.getLastName(),
                 entity.getEmail(),

@@ -14,10 +14,7 @@ public class UserConverter {
     private final EmployeeConverter employeeConverter;
     public UserEntity toEntity(UserDTO dto) {
         return new UserEntity(dto.getUsername(),
-                dto.getPassword(),
-                (dto.getEmployee() != null) ?
-                        new Employee(dto.getEmployee().getFirstName(),
-                                dto.getEmployee().getLastName()) : null);
+                dto.getPassword());
     }
 
     public UserDTO toDto(UserEntity entity) {

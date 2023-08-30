@@ -4,7 +4,6 @@ import com.hai.employeemanagement.converter.AttendanceConverter;
 import com.hai.employeemanagement.dto.AttendanceDTO;
 import com.hai.employeemanagement.dto.help.AttendanceViewDTO;
 import com.hai.employeemanagement.dto.help.CountAttendanceDTO;
-import com.hai.employeemanagement.dto.help.ResultAttendanceDTO;
 import com.hai.employeemanagement.entity.Attendance;
 import com.hai.employeemanagement.entity.AttendanceConfig;
 import com.hai.employeemanagement.entity.Employee;
@@ -197,8 +196,8 @@ public class AttendanceService {
                 if (attendance != null && attendance.getCheckOutTime() == null) {
                     int minute = new Random().nextInt(60);
                     LocalTime checkOutTime = minute >= 30 ? LocalTime.of(17, minute) : LocalTime.of(18, minute);
-                    int earlyTime = Math.max(checkOutTime.getMinute() + checkOutTime.getHour() * 60
-                            - config.getEndWorkTime().getMinute() - config.getEndWorkTime().getHour() * 60, 0);
+                    int earlyTime = Math.max(config.getEndWorkTime().getMinute() + config.getEndWorkTime().getHour() * 60
+                            -  checkOutTime.getMinute() -  checkOutTime.getHour() * 60, 0);
                     attendance.setCheckOutTime(checkOutTime);
                     attendance.setEarlyMinutes(earlyTime);
                     LocalTime punchTimeEarly = checkOutTime.minusHours(config.getStartWorkTime()

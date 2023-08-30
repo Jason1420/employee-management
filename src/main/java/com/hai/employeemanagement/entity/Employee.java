@@ -32,16 +32,18 @@ public class Employee {
         this.lastName = lastName;
     }
 
-    public Employee(String firstName, String lastName, String email, Gender gender, Date dateOfBirth, String phoneNumber) {
+    public Employee(String firstName, String lastName, String email, Gender gender, Date dateOfBirth, String phoneNumber, String code) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.gender = gender;
         this.dateOfBirth = dateOfBirth;
         this.phoneNumber = phoneNumber;
+        this.code = code;
     }
 
-    public Employee(Long id, String firstName, String lastName, String email, Gender gender, Date dateOfBirth, String phoneNumber) {
+    public Employee(Long id, String firstName, String lastName, String email,
+                    Gender gender, Date dateOfBirth, String phoneNumber,String code) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -49,5 +51,6 @@ public class Employee {
         this.gender = gender;
         this.dateOfBirth = dateOfBirth;
         this.phoneNumber = phoneNumber;
+        this.code = code;
     }
 }
