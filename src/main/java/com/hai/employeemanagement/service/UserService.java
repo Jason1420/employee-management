@@ -73,7 +73,7 @@ public class UserService {
         UserEntity savedEntity = userRepository.save(user);
         return "success";
     }
-
+//  this method use for thymeleaf
     public String addUser(UserEntity user, Long id, String selectedRole) {
         Employee employee = employeeRepository.findOneById(id);
         user.setEmployee(employee);

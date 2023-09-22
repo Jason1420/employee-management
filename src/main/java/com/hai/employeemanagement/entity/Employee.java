@@ -24,6 +24,13 @@ public class Employee {
     private Gender gender;
     private Date dateOfBirth;
     private String phoneNumber;
+    private Date joiningDate;
+    private String designation;
+    private String quarter;
+    private String avatar;
+    private long salary;
+
+
     @ManyToOne
     @JoinColumn(name = "department_code", referencedColumnName = "code")
     private Department department;
