@@ -28,7 +28,7 @@ public class Employee {
     private String designation;
     private String quarter;
     private String avatar;
-    private long salary;
+    private Long salary;
 
 
     @ManyToOne
