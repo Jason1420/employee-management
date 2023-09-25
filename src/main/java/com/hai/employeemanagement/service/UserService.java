@@ -41,66 +41,35 @@ public class UserService {
         return new RoleDTO(savedEntity.getId(), role);
     }
 
-    public UserDTO addUser(UserDTO dto) {
-        UserEntity userEntity = userConverter.toEntity(dto);
-        if (userRepository.findOneByUsername(dto.getUsername()) != null) {
-            throw new Exception409("This username already exists!");
-        }
-        if (employeeRepository.findOneById(dto.getEmployee().getId()) != null) {
-            throw new Exception409("This employee already exists!");
-        }
-        UserEntity entity = userConverter.toEntity(dto);
-        entity.setRoles(roleRepository.findAllByName("EMPLOYEE"));
-        employeeRepository.save(entity.getEmployee());
-        UserEntity savedEntity = userRepository.save(entity);
-        UserDTO returnDTO = userConverter.toDto(savedEntity);
-        return returnDTO;
-    }
+//    public UserDTO addUser(UserDTO dto) {
+//        UserEntity userEntity = userConverter.toEntity(dto);
+//        if (userRepository.findOneByUsername(dto.getUsername()) != null) {
+//            throw new Exception409("This username already exists!");
+//        }
+//        if (employeeRepository.findOneById(dto.getEmployee().getId()) != null) {
+//            throw new Exception409("This employee already exists!");
+//        }
+//        UserEntity entity = userConverter.toEntity(dto);
+//        entity.setRoles(roleRepository.findAllByName("EMPLOYEE"));
+//        employeeRepository.save(entity.getEmployee());
+//        UserEntity savedEntity = userRepository.save(entity);
+//        UserDTO returnDTO = userConverter.toDto(savedEntity);
+//        return returnDTO;
+//    }
 
-    public String addUser(UserEntity user, Employee employee, String selectedRole) {
-        if (userRepository.findOneByUsername(user.getUsername()) != null) {
-            throw new Exception409("This username already exists!");
-//            return "err1";
-        }
-        if (employeeRepository.findOneByEmail(employee.getEmail()) != null) {
-            throw new Exception409("This email already exists!");
-//            return "err2";
-        }
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRoles(roleRepository.findAllByName(selectedRole));
-        user.setEmployee(employee);
-        employeeRepository.save(employee);
-        UserEntity savedEntity = userRepository.save(user);
-        return "success";
-    }
-//  this method use for thymeleaf
-    public String addUser(UserEntity user, Long id, String selectedRole) {
-        Employee employee = employeeRepository.findOneById(id);
-        user.setEmployee(employee);
-        if (userRepository.findOneByUsername(user.getUsername()) != null) {
-            throw new Exception409("This username already exists!");
-        }
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-
-        user.setRoles(roleRepository.findAllByName(selectedRole));
-        userRepository.save(user);
-        return "success";
-    }
-
-
-    public UserDTO updateRoleToUser(Long id, String[] roles) {
-        UserEntity userEntity = userRepository.findOneById(id);
-        Set<Role> listRole = new HashSet<>();
-        for (String r : roles) {
-            Role role = roleRepository.findOneByName(r);
-            if (role != null) {
-                listRole.add(role);
-            }
-        }
-        userEntity.setRoles(listRole);
-        UserEntity savedEntity = userRepository.save(userEntity);
-        return userConverter.toDto(savedEntity);
-    }
+//    public UserDTO updateRoleToUser(Long id, String[] roles) {
+//        UserEntity userEntity = userRepository.findOneById(id);
+//        Set<Role> listRole = new HashSet<>();
+//        for (String r : roles) {
+//            Role role = roleRepository.findOneByName(r);
+//            if (role != null) {
+//                listRole.add(role);
+//            }
+//        }
+//        userEntity.setRoles(listRole);
+//        UserEntity savedEntity = userRepository.save(userEntity);
+//        return userConverter.toDto(savedEntity);
+//    }
 
     public void deleteUser(Long id) {
         UserEntity userEntity = userRepository.findOneById(id);

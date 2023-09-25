@@ -10,7 +10,6 @@ import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 public class EmployeeDTO {
     private Long id;
     private String code;
@@ -20,9 +19,12 @@ public class EmployeeDTO {
     private Gender gender;
     private Date dateOfBirth;
     private String phoneNumber;
-    private LocalDate hireDate;
-    private LocalDate exitDate;
-    private String status;
+    private Date joiningDate;
+    private String designation;
+    private String quarter;
+    private String avatar;
+    private Long salary;
+    private DepartmentDTO department;
     public EmployeeDTO(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -37,5 +39,24 @@ public class EmployeeDTO {
         this.gender = gender;
         this.dateOfBirth = dateOfBirth;
         this.phoneNumber = phoneNumber;
+    }
+
+    public EmployeeDTO(Long id, String code, String firstName, String lastName, String email, Gender gender,
+                       Date dateOfBirth, String phoneNumber, Date joiningDate, String designation,
+                       String quarter, String avatar, Long salary, DepartmentDTO department) {
+        this.id = id;
+        this.code = code;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.gender = gender;
+        this.dateOfBirth = dateOfBirth;
+        this.phoneNumber = phoneNumber;
+        this.joiningDate = joiningDate;
+        this.designation = designation;
+        this.quarter = quarter;
+        this.avatar = avatar;
+        this.salary = salary;
+        this.department = department;
     }
 }

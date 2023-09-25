@@ -1,12 +1,12 @@
 package com.hai.employeemanagement.controller;
 
-import com.hai.employeemanagement.dto.help.ChangePasswordDTO;
 import com.hai.employeemanagement.dto.login.AuthResponseDTO;
 import com.hai.employeemanagement.dto.login.LoginDTO;
 import com.hai.employeemanagement.exception.helper.Result;
 import com.hai.employeemanagement.exception.helper.StatusCode;
 import com.hai.employeemanagement.jwt.JwtGenerator;
 import com.hai.employeemanagement.service.UserService;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -26,9 +26,20 @@ public class UserAPI {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginDTO.getUsername(), loginDTO.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        String token = jwtGenerator.generateToken(authentication);
-        return new Result(true, StatusCode.SUCCESS, "Login success", new AuthResponseDTO(token));
+        AuthResponseDTO authResponseDTO = jwtGenerator.generateToken(authentication);
+        return new Result(true, StatusCode.SUCCESS, "Login success", authResponseDTO);
     }
+    @PostMapping("/refreshToken")
+    public Result refreshToken(@CookieValue("refreshToken") String refreshToken ){
+        AuthResponseDTO authResponseDTO = jwtGenerator.refreshToken(refreshToken);
+        return new Result(true, StatusCode.SUCCESS, "Refresh token success",authResponseDTO);
+    }
+//    @GetMapping("/getCookie")
+//    public String getCookie(@CookieValue(value = "refreshToken",
+//            defaultValue = "No color found in cookie") String refreshToken) {
+//
+//        return "Sky is: " + refreshToken;
+//    }
 
 //    @PutMapping("/user/{id}")
 //    public Result changPassword(@PathVariable("id") Long id, @RequestBody ChangePasswordDTO dto) {

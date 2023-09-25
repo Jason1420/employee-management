@@ -22,6 +22,7 @@ public class CustomUserDetailServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) {
+        if (username.length() < 1 ) throw new BadCredentialsException(String.format("Please input parameter"));
         UserEntity userEntity = userRepository.findOneByUsername(username);
         if (userEntity == null) throw new BadCredentialsException(String.format("User %s not found", username));
         List<SimpleGrantedAuthority> authorities = userEntity.getRoles()

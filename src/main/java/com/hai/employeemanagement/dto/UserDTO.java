@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -13,13 +14,11 @@ public class UserDTO {
     private Long id;
     private String username;
     private String password;
-    private Set<RoleDTO> roles;
+    private List<String> roles;
     private EmployeeDTO employee;
 
-    public UserDTO(Long id, String username, String password, EmployeeDTO employee) {
-        this.id = id;
+    public UserDTO( String username, List<String> roles) {
         this.username = username;
-        this.password = password;
-        this.employee = employee;
+        this.roles = roles;
     }
 }

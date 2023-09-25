@@ -3,6 +3,9 @@ package com.hai.employeemanagement.exception;
 import com.hai.employeemanagement.exception.helper.Result;
 import com.hai.employeemanagement.exception.helper.StatusCode;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -51,23 +54,23 @@ public class ExceptionHandlerAdvice {
         return new Result(false, StatusCode.CONFLICT, ex.getMessage());
     }
 
-//    @ExceptionHandler({AuthenticationException.class})
-//    @ResponseStatus(HttpStatus.UNAUTHORIZED)
-//    Result handleAuthenticationException(Exception ex) {
-//        return new Result(false, StatusCode.UNAUTHORIZED, "Username or password invalid");
-//    }
-//
-//    @ExceptionHandler(AuthenticationCredentialsNotFoundException.class)
-//    @ResponseStatus(HttpStatus.UNAUTHORIZED)
-//    public Result handleInvalidBearerTokenException(AuthenticationException ex) {
-//        return new Result(false, StatusCode.UNAUTHORIZED, "The access token provided is expired, revoked, malformed, or invalid for other reasons");
-//    }
-//
-//    @ExceptionHandler(AccessDeniedException.class)
-//    @ResponseStatus(HttpStatus.FORBIDDEN)
-//    public Result handleAccessDeniedException(AccessDeniedException ex) {
-//        return new Result(false, StatusCode.FORBIDDEN, "No permission.");
-//    }
+    @ExceptionHandler({AuthenticationException.class})
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    Result handleAuthenticationException(Exception ex) {
+        return new Result(false, StatusCode.UNAUTHORIZED, ex.getMessage());
+    }
+
+    @ExceptionHandler(AuthenticationCredentialsNotFoundException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public Result handleInvalidBearerTokenException(AuthenticationException ex) {
+        return new Result(false, StatusCode.UNAUTHORIZED, "The access token provided is expired, revoked, malformed, or invalid for other reasons");
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public Result handleAccessDeniedException(AccessDeniedException ex) {
+        return new Result(false, StatusCode.FORBIDDEN, "No permission.");
+    }
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)

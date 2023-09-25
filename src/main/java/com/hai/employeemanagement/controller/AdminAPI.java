@@ -17,11 +17,11 @@ public class AdminAPI {
     private final UserService userService;
     private final AttendanceConfigService attendanceConfigService;
 
-    @PostMapping("/user")
-    public Result addUser(@RequestBody UserDTO dto) {
-        UserDTO savedDTO = userService.addUser(dto);
-        return new Result(true, StatusCode.SUCCESS, "Add user success", savedDTO);
-    }
+//    @PostMapping("/user")
+//    public Result addUser(@RequestBody UserDTO dto) {
+//        UserDTO savedDTO = userService.addUser(dto);
+//        return new Result(true, StatusCode.SUCCESS, "Add user success", savedDTO);
+//    }
 
     @PostMapping("/role")
     public Result addRole(@RequestBody String name) {
@@ -29,11 +29,11 @@ public class AdminAPI {
         return new Result(true, StatusCode.SUCCESS, "Add role success", savedDTO);
     }
 
-    @PutMapping("/user/{id}")
-    public Result updateRoleToUser(@PathVariable("id") Long id, @RequestBody String[] roles) {
-        UserDTO updatedDTO = userService.updateRoleToUser(id, roles);
-        return new Result(true, StatusCode.SUCCESS, "Update role success", updatedDTO);
-    }
+//    @PutMapping("/user/{id}")
+//    public Result updateRoleToUser(@PathVariable("id") Long id, @RequestBody String[] roles) {
+//        UserDTO updatedDTO = userService.updateRoleToUser(id, roles);
+//        return new Result(true, StatusCode.SUCCESS, "Update role success", updatedDTO);
+//    }
 
     @DeleteMapping("/user/{id}")
     public Result deleteUser(@PathVariable("id") Long id) {
