@@ -36,6 +36,10 @@ public class UserEntity {
         this.password = password;
     }
 
+    public UserEntity(String username) {
+        this.username = username;
+    }
+
     public UserEntity(String username, String password, Employee employee) {
         this.username = username;
         this.password = password;

@@ -1,17 +1,18 @@
 package com.hai.employeemanagement.service;
 
+import com.hai.employeemanagement.converter.DepartmentConverter;
+import com.hai.employeemanagement.converter.DesignationConverter;
+import com.hai.employeemanagement.converter.QuarterConverter;
 import com.hai.employeemanagement.converter.UserConverter;
-import com.hai.employeemanagement.dto.RoleDTO;
-import com.hai.employeemanagement.dto.UserDTO;
+import com.hai.employeemanagement.dto.*;
 import com.hai.employeemanagement.dto.help.ChangePasswordDTO;
-import com.hai.employeemanagement.entity.Employee;
-import com.hai.employeemanagement.entity.Role;
-import com.hai.employeemanagement.entity.UserEntity;
+import com.hai.employeemanagement.dto.help.DefaultDataDTO;
+import com.hai.employeemanagement.dto.help.NewEmployeeDTO;
+import com.hai.employeemanagement.entity.*;
+import com.hai.employeemanagement.entity.help.Gender;
 import com.hai.employeemanagement.exception.Exception400;
 import com.hai.employeemanagement.exception.Exception409;
-import com.hai.employeemanagement.repository.EmployeeRepository;
-import com.hai.employeemanagement.repository.RoleRepository;
-import com.hai.employeemanagement.repository.UserRepository;
+import com.hai.employeemanagement.repository.*;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -20,8 +21,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -32,6 +36,14 @@ public class UserService {
     private final UserConverter userConverter;
     private final EmployeeRepository employeeRepository;
     private final PasswordEncoder passwordEncoder;
+    private final DesignationRepository designationRepository;
+    private final QuarterRepository quarterRepository;
+    private final DepartmentRepository departmentRepository;
+    private final DesignationConverter designationConverter;
+    private final QuarterConverter quarterConverter;
+    private final DepartmentConverter departmentConverter;
+
+
 
     public RoleDTO addNewRole(String role) {
         if (roleRepository.findByName(role) != null) {
@@ -107,5 +119,51 @@ public class UserService {
 
     public void updateUser(UserEntity user) {
         userRepository.save(user);
+    }
+
+
+    public DefaultDataDTO loadDefaultData() {
+        //get data from database
+        List<Department> listDepartment =  departmentRepository.findAll();
+        List<Designation> listDesignation =  designationRepository.findAll();
+        List<Quarter> listQuarter =  quarterRepository.findAll();
+        // convert to DTO
+        List<DepartmentDTO> listDepartmentDTO = listDepartment.stream()
+                .map(departmentConverter::toDTO).collect(Collectors.toList());
+        List<DesignationDTO> listDesignationDTO = listDesignation.stream()
+                . map(designationConverter::toDTO).collect(Collectors.toList());
+        List<QuarterDTO> listQuarterDTO =listQuarter.stream()
+                .map(quarterConverter::toDTO).collect(Collectors.toList());
+
+        return new DefaultDataDTO(listDesignationDTO,listQuarterDTO,listDepartmentDTO);
+    }
+
+    public UserDTO createUser(NewEmployeeDTO newEmployeeDTO) {
+        if (userRepository.findOneByUsername(newEmployeeDTO.getUsername()) != null) {
+            throw new Exception409("This username already exists!");
+        }
+        if (employeeRepository.findOneByCode(newEmployeeDTO.getCode()) != null) {
+            throw new Exception409("This employee already exists!");
+        }
+        UserEntity newUser = new UserEntity(newEmployeeDTO.getUsername());
+        newUser.setRoles(roleRepository.findAllByName("EMPLOYEE"));
+        newUser.setPassword(passwordEncoder.encode(newEmployeeDTO.getPassword()));
+        Employee newEmployee = new Employee(newEmployeeDTO.getCode(),
+                newEmployeeDTO.getFirstName(),
+                newEmployeeDTO.getLastName(),
+                newEmployeeDTO.getEmail(),
+                Gender.valueOf(newEmployeeDTO.getGender().toUpperCase()),
+                newEmployeeDTO.getDateOfBirth(),
+                newEmployeeDTO.getPhoneNumber(),
+                newEmployeeDTO.getJoiningDate(),
+                newEmployeeDTO.getDesignation(),
+                newEmployeeDTO.getQuarter(),
+                departmentRepository.findOneByName(newEmployeeDTO.getDepartment()));
+        newUser.setEmployee(newEmployee);
+        employeeRepository.save(newEmployee);
+        UserEntity savedEntity = userRepository.save(newUser);
+        UserDTO returnDTO = userConverter.toDto(savedEntity);
+        returnDTO.setPassword("PROTECTED");
+        return returnDTO;
     }
 }

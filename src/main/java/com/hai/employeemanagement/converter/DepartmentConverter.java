@@ -20,4 +20,13 @@ public class DepartmentConverter {
                 entity.getName());
         }else return null;
     }
+
+    public Department toEntity(DepartmentDTO dto) {
+        if(dto != null){
+
+            return new Department(dto.getId(),
+                    dto.getCode(),
+                    dto.getName());
+        }else return null;
+    }
 }

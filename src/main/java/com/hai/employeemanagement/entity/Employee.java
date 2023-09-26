@@ -48,6 +48,22 @@ public class Employee {
         this.code = code;
     }
 
+    public Employee(String code, String firstName, String lastName, String email,
+                    Gender gender, Date dateOfBirth, String phoneNumber, Date joiningDate,
+                    String designation, String quarter, Department department) {
+        this.code = code;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.gender = gender;
+        this.dateOfBirth = dateOfBirth;
+        this.phoneNumber = phoneNumber;
+        this.joiningDate = joiningDate;
+        this.designation = designation;
+        this.quarter = quarter;
+        this.department = department;
+    }
+
     public Employee(Long id, String firstName, String lastName, String email,
                     Gender gender, Date dateOfBirth, String phoneNumber, String code) {
         this.id = id;

@@ -94,4 +94,9 @@ public class JwtGenerator {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         return Keys.hmacShaKeyFor(keyBytes);
     }
+    public void resetCookie(){
+        Cookie deleteCookie = new Cookie("refreshToken", null);
+        deleteCookie.setMaxAge(0);
+        httpServletResponse.addCookie(deleteCookie);
+    }
 }

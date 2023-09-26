@@ -19,13 +19,13 @@ public class UserConverter {
                 dto.getPassword());
     }
 
-//    public UserDTO toDto(UserEntity entity) {
-//        return new UserDTO(entity.getId(),
-//                entity.getUsername(),
-//                entity.getPassword(),
-//                (entity.getEmployee() != null) ?
-//                        employeeConverter.toDto(entity.getEmployee()) : null);
-//    }
+    public UserDTO toDto(UserEntity entity) {
+        return new UserDTO(entity.getId(),
+                entity.getUsername(),
+                entity.getPassword(),
+                (entity.getEmployee() != null) ?
+                        employeeConverter.toDto(entity.getEmployee()) : null);
+    }
 
     public UserDTO toDtoAfterLogin (UserEntity userEntity){
         Employee employee = userEntity.getEmployee();

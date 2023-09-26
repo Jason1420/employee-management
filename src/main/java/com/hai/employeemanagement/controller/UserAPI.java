@@ -1,5 +1,8 @@
 package com.hai.employeemanagement.controller;
 
+import com.hai.employeemanagement.dto.UserDTO;
+import com.hai.employeemanagement.dto.help.DefaultDataDTO;
+import com.hai.employeemanagement.dto.help.NewEmployeeDTO;
 import com.hai.employeemanagement.dto.login.AuthResponseDTO;
 import com.hai.employeemanagement.dto.login.LoginDTO;
 import com.hai.employeemanagement.exception.helper.Result;
@@ -29,11 +32,28 @@ public class UserAPI {
         AuthResponseDTO authResponseDTO = jwtGenerator.generateToken(authentication);
         return new Result(true, StatusCode.SUCCESS, "Login success", authResponseDTO);
     }
+    @PostMapping("/log-out")
+    public Result logout(){
+        jwtGenerator.resetCookie();
+        return new Result(true, StatusCode.SUCCESS, "logout success");
+    }
     @PostMapping("/refreshToken")
     public Result refreshToken(@CookieValue("refreshToken") String refreshToken ){
         AuthResponseDTO authResponseDTO = jwtGenerator.refreshToken(refreshToken);
         return new Result(true, StatusCode.SUCCESS, "Refresh token success",authResponseDTO);
     }
+    @GetMapping("/api/v1/data-default")
+    public Result getDataDefault(){
+        DefaultDataDTO defaultDataDTO = userService.loadDefaultData();
+        return new Result(true, StatusCode.SUCCESS, "Load default data success",defaultDataDTO);
+    }
+
+    @PostMapping("/user")
+    public Result createUser(@RequestBody NewEmployeeDTO newEmployeeDTO){
+        UserDTO savedUser = userService.createUser(newEmployeeDTO);
+        return new Result(true, StatusCode.SUCCESS, "Load default data success",savedUser);
+    }
+
 //    @GetMapping("/getCookie")
 //    public String getCookie(@CookieValue(value = "refreshToken",
 //            defaultValue = "No color found in cookie") String refreshToken) {

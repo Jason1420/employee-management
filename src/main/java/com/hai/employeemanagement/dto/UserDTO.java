@@ -21,4 +21,11 @@ public class UserDTO {
         this.username = username;
         this.roles = roles;
     }
+
+    public UserDTO(Long id, String username, String password, EmployeeDTO employee) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.employee = employee;
+    }
 }

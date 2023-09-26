@@ -21,4 +21,13 @@ public class Department {
     @OneToMany(mappedBy = "department")
     @JsonIgnore
     private Set<Employee> employees;
+    @OneToMany(mappedBy = "department")
+    @JsonIgnore
+    private Set<Designation> designations;
+
+    public Department(Long id, String code, String name) {
+        this.id = id;
+        this.code = code;
+        this.name = name;
+    }
 }
