@@ -22,9 +22,9 @@ public class CustomUserDetailServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) {
-        if (username.length() < 1 ) throw new BadCredentialsException(String.format("Please input parameter"));
+        if (username.length() < 1 ) throw new BadCredentialsException("Bad credentials");
         UserEntity userEntity = userRepository.findOneByUsername(username);
-        if (userEntity == null) throw new BadCredentialsException(String.format("User %s not found", username));
+        if (userEntity == null) throw new BadCredentialsException("Bad credentials");
         List<SimpleGrantedAuthority> authorities = userEntity.getRoles()
                 .stream()
                 .map(r -> new SimpleGrantedAuthority(r.getName()))
